@@ -1,0 +1,27 @@
+{
+  "name": "jonsmusic",
+  "version": "1.0.0",
+  "description": "A personal website for my brother to share his musical gift with the internets!",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:davidjconnolly/jonsmusic-scratch.git"
+  },
+  "author": "David Connolly",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/davidjconnolly/jonsmusic-scratch/issues"
+  },
+  "homepage": "https://github.com/davidjconnolly/jonsmusic-scratch",
+  "devDependencies": {
+    "gulp": "^3.8.7",
+    "gulp-concat": "^2.3.5",
+    "gulp-jshint": "^1.8.4",
+    "gulp-rename": "^1.2.0",
+    "gulp-sass": "^0.7.3",
+    "gulp-uglify": "^1.0.1"
+  }
+}
