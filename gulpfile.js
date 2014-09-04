@@ -2,11 +2,22 @@
 var gulp = require('gulp');
 
 // Include Our Plugins
+var nodemon = require('gulp-nodemon')
 var jshint = require('gulp-jshint');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
+
+// Nodemon
+gulp.task('nodemon', function () {
+  nodemon({
+    script: 'api/server.js',
+    watch: ['api'],
+    ext: 'js',
+    env: { 'NODE_ENV': 'development' }
+  })
+})
 
 // Lint Task
 gulp.task('lint', function() {
@@ -39,4 +50,4 @@ gulp.task('watch', function() {
 });
 
 // Default Task
-gulp.task('default', ['lint', 'sass', 'scripts', 'watch']);
+gulp.task('default', ['lint', 'sass', 'scripts', 'watch', 'nodemon']);
