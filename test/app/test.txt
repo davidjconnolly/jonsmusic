@@ -1,0 +1,3 @@
+Angular
+- Test runner called Karma (fka Testacular)
+- Test FW Moch awith Chai again
