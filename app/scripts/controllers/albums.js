@@ -59,7 +59,7 @@ angular.module('jonsmusicApp')
             $scope.formData.description = $scope.album.description;
 
             if ($scope.album.date) {
-              $scope.formData.date = moment.utc($scope.album.date).format("YYYY/MM/DD")
+              $scope.formData.date = moment.utc($scope.album.date).format("YYYY/MM/DD");
             }
 
             $scope.loading = false;
@@ -70,7 +70,7 @@ angular.module('jonsmusicApp')
             $scope.loading = true;
 
             if ($scope.formData.date) {
-              $scope.formData.date = moment.utc($scope.formData.date).format("YYYY/MM/DD")
+              $scope.formData.date = moment.utc($scope.formData.date).format("YYYY/MM/DD");
             }
 
             albumsService.update($scope.album._id, $scope.formData)

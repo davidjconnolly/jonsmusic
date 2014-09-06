@@ -1,12 +1,13 @@
 'use strict';
 
-angular.module('jonsmusicApp', [
+var jonsmusicApp = {};
+
+jonsmusicApp = angular.module('jonsmusicApp', [
   'ui.router',
   'ngRoute',
   'ui.bootstrap',
   'angularMoment'
 ])
-
 .config(function ($routeProvider, $locationProvider, $httpProvider) {
   $routeProvider
       .when('/songs', {
@@ -26,8 +27,9 @@ angular.module('jonsmusicApp', [
         templateUrl: '/views/albums/edit.html'
       })
       .otherwise({
-        redirectTo: '/'
+        redirectTo: '/index',
+        templateUrl: '/views/main/index.html'
       });
 
     $locationProvider.html5Mode(true);
-  })
+  });

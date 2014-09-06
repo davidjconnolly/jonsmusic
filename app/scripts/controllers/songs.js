@@ -59,7 +59,7 @@ angular.module('jonsmusicApp')
             $scope.formData.lyrics = $scope.song.lyrics;
 
             if ($scope.song.date) {
-              $scope.formData.date = moment.utc($scope.song.date).format("YYYY/MM/DD")
+              $scope.formData.date = moment.utc($scope.song.date).format("YYYY/MM/DD");
             }
 
             $scope.loading = false;
@@ -70,7 +70,7 @@ angular.module('jonsmusicApp')
             $scope.loading = true;
 
             if ($scope.formData.date) {
-              $scope.formData.date = moment.utc($scope.formData.date).format("YYYY/MM/DD")
+              $scope.formData.date = moment.utc($scope.formData.date).format("YYYY/MM/DD");
             }
 
             songsService.update($scope.song._id, $scope.formData)

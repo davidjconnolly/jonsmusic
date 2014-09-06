@@ -23,7 +23,7 @@ require('./routes.js')(app);
 
 app.all('*', function (req, res, next) {
   // Just send the index.html for other files to support HTML5Mode
-  res.sendfile('app/public/index.html');
+  res.sendfile('app/views/index.html');
 })
 
 var server = app.listen(3000, function() {

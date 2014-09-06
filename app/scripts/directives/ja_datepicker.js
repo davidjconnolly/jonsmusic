@@ -13,7 +13,7 @@ angular.module('jonsmusicApp')
           $event.preventDefault();
           $event.stopPropagation();
           $scope.opened = true;
-        }
+        };
       }
-    }
+    };
 });

@@ -11,7 +11,10 @@ var rename = require('gulp-rename');
 
 var paths = {
   scripts: [
-    'app/scripts/**/*.js'
+    'app/scripts/app.js',
+    'app/scripts/services/*.js',
+    'app/scripts/directives/*.js',
+    'app/scripts/controllers/*.js'
   ],
   vendor_scripts: [
     'bower_components/angular/angular.js',
@@ -39,16 +42,6 @@ var paths = {
   ]
 }
 
-// Nodemon
-gulp.task('nodemon', function () {
-  nodemon({
-    script: 'api/server.js',
-    watch: ['api'],
-    ext: 'js',
-    env: { 'NODE_ENV': 'development' }
-  })
-})
-
 // Lint Task
 gulp.task('jshint', function() {
   return gulp.src(paths.scripts)
@@ -57,14 +50,6 @@ gulp.task('jshint', function() {
 });
 
 // Scripts
-gulp.task('scripts', function() {
-  return gulp.src(paths.scripts)
-    .pipe(concat('application.js'))
-    .pipe(gulp.dest('./public/js'))
-    .pipe(rename('application.min.js'))
-    // .pipe(uglify())
-    .pipe(gulp.dest('./public/js'));
-});
 gulp.task('vendor-scripts', function() {
   return gulp.src(paths.vendor_scripts)
     .pipe(concat('vendor.js'))
@@ -73,18 +58,27 @@ gulp.task('vendor-scripts', function() {
     // .pipe(uglify())
     .pipe(gulp.dest('./public/js'));
 });
+gulp.task('scripts', function() {
+  return gulp.src(paths.scripts)
+    .pipe(concat('application.js'))
+    .pipe(gulp.dest('./public/js'))
+    .pipe(rename('application.min.js'))
+    // .pipe(uglify())
+    .pipe(gulp.dest('./public/js'));
+});
+
 
 // Styles
-gulp.task('styles', function() {
-  return gulp.src(paths.styles)
-    .pipe(sass())
-    .pipe(concat('application.css'))
-    .pipe(gulp.dest('./public/css'));
-});
 gulp.task('vendor-styles', function() {
   return gulp.src(paths.vendor_styles)
     .pipe(sass())
     .pipe(concat('vendor.css'))
+    .pipe(gulp.dest('./public/css'));
+});
+gulp.task('styles', function() {
+  return gulp.src(paths.styles)
+    .pipe(sass())
+    .pipe(concat('application.css'))
     .pipe(gulp.dest('./public/css'));
 });
 
@@ -114,12 +108,21 @@ gulp.task('watch', function() {
   gulp.watch(paths.views, ['html-views']);
 });
 
+// Nodemon
+gulp.task('nodemon', function () {
+  nodemon({
+    script: 'api/server.js',
+    watch: ['api'],
+    ext: 'js',
+    env: { 'NODE_ENV': 'development' }
+  })
+})
+
 // Default Task
 gulp.task('default', [
-  'jshint',
-  'scripts', 'vendor-scripts',
-  'styles', 'vendor-styles',
+  'jshint', 'watch', 'nodemon',
+  'vendor-scripts', 'scripts',
+  'vendor-styles', 'styles',
   'vendor-fonts',
-  'html-public', 'html-views',
-  'watch', 'nodemon'
+  'html-public', 'html-views'
 ]);
