@@ -1,4 +1,4 @@
 {
   "globalstrict": true,
-  "predef": ["angular", "moment"]
+  "predef": ["angular", "moment", "console"]
 }

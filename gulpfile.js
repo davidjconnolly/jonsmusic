@@ -11,7 +11,7 @@ var rename = require('gulp-rename');
 
 var paths = {
   scripts: [
-    'app/scripts/app.js',
+    'app/app.js',
     'app/scripts/services/*.js',
     'app/scripts/directives/*.js',
     'app/scripts/controllers/*.js'
@@ -29,7 +29,7 @@ var paths = {
   ],
   vendor_styles: [
     'bower_components/bootstrap/dist/css/bootstrap.css',
-    'bower_components/font-awesome/scss/font-awesome.scss',
+    'bower_components/font-awesome/scss/font-awesome.scss'
   ],
   vendor_fonts: [
     'bower_components/font-awesome/fonts/**/*'
@@ -55,7 +55,7 @@ gulp.task('vendor-scripts', function() {
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest('./public/js'))
     .pipe(rename('vendor.min.js'))
-    // .pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest('./public/js'));
 });
 gulp.task('scripts', function() {
@@ -63,7 +63,7 @@ gulp.task('scripts', function() {
     .pipe(concat('application.js'))
     .pipe(gulp.dest('./public/js'))
     .pipe(rename('application.min.js'))
-    // .pipe(uglify())
+    .pipe(uglify())
     .pipe(gulp.dest('./public/js'));
 });
 
