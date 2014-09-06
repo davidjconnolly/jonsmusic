@@ -1,7 +1,14 @@
 'use strict';
 
-var album_controller = require('../controllers/albums')
+var express = require('express');
+var router = express.Router()
+var controller = require('../controllers/albums')
 
-module.exports = function(app){
-  app.get('/albums', album_controller.index)
-}
+router.get('/', controller.index);
+router.get('/:id', controller.show);
+router.post('/', controller.create);
+router.put('/:id', controller.update);
+router.patch('/:id', controller.update);
+router.delete('/:id', controller.destroy);
+
+module.exports = router

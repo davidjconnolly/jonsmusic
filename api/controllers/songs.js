@@ -1,47 +1,47 @@
 'use strict';
 
-var Album = require('../models/album.js');
+var Song = require('../models/song.js');
 
 exports.index = function(req, res) {
-  Album.find(function (err, albums) {
+  Song.find({}, function (err, songs) {
     if(err) { return handleError(res, err); }
-    return res.json(200, albums);
+    return res.json(200, songs);
   });
 };
 
 exports.show = function(req, res) {
-  Album.findById(req.params.id, function (err, album) {
+  Song.findById(req.params.id, function (err, song) {
     if(err) { return handleError(res, err); }
-    if(!album) { return res.send(404); }
-    return res.json(album);
+    if(!song) { return res.send(404); }
+    return res.json(song);
   });
 };
 
 exports.create = function(req, res) {
-  Album.create(req.body, function(err, album) {
+  Song.create(req.body, function(err, song) {
     if(err) { return handleError(res, err); }
-    return res.json(201, album);
+    return res.json(201, song);
   });
 };
 
 exports.update = function(req, res) {
   if(req.body._id) { delete req.body._id; }
-  Album.findById(req.params.id, function (err, album) {
+  Song.findById(req.params.id, function (err, song) {
     if (err) { return handleError(res, err); }
-    if(!album) { return res.send(404); }
-    var updated = _.merge(album, req.body);
+    if(!song) { return res.send(404); }
+    var updated = _.merge(song, req.body);
     updated.save(function (err) {
       if (err) { return handleError(res, err); }
-      return res.json(200, album);
+      return res.json(200, song);
     });
   });
 };
 
 exports.destroy = function(req, res) {
-  Album.findById(req.params.id, function (err, album) {
+  Song.findById(req.params.id, function (err, song) {
     if(err) { return handleError(res, err); }
-    if(!album) { return res.send(404); }
-    album.remove(function(err) {
+    if(!song) { return res.send(404); }
+    song.remove(function(err) {
       if(err) { return handleError(res, err); }
       return res.send(204);
     });

@@ -1,10 +1,6 @@
 'use strict'
 
 module.exports = function(app){
-  app.get('/', function(req, res){
-    res.send('Hello World');
-  });
-
-  require('./routes/albums')(app)
-  require('./routes/songs')(app)
+  app.use('/api/albums', require('./routes/albums'));
+  app.use('/api/songs', require('./routes/songs'));
 }
