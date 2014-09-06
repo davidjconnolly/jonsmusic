@@ -54,18 +54,24 @@ angular.module('jonsmusicApp')
         albumsService.show($routeParams.albumId)
           .success(function(data) {
             $scope.album = data;
+
             $scope.formData.title = $scope.album.title;
+            $scope.formData.description = $scope.album.description;
 
             if ($scope.album.date) {
-              $scope.formData.date = $filter('date')($scope.album.date.substring(0, 10), 'yyyy-MM-dd');
+              $scope.formData.date = moment.utc($scope.album.date).format("YYYY/MM/DD")
             }
-            $scope.formData.description = $scope.album.description;
+
             $scope.loading = false;
           });
 
         $scope.updateAlbum = function() {
           if ($scope.formData.title !== undefined) {
             $scope.loading = true;
+
+            if ($scope.formData.date) {
+              $scope.formData.date = moment.utc($scope.formData.date).format("YYYY/MM/DD")
+            }
 
             albumsService.update($scope.album._id, $scope.formData)
               .success(function(data) {

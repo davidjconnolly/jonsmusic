@@ -2,29 +2,32 @@
 
 angular.module('jonsmusicApp', [
   'ui.router',
-  'ngRoute'
+  'ngRoute',
+  'ui.bootstrap',
+  'angularMoment'
 ])
 
-.config(['$routeProvider',
-  function($routeProvider) {
-    $routeProvider
+.config(function ($routeProvider, $locationProvider, $httpProvider) {
+  $routeProvider
       .when('/songs', {
         controller: 'songsListController',
-        templateUrl: 'public/views/songs/index.html'
+        templateUrl: '/views/songs/index.html'
       })
       .when('/songs/:songId', {
         controller: 'songsDetailController',
-        templateUrl: 'public/views/songs/show.html'
+        templateUrl: '/views/songs/edit.html'
       })
       .when('/albums', {
         controller: 'albumsListController',
-        templateUrl: 'public/views/albums/index.html'
+        templateUrl: '/views/albums/index.html'
       })
       .when('/albums/:albumId', {
         controller: 'albumsDetailController',
-        templateUrl: 'public/views/albums/show.html'
+        templateUrl: '/views/albums/edit.html'
       })
-      // .otherwise({
-      //   redirectTo: '/albums'
-      // });
-  }]);
+      .otherwise({
+        redirectTo: '/'
+      });
+
+    $locationProvider.html5Mode(true);
+  })

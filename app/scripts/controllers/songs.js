@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('jonsmusicApp')
-  .controller('songsListController', ['$scope', 'songsService',
-    function($scope, songsService)
+  .controller('songsListController', ['$scope', '$filter', 'songsService',
+    function($scope, $filter, songsService)
       {
         $scope.formData = {};
         $scope.loading = true;
@@ -44,35 +44,42 @@ angular.module('jonsmusicApp')
         };
       }]);
 
-angular.module('jonsmusicApp').controller('songsDetailController', ['$scope', '$routeParams', '$location', '$filter', 'songsService',
-  function($scope, $routeParams, $location, $filter, songsService)
-    {
-      $scope.formData = {};
-      $scope.loading = true;
+angular.module('jonsmusicApp')
+  .controller('songsDetailController', ['$scope', '$routeParams', '$location', '$filter', 'songsService',
+    function($scope, $routeParams, $location, $filter, songsService)
+      {
+        $scope.formData = {};
+        $scope.loading = true;
 
-      songsService.show($routeParams.songId)
-        .success(function(data) {
-          $scope.song = data;
-          $scope.formData.title = $scope.song.title;
+        songsService.show($routeParams.songId)
+          .success(function(data) {
+            $scope.song = data;
 
-          if ($scope.song.date) {
-            $scope.formData.date = $filter('date')($scope.song.date.substring(0, 10), 'yyyy-MM-dd');
+            $scope.formData.title = $scope.song.title;
+            $scope.formData.lyrics = $scope.song.lyrics;
+
+            if ($scope.song.date) {
+              $scope.formData.date = moment.utc($scope.song.date).format("YYYY/MM/DD")
+            }
+
+            $scope.loading = false;
+          });
+
+        $scope.updateSong = function() {
+          if ($scope.formData.title !== undefined) {
+            $scope.loading = true;
+
+            if ($scope.formData.date) {
+              $scope.formData.date = moment.utc($scope.formData.date).format("YYYY/MM/DD")
+            }
+
+            songsService.update($scope.song._id, $scope.formData)
+              .success(function(data) {
+                $scope.loading = false;
+                $scope.formData = {};
+                $scope.songs = data;
+                $location.path('/songs');
+              });
           }
-          $scope.formData.lyrics = $scope.song.lyrics;
-          $scope.loading = false;
-        });
-
-      $scope.updateSong = function() {
-        if ($scope.formData.title !== undefined) {
-          $scope.loading = true;
-
-          songsService.update($scope.song._id, $scope.formData)
-            .success(function(data) {
-              $scope.loading = false;
-              $scope.formData = {};
-              $scope.songs = data;
-              $location.path('/songs');
-            });
-        }
-      };
-    }]);
+        };
+      }]);

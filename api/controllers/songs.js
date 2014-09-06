@@ -25,12 +25,13 @@ exports.create = function(req, res) {
 };
 
 exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
   Song.findById(req.params.id, function (err, song) {
     if (err) { return handleError(res, err); }
     if(!song) { return res.send(404); }
-    var updated = _.merge(song, req.body);
-    updated.save(function (err) {
+    song.title = req.body.title
+    song.date = req.body.date || null
+    song.lyrics = req.body.lyrics || null
+    song.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, song);
     });

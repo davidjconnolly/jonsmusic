@@ -25,12 +25,13 @@ exports.create = function(req, res) {
 };
 
 exports.update = function(req, res) {
-  if(req.body._id) { delete req.body._id; }
   Album.findById(req.params.id, function (err, album) {
     if (err) { return handleError(res, err); }
     if(!album) { return res.send(404); }
-    var updated = _.merge(album, req.body);
-    updated.save(function (err) {
+    album.title = req.body.title
+    album.date = req.body.date || null
+    album.description = req.body.description || null
+    album.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, album);
     });

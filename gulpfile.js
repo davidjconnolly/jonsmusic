@@ -9,22 +9,33 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 
-var dependencies = {
-  js: [
-    'bower_components/angular/angular.js',
-    'bower_components/angular-bootstrap/ui-bootstrap.js',
-    'bower_components/angular-ui-router/release/angular-ui-router.js',
-    'bower_components/angular-route/angular-route.js'
+var paths = {
+  scripts: [
+    'app/scripts/**/*.js'
   ],
-  css: [
+  vendor_scripts: [
+    'bower_components/angular/angular.js',
+    'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+    'bower_components/angular-ui-router/release/angular-ui-router.js',
+    'bower_components/angular-route/angular-route.js',
+    'bower_components/angular-moment/angular-moment.js',
+    'bower_components/moment/moment.js'
+  ],
+  styles: [
+    'app/styles/**/*.scss'
+  ],
+  vendor_styles: [
     'bower_components/bootstrap/dist/css/bootstrap.css',
     'bower_components/font-awesome/scss/font-awesome.scss',
   ],
-  fonts: [
+  vendor_fonts: [
     'bower_components/font-awesome/fonts/**/*'
   ],
   views: [
     'app/views/**/*'
+  ],
+  public: [
+    'app/public/**/*'
   ]
 }
 
@@ -32,46 +43,46 @@ var dependencies = {
 gulp.task('nodemon', function () {
   nodemon({
     script: 'api/server.js',
-    watch: ['api', 'app'],
+    watch: ['api'],
     ext: 'js',
     env: { 'NODE_ENV': 'development' }
   })
 })
 
 // Lint Task
-gulp.task('lint', function() {
-  return gulp.src('app/scripts/**/*.js')
+gulp.task('jshint', function() {
+  return gulp.src(paths.scripts)
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
 
 // Scripts
 gulp.task('scripts', function() {
-  return gulp.src('app/scripts/**/*.js')
+  return gulp.src(paths.scripts)
     .pipe(concat('application.js'))
     .pipe(gulp.dest('./public/js'))
     .pipe(rename('application.min.js'))
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(gulp.dest('./public/js'));
 });
 gulp.task('vendor-scripts', function() {
-  return gulp.src(dependencies.js)
+  return gulp.src(paths.vendor_scripts)
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest('./public/js'))
     .pipe(rename('vendor.min.js'))
-    .pipe(uglify())
+    // .pipe(uglify())
     .pipe(gulp.dest('./public/js'));
 });
 
 // Styles
 gulp.task('styles', function() {
-  return gulp.src('app/styles/**/*.scss')
+  return gulp.src(paths.styles)
     .pipe(sass())
     .pipe(concat('application.css'))
     .pipe(gulp.dest('./public/css'));
 });
 gulp.task('vendor-styles', function() {
-  return gulp.src(dependencies.css)
+  return gulp.src(paths.vendor_styles)
     .pipe(sass())
     .pipe(concat('vendor.css'))
     .pipe(gulp.dest('./public/css'));
@@ -79,28 +90,36 @@ gulp.task('vendor-styles', function() {
 
 // Fonts
 gulp.task('vendor-fonts', function () {
-  return gulp.src(dependencies.fonts)
+  return gulp.src(paths.vendor_fonts)
     .pipe(gulp.dest('./public/fonts'))
 });
 
+// Public
+gulp.task('html-public', function () {
+  return gulp.src(paths.public)
+    .pipe(gulp.dest('./public'))
+})
+
 // Views
-gulp.task('views', function () {
-  return gulp.src(dependencies.views)
+gulp.task('html-views', function () {
+  return gulp.src(paths.views)
     .pipe(gulp.dest('./public/views'))
 })
 
 // Watch Files For Changes
 gulp.task('watch', function() {
-  gulp.watch('app/scripts/**/*.js', ['lint', 'scripts']);
- gulp.watch('app/styles/**/*.scss', ['sass']);
+  gulp.watch(paths.scripts, ['jshint', 'scripts']);
+  gulp.watch(paths.styles, ['styles']);
+  gulp.watch(paths.public, ['html-public']);
+  gulp.watch(paths.views, ['html-views']);
 });
 
 // Default Task
 gulp.task('default', [
-  'lint',
-  'styles', 'vendor-styles',
+  'jshint',
   'scripts', 'vendor-scripts',
+  'styles', 'vendor-styles',
   'vendor-fonts',
-  'views',
+  'html-public', 'html-views',
   'watch', 'nodemon'
 ]);
