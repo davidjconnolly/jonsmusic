@@ -25,22 +25,15 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
 // Authentication
-app.use(passport.initialize());
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: true,
   saveUninitialized: true
 }));
+app.use(passport.initialize());
 app.use(passport.session());
 
 require('./routes.js')(app, passport);
-
-app.all('*', function (req, res, next) {
-  if(req.user) {
-    res.cookie('user', JSON.stringify(req.user.user_info));
-  }
-  res.sendfile('app/views/index.html');
-})
 
 var server = app.listen(3000, function() {
     console.log('Listening on port %d', server.address().port);

@@ -20,6 +20,10 @@ var paths = {
     'bower_components/angular/angular.js',
     'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
     'bower_components/angular-ui-router/release/angular-ui-router.js',
+    'bower_components/angular-resource/angular-resource.js',
+    'bower_components/angular-cookies/angular-cookies.js',
+    'bower_components/angular-http-auth/src/http-auth-interceptor.js',
+    'bower_components/angular-sanitize/angular-sanitize.js',
     'bower_components/angular-route/angular-route.js',
     'bower_components/angular-moment/angular-moment.js',
     'bower_components/moment/moment.js'
@@ -54,17 +58,17 @@ gulp.task('vendor-scripts', function() {
   return gulp.src(paths.vendor_scripts)
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest('./public/js'))
-    .pipe(rename('vendor.min.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest('./public/js'));
+    // .pipe(rename('vendor.min.js'))
+    // .pipe(uglify())
+    // .pipe(gulp.dest('./public/js'));
 });
 gulp.task('scripts', function() {
   return gulp.src(paths.scripts)
     .pipe(concat('application.js'))
     .pipe(gulp.dest('./public/js'))
-    .pipe(rename('application.min.js'))
-    .pipe(uglify())
-    .pipe(gulp.dest('./public/js'));
+    // .pipe(rename('application.min.js'))
+    // .pipe(uglify())
+    // .pipe(gulp.dest('./public/js'));
 });
 
 

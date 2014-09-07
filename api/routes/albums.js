@@ -1,14 +1,15 @@
 'use strict';
 
-var express = require('express');
-var router = express.Router()
+// var express = require('express');
+// var router = express.Router()
 var controller = require('../controllers/albums')
 
-router.get('/', controller.index);
-router.get('/:id', controller.show);
-router.post('/', controller.create);
-router.put('/:id', controller.update);
-router.patch('/:id', controller.update);
-router.delete('/:id', controller.destroy);
-
-module.exports = router
+module.exports = function(app){
+  app.get('/albums/', controller.index);
+  app.get('/albums/:id', controller.show);
+  app.post('/albums/', controller.create);
+  app.put('/albums/:id', controller.update);
+  app.patch('/albums/:id', controller.update);
+  app.delete('/albums/:id', controller.destroy);
+// module.exports = router
+}
