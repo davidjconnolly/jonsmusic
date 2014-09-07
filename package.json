@@ -4,7 +4,7 @@
   "description": "A personal website for my brother to share his musical gift with the internets!",
   "main": "index.js",
   "scripts": {
-    "install": "gulp build",
+    "install": "./node_modules/.bin/gulp build",
     "start": "node server/app.js",
     "test": "test"
   },
