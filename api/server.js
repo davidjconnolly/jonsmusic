@@ -12,15 +12,17 @@ var bodyParser = require('body-parser');
 var path       = require('path');
 var mongoose   = require('mongoose');
 var app        = express();
+var favicon    = require('serve-favicon');
 
 // Connect to database
 mongoose.connect(process.env.DATABASE_URI, {});
 
 // Set up resources
-app.use('/js', express.static(path.join(__dirname, '..', 'public', 'js')))
-app.use('/css', express.static(path.join(__dirname, '..', 'public', 'css')))
-app.use('/fonts', express.static(path.join(__dirname, '..', 'public', 'fonts')))
-app.use('/views', express.static(path.join(__dirname, '..', 'public', 'views')))
+app.use('/js', express.static(path.join(__dirname, '..', 'tmp', 'js')))
+app.use('/css', express.static(path.join(__dirname, '..', 'tmp', 'css')))
+app.use('/fonts', express.static(path.join(__dirname, '..', 'tmp', 'fonts')))
+app.use('/views', express.static(path.join(__dirname, '..', 'tmp', 'views')))
+app.use(favicon(path.join(__dirname, '..', 'tmp', 'favicon.ico')));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 

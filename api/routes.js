@@ -7,7 +7,7 @@ module.exports = function(app){
     if(req.user) {
       res.cookie('user', JSON.stringify(req.user.user_info));
     }
-    res.sendfile('app/views/index.html');
+    res.sendfile('app/public/index.html');
   })
 }
 
