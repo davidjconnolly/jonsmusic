@@ -8,18 +8,18 @@
   },
   "scripts": {
     "start": "node api/server.js",
-    "test": "test"
+    "postinstall": "bower install && gulp build"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:davidjconnolly/jonsmusic-scratch.git"
+    "url": "git@github.com:davidjconnolly/jonsmusic.git"
   },
   "author": "David Connolly",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/davidjconnolly/jonsmusic-scratch/issues"
+    "url": "https://github.com/davidjconnolly/jonsmusic/issues"
   },
-  "homepage": "https://github.com/davidjconnolly/jonsmusic-scratch",
+  "homepage": "https://github.com/davidjconnolly/jonsmusic",
   "dependencies": {
     "body-parser": "~1.5.0",
     "connect-mongo": "^0.4.1",
