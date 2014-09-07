@@ -140,3 +140,11 @@ gulp.task('default', [
   'vendor-fonts',
   'html-public', 'html-views'
 ]);
+
+// Build Task
+gulp.task('build', [
+  'vendor-scripts', 'scripts',
+  'vendor-styles', 'styles',
+  'vendor-fonts',
+  'html-public', 'html-views'
+]);
