@@ -1,31 +1,44 @@
-'use strict'
+'use strict';
 
 require('./config/local.env.js');
+require('./config/passport.js');
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-var express = require('express');
+var express    = require('express');
+var passport   = require('passport');
+var session    = require('express-session');
+var flash      = require('connect-flash');
 var bodyParser = require('body-parser');
-var path = require('path');
-var mongoose = require('mongoose');
-var app = express();
+var path       = require('path');
+var mongoose   = require('mongoose');
+var app        = express();
+var favicon    = require('serve-favicon');
 
 // Connect to database
 mongoose.connect(process.env.DATABASE_URI, {});
 
-app.use('/js', express.static(path.join(__dirname, '..', 'public', 'js')))
-app.use('/css', express.static(path.join(__dirname, '..', 'public', 'css')))
-app.use('/fonts', express.static(path.join(__dirname, '..', 'public', 'fonts')))
-app.use('/views', express.static(path.join(__dirname, '..', 'public', 'views')))
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+// Set up resources
+app.use('/js', express.static(path.join(__dirname, '..', 'tmp', 'js')));
+app.use('/css', express.static(path.join(__dirname, '..', 'tmp', 'css')));
+app.use('/fonts', express.static(path.join(__dirname, '..', 'tmp', 'fonts')));
+app.use('/views', express.static(path.join(__dirname, '..', 'tmp', 'views')));
+app.use(favicon(path.join(__dirname, '..', 'tmp', 'favicon.ico')));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-require('./routes.js')(app);
+// Authentication
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.all('*', function (req, res, next) {
-  // Just send the index.html for other files to support HTML5Mode
-  res.sendfile('app/views/index.html');
-})
+// Set up routes
+require('./routes.js')(app, passport);
 
+// Start App
 var server = app.listen(3000, function() {
     console.log('Listening on port %d', server.address().port);
 });

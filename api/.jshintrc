@@ -1,0 +1,4 @@
+{
+  "globalstrict": true,
+  "predef": ["module", "require", "process", "console", "__dirname", "exports", "Buffer"]
+}
