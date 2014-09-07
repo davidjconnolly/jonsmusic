@@ -2,7 +2,7 @@
   "name": "jonsmusic",
   "version": "1.0.0",
   "description": "A personal website for my brother to share his musical gift with the internets!",
-  "main": "node api/server.js",
+  "main": "api/server.js",
   "engines": {
     "node": ">=0.10.0"
   },
