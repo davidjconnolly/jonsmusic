@@ -28,9 +28,9 @@ exports.update = function(req, res) {
   Album.findById(req.params.id, function (err, album) {
     if (err) { return handleError(res, err); }
     if(!album) { return res.send(404); }
-    album.title = req.body.title
-    album.date = req.body.date || null
-    album.description = req.body.description || null
+    album.title = req.body.title;
+    album.date = req.body.date || null;
+    album.description = req.body.description || null;
     album.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, album);

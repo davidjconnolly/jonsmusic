@@ -1,8 +1,8 @@
 'use strict';
 
-var mongoose = require('mongoose')
+var mongoose = require('mongoose');
 var User = require('../models/user.js');
-var passport = require('passport')
+var passport = require('passport');
 var ObjectId = mongoose.Types.ObjectId;
 
 exports.create = function (req, res, next) {
@@ -22,16 +22,14 @@ exports.create = function (req, res, next) {
 };
 
 exports.show = function (req, res, next) {
-  var userId = req.params.userId;
-
-  User.findById(ObjectId(userId), function (err, user) {
+  User.findById(req.params.id, function (err, user) {
     if (err) {
       return next(new Error('Failed to load User'));
     }
     if (user) {
       res.send({username: user.username, profile: user.profile });
     } else {
-      res.send(404, 'USER_NOT_FOUND')
+      res.send(404, 'USER_NOT_FOUND');
     }
   });
 };
@@ -49,4 +47,4 @@ exports.exists = function (req, res, next) {
       res.json({exists: false});
     }
   });
-}
+};

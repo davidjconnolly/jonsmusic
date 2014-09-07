@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 module.exports = function(app){
   require('./routes/auth')(app, ensureAuthenticated);
@@ -8,8 +8,8 @@ module.exports = function(app){
       res.cookie('user', JSON.stringify(req.user.user_info));
     }
     res.sendfile('app/public/index.html');
-  })
-}
+  });
+};
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }

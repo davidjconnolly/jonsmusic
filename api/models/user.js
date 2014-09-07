@@ -50,7 +50,7 @@ UserSchema.path('email').validate(function (email) {
 }, 'The specified email is invalid.');
 
 UserSchema.path('email').validate(function(value, respond) {
-  mongoose.models["User"].findOne({email: value}, function(err, user) {
+  mongoose.models.User.findOne({email: value}, function(err, user) {
     if(err) throw err;
     if(user) return respond(false);
     respond(true);
@@ -58,7 +58,7 @@ UserSchema.path('email').validate(function(value, respond) {
 }, 'The specified email address is already in use.');
 
 UserSchema.path('username').validate(function(value, respond) {
-  mongoose.models["User"].findOne({username: value}, function(err, user) {
+  mongoose.models.User.findOne({username: value}, function(err, user) {
     if(err) throw err;
     if(user) return respond(false);
     respond(true);

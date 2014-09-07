@@ -10,6 +10,9 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 
 var paths = {
+  api: [
+    'api/**/*.js'
+  ],
   scripts: [
     'app/app.js',
     'app/scripts/services/*.js',
@@ -47,8 +50,15 @@ var paths = {
 }
 
 // Lint Task
-gulp.task('jshint', function() {
+gulp.task('jshint-app', function() {
   return gulp.src(paths.scripts)
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
+
+// Lint Task
+gulp.task('jshint-api', function() {
+  return gulp.src(paths.api)
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
@@ -58,17 +68,17 @@ gulp.task('vendor-scripts', function() {
   return gulp.src(paths.vendor_scripts)
     .pipe(concat('vendor.js'))
     .pipe(gulp.dest('./tmp/js'))
-    // .pipe(rename('vendor.min.js'))
-    // .pipe(uglify())
-    // .pipe(gulp.dest('./tmp/js'));
+    .pipe(rename('vendor.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('./tmp/js'));
 });
 gulp.task('scripts', function() {
   return gulp.src(paths.scripts)
     .pipe(concat('application.js'))
     .pipe(gulp.dest('./tmp/js'))
-    // .pipe(rename('application.min.js'))
-    // .pipe(uglify())
-    // .pipe(gulp.dest('./tmp/js'));
+    .pipe(rename('application.min.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest('./tmp/js'));
 });
 
 
@@ -124,7 +134,7 @@ gulp.task('nodemon', function () {
 
 // Default Task
 gulp.task('default', [
-  'jshint', 'watch', 'nodemon',
+  'jshint-api', 'jshint-app', 'watch', 'nodemon',
   'vendor-scripts', 'scripts',
   'vendor-styles', 'styles',
   'vendor-fonts',

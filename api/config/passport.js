@@ -1,9 +1,9 @@
 'use strict';
 
-var mongoose = require('mongoose')
-var passport = require('passport')
-var LocalStrategy = require('passport-local').Strategy
-var User = require('../models/user.js')
+var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var User = require('../models/user.js');
 
 // Serialize sessions
 passport.serializeUser(function(user, done) {
