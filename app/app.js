@@ -46,7 +46,6 @@ jonsmusicApp = angular.module('jonsmusicApp', [
     $locationProvider.html5Mode(true);
   })
 .run(function ($rootScope, $location, authService) {
-
     //watching the value of the currentUser variable.
     $rootScope.$watch('currentUser', function(currentUser) {
       // if no currentUser and on a page that requires authorization then try to update it

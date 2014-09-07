@@ -23,9 +23,6 @@ var UserSchema = new Schema({
   provider: String
 });
 
-/**
- * Virtuals
- */
 UserSchema
   .virtual('password')
   .set(function(password) {
@@ -42,10 +39,6 @@ UserSchema
   .get(function () {
     return { '_id': this._id, 'username': this.username, 'email': this.email };
   });
-
-/**
- * Validations
- */
 
 var validatePresenceOf = function (value) {
   return value && value.length;
@@ -72,10 +65,6 @@ UserSchema.path('username').validate(function(value, respond) {
   });
 }, 'The specified username is already in use.');
 
-/**
- * Pre-save hook
- */
-
 UserSchema.pre('save', function(next) {
   if (!this.isNew) {
     return next();
@@ -89,31 +78,14 @@ UserSchema.pre('save', function(next) {
   }
 });
 
-/**
- * Methods
- */
-
 UserSchema.methods = {
-
-  /**
-   * Authenticate - check if the passwords are the same
-   */
-
   authenticate: function(plainText) {
     return this.encryptPassword(plainText) === this.hashedPassword;
   },
 
-  /**
-   * Make salt
-   */
-
   makeSalt: function() {
     return crypto.randomBytes(16).toString('base64');
   },
-
-  /**
-   * Encrypt password
-   */
 
   encryptPassword: function(password) {
     if (!password || !this.salt) return '';

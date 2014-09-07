@@ -33,8 +33,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// Set up routes
 require('./routes.js')(app, passport);
 
+// Start App
 var server = app.listen(3000, function() {
     console.log('Listening on port %d', server.address().port);
 });
