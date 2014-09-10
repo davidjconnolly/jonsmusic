@@ -1,3 +1,0 @@
-Node
-- Mocha - Test FW but needs an assertion library
-- Using Chai for assertion Library
