@@ -1,10 +1,3 @@
-// ToDo - Need to create a session before controller testing
-
-
-
-
-
-
 // var Album = require('../../../api/models/album');
 
 // describe('Album controller', function() {
@@ -29,4 +22,3 @@
 //       .expect(200)
 //   })
 // })
-

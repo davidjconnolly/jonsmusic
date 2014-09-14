@@ -4,16 +4,18 @@ describe('User', function() {
   var user
   var now = Date()
 
+  before(function(done) {
+    clearDB(done);
+  });
+
   before(function (done) {
-    User.remove(function(){
-      User.create({
-        email: 'test@test.com',
-        username: 'Foo User',
-        password: 'password'
-      }).then(function (u) {
-        user = u
-        done()
-      })
+    User.create({
+      email: 'test@test.com',
+      username: 'Foo User',
+      password: 'password'
+    }).then(function (u) {
+      user = u
+      done();
     });
   });
 

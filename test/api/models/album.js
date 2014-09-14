@@ -11,10 +11,10 @@ describe('Album', function() {
       date : now,
       published: false
     }).then(function (a) {
-      album = a
-      done()
-    })
-  })
+      album = a;
+      done();
+    });
+  });
 
   it("sets all fields properly", function(){
     assert.equal('foo title', album.title)
