@@ -3,6 +3,15 @@
 
 A personal website for my brother to share his musical gift with the internets!
 
+## Instructions
+1. `git clone git@github.com:davidjconnolly/jonsmusic.git` 
+2. `cd jonsmusic`
+3. `npm install && bower install`
+4. `brew install mongodb`
+5. Copy local.env.example.js to local.env.js and make any required changes
+6. `gulp test` to run unit tests
+7. `gulp` to run a local server
+
 ## Stack
 * Angular Frontend
 * Node.js Backend
