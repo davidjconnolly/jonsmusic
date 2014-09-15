@@ -17,8 +17,8 @@ describe('Session Controller', function () {
     user.save(done)
   });
 
-  describe('Login test', function () {
-    it('should return user credentials', function (done) {
+  describe('Test Login', function () {
+    it('should login', function (done) {
       agent
         .post('/auth/session')
         .send({
@@ -60,11 +60,46 @@ describe('Session Controller', function () {
         .expect({"errors":{"password":{"type":"Password is incorrect."}}})
         .end(done)
     })
-
-    after(function(done) {
-      User.remove().exec();
-      return done();
-    });
-
   })
+
+  describe('Test Logout', function () {
+    it('should logout', function (done) {
+      before(function(done) {
+        agent
+        .post('/auth/session')
+        .send({
+          email: 'test@test.com',
+          password: 'password'
+        })
+        .end(done)
+      });
+
+      agent
+        .del('/auth/session')
+        .send({
+          email: 'test@test.com',
+          password: 'password'
+        })
+        .expect(200)
+        .end(done)
+    })
+
+    it('should fail if not logged in', function (done) {
+      agent
+        .del('/auth/session')
+        .send({
+          email: 'test@test.com',
+          password: 'password'
+        })
+        .expect(400)
+        .expect('Not logged in')
+        .end(done)
+    })
+  })
+
+  after(function(done) {
+    User.remove().exec();
+    return done();
+  });
+
 })
