@@ -1,8 +1,9 @@
 'use strict';
 
+process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+
 require('./config/local.env.js');
 require('./config/passport.js');
-process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
 var express    = require('express');
 var passport   = require('passport');
@@ -15,7 +16,7 @@ var app        = express();
 var favicon    = require('serve-favicon');
 
 // Connect to database
-mongoose.connect(process.env.DATABASE_URI, {});
+app.connection = mongoose.connect(process.env.DATABASE_URI, {});
 
 // Set up resources
 app.use('/js', express.static(path.join(__dirname, '..', 'tmp', 'js')));
@@ -42,3 +43,5 @@ require('./routes.js')(app, passport);
 var server = app.listen(3000, function() {
     console.log('Listening on port %d', server.address().port);
 });
+
+module.exports = app;

@@ -8,6 +8,7 @@ var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
+var mocha = require('gulp-spawn-mocha');
 
 var paths = {
   api: [
@@ -49,19 +50,30 @@ var paths = {
   ]
 }
 
-// Lint Task
+// -- JSHint -----------------------------------------------------------------
+
+// Server
+gulp.task('jshint-api', function() {
+  return gulp.src(paths.api)
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
+
+// Client
 gulp.task('jshint-app', function() {
   return gulp.src(paths.scripts)
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
 
-// Lint Task
-gulp.task('jshint-api', function() {
-  return gulp.src(paths.api)
+// Tests
+gulp.task('jshint-test', function() {
+  return gulp.src('test/**/*.js')
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
+
+// -- Assets ----------------------------------------------------------------
 
 // Scripts
 gulp.task('vendor-scripts', function() {
@@ -80,7 +92,6 @@ gulp.task('scripts', function() {
     .pipe(uglify())
     .pipe(gulp.dest('./tmp/js'));
 });
-
 
 // Styles
 gulp.task('vendor-styles', function() {
@@ -114,6 +125,8 @@ gulp.task('html-views', function () {
     .pipe(gulp.dest('./tmp/views'))
 })
 
+// -- Watch -----------------------------------------------------------------
+
 // Watch Files For Changes
 gulp.task('watch', function() {
   gulp.watch(paths.scripts, ['jshint', 'scripts']);
@@ -121,6 +134,8 @@ gulp.task('watch', function() {
   gulp.watch(paths.public, ['html-public']);
   gulp.watch(paths.views, ['html-views']);
 });
+
+// -- Sub-Tasks -----------------------------------------------------------------
 
 // Nodemon
 gulp.task('nodemon', function () {
@@ -132,7 +147,16 @@ gulp.task('nodemon', function () {
   })
 })
 
-// Default Task
+// Run tests
+gulp.task('runTests', function () {
+  return runTests().on('error', function (e) {
+    throw e;
+  });
+});
+
+// -- Tasks -----------------------------------------------------------------
+
+// Default
 gulp.task('default', [
   'jshint-api', 'jshint-app', 'watch', 'nodemon',
   'vendor-scripts', 'scripts',
@@ -141,10 +165,26 @@ gulp.task('default', [
   'html-public', 'html-views'
 ]);
 
-// Build Task
+// Build
 gulp.task('build', [
   'vendor-scripts', 'scripts',
   'vendor-styles', 'styles',
   'vendor-fonts',
   'html-public', 'html-views'
 ]);
+
+// Build
+gulp.task('test', [
+  'jshint-test', 'runTests'
+]);
+
+// -- Helper functions -------------------------------------------------------
+
+function runTests() {
+  return gulp.src(['test/**/*.js'], {read: false}).pipe(mocha({
+    r: 'test/test_helper.js',
+    R: 'spec',
+    c: true,
+    debug: true
+  })).on('error', console.warn.bind(console));
+}
