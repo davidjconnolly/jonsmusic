@@ -1,20 +1,8 @@
-var User = require('../../../api/models/user');
-var agent = request.agent(app)
+'use strict';
 
 describe('Session Controller', function () {
-  var user;
-
   before(function(done) {
-    clearDB(done);
-  });
-
-  before(function(done) {
-    user = new User({
-      email: 'test@test.com',
-      username: 'Foo User',
-      password: 'password'
-    });
-    user.save(done)
+    resetDB(done);
   });
 
   describe('Test Login', function () {
@@ -28,12 +16,12 @@ describe('Session Controller', function () {
         .expect(200)
         .expect('Content-Type', /json/)
         .expect({
-          "_id": user.id,
+          "_id": session_user.id,
           "email": "test@test.com",
           "username": "Foo User"
         })
-        .end(done)
-    })
+        .end(done);
+    });
 
     it('should get user info', function (done) {
       before(function(done) {
@@ -43,19 +31,19 @@ describe('Session Controller', function () {
           email: 'test@test.com',
           password: 'password'
         })
-        .end(done)
+        .end(done);
       });
 
       agent
         .get('/auth/session')
         .expect(200)
         .expect({
-          "_id": user.id,
+          "_id": session_user.id,
           "email": "test@test.com",
           "username": "Foo User"
         })
-        .end(done)
-    })
+        .end(done);
+    });
 
     it('should fail on invalid email', function (done) {
       agent
@@ -67,8 +55,8 @@ describe('Session Controller', function () {
         .expect(400)
         .expect('Content-Type', /json/)
         .expect({"errors":{"email":{"type":"Email is not registered."}}})
-        .end(done)
-    })
+        .end(done);
+    });
 
     it('should fail on invalid password', function (done) {
       agent
@@ -80,9 +68,9 @@ describe('Session Controller', function () {
         .expect(400)
         .expect('Content-Type', /json/)
         .expect({"errors":{"password":{"type":"Password is incorrect."}}})
-        .end(done)
-    })
-  })
+        .end(done);
+    });
+  });
 
   describe('Test Logout', function () {
     it('should logout', function (done) {
@@ -93,7 +81,7 @@ describe('Session Controller', function () {
           email: 'test@test.com',
           password: 'password'
         })
-        .end(done)
+        .end(done);
       });
 
       agent
@@ -103,8 +91,8 @@ describe('Session Controller', function () {
           password: 'password'
         })
         .expect(200)
-        .end(done)
-    })
+        .end(done);
+    });
 
     it('should fail if not logged in', function (done) {
       agent
@@ -115,13 +103,8 @@ describe('Session Controller', function () {
         })
         .expect(400)
         .expect('Not logged in')
-        .end(done)
-    })
-  })
-
-  after(function(done) {
-    User.remove().exec();
-    return done();
+        .end(done);
+    });
   });
 
-})
+});

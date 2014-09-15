@@ -1,0 +1,4 @@
+{
+  "globalstrict": true,
+  "predef": ["global", "require", "process", "request", "app", "describe", "before", "resetDB", "it", "session_user", "before", "assert", "agent"]
+}

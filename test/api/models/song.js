@@ -1,8 +1,10 @@
+'use strict';
+
 var Song = require('../../../api/models/song');
 
 describe('Song', function() {
-  var song
-  var now = Date()
+  var song;
+  var now = Date();
 
   before(function (done) {
     Song.create({

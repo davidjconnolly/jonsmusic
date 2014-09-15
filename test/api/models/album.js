@@ -1,8 +1,10 @@
+'use strict';
+
 var Album = require('../../../api/models/album');
 
 describe('Album', function() {
-  var album
-  var now = Date()
+  var album;
+  var now = Date();
 
   before(function (done) {
     Album.create({
@@ -17,10 +19,10 @@ describe('Album', function() {
   });
 
   it("sets all fields properly", function(){
-    assert.equal('foo title', album.title)
-    assert.equal('foo description', album.description)
-    assert.equal(now, album.date)
-    assert.equal(false, album.published)
+    assert.equal('foo title', album.title);
+    assert.equal('foo description', album.description);
+    assert.equal(now, album.date);
+    assert.equal(false, album.published);
   });
 
 });
