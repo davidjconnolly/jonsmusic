@@ -35,6 +35,28 @@ describe('Session Controller', function () {
         .end(done)
     })
 
+    it('should get user info', function (done) {
+      before(function(done) {
+        agent
+        .post('/auth/session')
+        .send({
+          email: 'test@test.com',
+          password: 'password'
+        })
+        .end(done)
+      });
+
+      agent
+        .get('/auth/session')
+        .expect(200)
+        .expect({
+          "_id": user.id,
+          "email": "test@test.com",
+          "username": "Foo User"
+        })
+        .end(done)
+    })
+
     it('should fail on invalid email', function (done) {
       agent
         .post('/auth/session')
