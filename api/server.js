@@ -8,7 +8,6 @@ require('./config/passport.js');
 var express    = require('express');
 var passport   = require('passport');
 var session    = require('express-session');
-var flash      = require('connect-flash');
 var bodyParser = require('body-parser');
 var path       = require('path');
 var mongoose   = require('mongoose');
