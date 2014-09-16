@@ -18,11 +18,11 @@ var favicon    = require('serve-favicon');
 app.connection = mongoose.connect(process.env.DATABASE_URI, {});
 
 // Set up resources
-app.use('/js', express.static(path.join(__dirname, '..', 'tmp', 'js')));
-app.use('/css', express.static(path.join(__dirname, '..', 'tmp', 'css')));
-app.use('/fonts', express.static(path.join(__dirname, '..', 'tmp', 'fonts')));
-app.use('/views', express.static(path.join(__dirname, '..', 'tmp', 'views')));
-app.use(favicon(path.join(__dirname, '..', 'tmp', 'favicon.ico')));
+app.use('/js', express.static(path.join(__dirname, '..', 'app/public', 'js')));
+app.use('/css', express.static(path.join(__dirname, '..', 'app/public', 'css')));
+app.use('/fonts', express.static(path.join(__dirname, '..', 'app/public', 'fonts')));
+app.use('/views', express.static(path.join(__dirname, '..', 'app/public', 'views')));
+app.use(favicon(path.join(__dirname, '..', 'app/public', 'favicon.ico')));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 

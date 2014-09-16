@@ -2,3 +2,4 @@ local.env.js
 node_modules
 bower_components
 public
+tmp
