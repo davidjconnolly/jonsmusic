@@ -16,6 +16,7 @@ var path       = require('path');
 var mongoose   = require('mongoose');
 var app        = express();
 var favicon    = require('serve-favicon');
+var port       = process.env.PORT || 3000
 
 // Connect to database
 app.connection = mongoose.connect(process.env.DATABASE_URI, {});
@@ -42,7 +43,7 @@ app.use(passport.session());
 require('./routes.js')(app, passport);
 
 // Start App
-var server = app.listen(3000, function() {
+var server = app.listen(port, function() {
     console.log('Listening on port %d', server.address().port);
 });
 
