@@ -4,7 +4,7 @@
   "description": "A personal website for my brother to share his musical gift with the internets!",
   "main": "api/server.js",
   "engines": {
-    "node": "^0.10.0"
+    "node": "0.10.32"
   },
   "scripts": {
     "start": "node api/server.js",
