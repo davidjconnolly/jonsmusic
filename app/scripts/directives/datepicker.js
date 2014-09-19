@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('jonsmusicApp')
-  .directive('jaDatePicker', function () {
+  .directive('datePicker', function () {
   return {
+      restrict: 'E',
+      templateUrl: '/views/templates/datepicker.html',
+      transclude: true,
       scope: {
         bind: '='
       },
-      templateUrl: '/views/templates/ja_datepicker.html',
-      transclude: true,
       controller: function ($scope) {
         $scope.open = function($event) {
           $event.preventDefault();

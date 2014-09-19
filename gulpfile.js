@@ -129,7 +129,7 @@ gulp.task('html-views', function () {
 
 // Watch Files For Changes
 gulp.task('watch', function() {
-  gulp.watch(paths.scripts, ['jshint', 'scripts']);
+  gulp.watch(paths.scripts, ['jshint-api', 'jshint-app', 'scripts']);
   gulp.watch(paths.styles, ['styles']);
   gulp.watch(paths.public, ['html-public']);
   gulp.watch(paths.views, ['html-views']);

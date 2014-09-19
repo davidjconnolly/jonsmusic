@@ -2,7 +2,7 @@
 
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
-if (!process.env.NODE_ENV == 'production'){
+if (process.env.NODE_ENV != 'production'){
   require('./config/local.env.js');
 }
 
@@ -16,7 +16,7 @@ var path       = require('path');
 var mongoose   = require('mongoose');
 var app        = express();
 var favicon    = require('serve-favicon');
-var port       = process.env.PORT || 3000
+var port       = process.env.PORT || 3000;
 
 // Connect to database
 app.connection = mongoose.connect(process.env.DATABASE_URI, {});
