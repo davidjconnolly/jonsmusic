@@ -8,7 +8,7 @@
   },
   "scripts": {
     "start": "node api/server.js",
-    "postinstall": "bower install --production"
+    "postinstall": "bower install --production && gulp build"
   },
   "repository": {
     "type": "git",

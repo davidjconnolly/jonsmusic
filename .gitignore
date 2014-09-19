@@ -1,8 +1,4 @@
 local.env.js
 node_modules
 bower_components
-app/public/css
-app/public/fonts
-app/public/js
-app/public/views
 tmp
