@@ -1,6 +1,7 @@
 'use strict';
 
 /*global app: true*/
+/*global agent: true*/
 /*global request: true*/
 /*global session_user: true*/
 
@@ -19,6 +20,7 @@ global.expect = chai.expect;
 global.assert = chai.assert;
 global.agent = agent;
 global.app = app;
+global.auth_key = '';
 
 global.session_user = session_user;
 global.resetDB = function(done) {
@@ -30,4 +32,13 @@ global.resetDB = function(done) {
     });
     global.session_user.save(done);
   });
+};
+global.loginUser = function(done) {
+  global.agent
+    .post('/auth/session')
+    .send({
+      email: 'test@test.com',
+      password: 'password'
+    })
+    .end(done);
 };

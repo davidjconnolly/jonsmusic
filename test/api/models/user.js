@@ -1,10 +1,9 @@
 'use strict';
 
 var User = require('../../../api/models/user');
+var user;
 
-describe('User', function() {
-  var user;
-
+describe('User Model', function() {
   before(function(done) {
     resetDB(done);
   });
@@ -20,12 +19,11 @@ describe('User', function() {
     });
   });
 
-  it("sets all fields properly", function(){
+  it("sets all fields", function(){
     assert.equal('testCreate@test.com', user.email);
     assert.equal('Foo Create', user.username);
     assert(user.hashedPassword);
     assert(user.salt);
-    // assert.equal(undefined, user.password);
   });
 
 });

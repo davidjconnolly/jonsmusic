@@ -1,11 +1,11 @@
 'use strict';
 
 describe('Session Controller', function () {
-  before(function(done) {
+  beforeEach(function(done) {
     resetDB(done);
   });
 
-  describe('Test Login', function () {
+  describe('logged out actions', function () {
     it('should login', function (done) {
       agent
         .post('/auth/session')
@@ -15,28 +15,6 @@ describe('Session Controller', function () {
         })
         .expect(200)
         .expect('Content-Type', /json/)
-        .expect({
-          "_id": session_user.id,
-          "email": "test@test.com",
-          "username": "Foo User"
-        })
-        .end(done);
-    });
-
-    it('should get user info', function (done) {
-      before(function(done) {
-        agent
-        .post('/auth/session')
-        .send({
-          email: 'test@test.com',
-          password: 'password'
-        })
-        .end(done);
-      });
-
-      agent
-        .get('/auth/session')
-        .expect(200)
         .expect({
           "_id": session_user.id,
           "email": "test@test.com",
@@ -70,29 +48,6 @@ describe('Session Controller', function () {
         .expect({"errors":{"password":{"type":"Password is incorrect."}}})
         .end(done);
     });
-  });
-
-  describe('Test Logout', function () {
-    it('should logout', function (done) {
-      before(function(done) {
-        agent
-        .post('/auth/session')
-        .send({
-          email: 'test@test.com',
-          password: 'password'
-        })
-        .end(done);
-      });
-
-      agent
-        .del('/auth/session')
-        .send({
-          email: 'test@test.com',
-          password: 'password'
-        })
-        .expect(200)
-        .end(done);
-    });
 
     it('should fail if not logged in', function (done) {
       agent
@@ -107,4 +62,33 @@ describe('Session Controller', function () {
     });
   });
 
+  describe('logged in actions', function () {
+    beforeEach(function(done) {
+      loginUser(done);
+    });
+
+    it('should logout', function (done) {
+      agent
+        .del('/auth/session')
+        .send({
+          email: 'test@test.com',
+          password: 'password'
+        })
+        .expect(200)
+        .end(done);
+    });
+
+    it('should get user info', function (done) {
+      agent
+        .get('/auth/session')
+        .expect(200)
+        .expect({
+          "_id": session_user.id,
+          "email": "test@test.com",
+          "username": "Foo User"
+        })
+        .end(done);
+    });
+
+  });
 });
