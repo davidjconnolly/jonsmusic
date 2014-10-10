@@ -181,7 +181,7 @@ gulp.task('test', [
 // -- Helper functions -------------------------------------------------------
 
 function runTests() {
-  return gulp.src(['test/**/*.js'], {read: false}).pipe(mocha({
+  return gulp.src(['test/api/**/*.js'], {read: false}).pipe(mocha({
     r: 'test/test_helper.js',
     R: 'spec',
     c: true,
