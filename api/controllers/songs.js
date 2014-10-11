@@ -44,7 +44,7 @@ exports.destroy = function(req, res) {
     if(!song) { return res.send(404); }
     song.remove(function(err) {
       if(err) { return handleError(res, err); }
-      return res.send(204);
+      return res.send(200);
     });
   });
 };
