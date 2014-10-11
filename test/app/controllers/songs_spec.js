@@ -36,6 +36,7 @@ describe('songsController Test', function() {
         "lyrics": ""
       }
       scope.formData = song
+      httpBackend.expectPOST('/api/songs').respond(200, song);
       httpBackend.expectGET('/api/songs').respond(songFixtures.concat(song))
 
       scope.createSong();

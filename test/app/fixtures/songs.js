@@ -21,7 +21,6 @@ fixtures.value('songFixtures', songFixtures);
 fixtures.factory('mockSongService', function() {
   return function(httpBackend){
     httpBackend.whenGET('/api/songs').respond(songFixtures);
-    httpBackend.whenPOST('/api/songs').respond(200, '');
     httpBackend.whenGET('/api/songs/1').respond(songFixtures[0]);
     httpBackend.whenDELETE('/api/songs/1').respond(200, '');
     null
