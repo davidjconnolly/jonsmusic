@@ -149,7 +149,7 @@ gulp.task('run-app-tests', function () {
 // Watch Files For Changes
 gulp.task('watch', function() {
   gulp.watch(paths.app_scripts, ['jshint-app', 'app_scripts']);
-  gulp.watch(paths.api_scripts, ['jshint-api', 'api_scripts']);
+  gulp.watch(paths.api_scripts, ['jshint-api']);
   gulp.watch(paths.styles, ['styles']);
   gulp.watch(paths.public, ['html-public']);
   gulp.watch(paths.views, ['html-views']);
@@ -161,8 +161,8 @@ gulp.task('watch', function() {
 gulp.task('nodemon', function () {
   nodemon({
     script: 'api/server.js',
-    watch: ['api'],
-    ext: 'js',
+    watch: ['app', 'api'],
+    ext: 'js html',
     env: { 'NODE_ENV': 'development' }
   })
 })
