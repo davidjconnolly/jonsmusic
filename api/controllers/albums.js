@@ -44,7 +44,7 @@ exports.destroy = function(req, res) {
     if(!album) { return res.send(404); }
     album.remove(function(err) {
       if(err) { return handleError(res, err); }
-      return res.send(204);
+      return res.send(200);
     });
   });
 };

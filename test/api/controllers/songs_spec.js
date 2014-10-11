@@ -1,21 +1,21 @@
 'use strict';
 
-var Album = require('../../../api/models/album');
-var album;
+var Song = require('../../../api/models/song');
+var song;
 var now = new Date(Date()).toISOString();
 
-describe('Albums Controller', function () {
+describe('Songs Controller', function () {
   before(function(done) {
     resetDB(done);
   });
 
   before(function (done) {
-    Album.create({
+    Song.create({
       title : "foo title",
-      description : "foo description",
+      lyrics : "foo lyrics",
       date : now
     }).then(function (a) {
-      album = a;
+      song = a;
       done();
     });
   });
@@ -24,78 +24,78 @@ describe('Albums Controller', function () {
     loginUser(done);
   });
 
-  it('should get a list of albums', function (done) {
+  it('should get a list of songs', function (done) {
     agent
-      .get('/api/albums')
+      .get('/api/songs')
       .expect(200)
       .expect('Content-Type', /json/)
       .expect([{
-        "_id": album.id,
+        "_id": song.id,
         "title": "foo title",
-        "description": "foo description",
+        "lyrics": "foo lyrics",
         "date": now,
         "__v": 0
       }])
       .end(done);
   });
 
-  it('should show one album', function (done) {
+  it('should show one song', function (done) {
     agent
-      .get('/api/albums/' + album.id)
+      .get('/api/songs/' + song.id)
       .expect(200)
       .expect('Content-Type', /json/)
       .expect({
-        "_id": album.id,
+        "_id": song.id,
         "title": "foo title",
-        "description": "foo description",
+        "lyrics": "foo lyrics",
         "date": now,
         "__v": 0
       })
       .end(done);
   });
 
-  it('should create a album', function (done) {
+  it('should create a song', function (done) {
     agent
-      .post('/api/albums')
+      .post('/api/songs')
       .send({
         title : "foo title 2",
-        description : "foo description 2",
+        lyrics : "foo lyrics 2",
         date : now
       })
       .expect(201)
       .expect('Content-Type', /json/)
       .expect(/"title":"foo title 2"/)
-      .expect(/"description":"foo description 2"/)
+      .expect(/"lyrics":"foo lyrics 2"/)
       .expect(new RegExp("\"date\":\"" + now + "\""))
       .expect(/"_id":/)
       .end(done);
   });
 
-  it('should update a album', function (done) {
+  it('should update a song', function (done) {
     agent
-      .put('/api/albums/' + album.id)
+      .put('/api/songs/' + song.id)
       .send({
         title : "foo title 3",
-        description : "foo description 3",
+        lyrics : "foo lyrics 3",
         date : now
       })
       .expect(200)
       .expect('Content-Type', /json/)
       .expect({
-        "_id": album.id,
+        "_id": song.id,
         "title": "foo title 3",
-        "description": "foo description 3",
+        "lyrics": "foo lyrics 3",
         "date": now,
         "__v": 0
       })
       .end(done);
   });
 
-  it('should destroy a album', function (done) {
+  it('should destroy a song', function (done) {
     agent
-      .delete('/api/albums/' + album.id)
-      .expect(204)
-      .expect('')
+      .delete('/api/songs/' + song.id)
+      .expect(200)
+      .expect('OK')
       .end(done);
   });
 

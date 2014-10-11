@@ -8,12 +8,12 @@
 process.env.NODE_ENV = 'test';
 
 var chai = require("chai");
-var app = require('../api/server');
+var app = require('../../api/server');
 var request = require('supertest');
 var agent = request.agent(app);
 var mongoose = require('mongoose');
 var clearDB  = require('mocha-mongoose')(process.env.DATABASE_URI);
-var User = require('../api/models/user');
+var User = require('../../api/models/user');
 var session_user;
 
 global.expect = chai.expect;
