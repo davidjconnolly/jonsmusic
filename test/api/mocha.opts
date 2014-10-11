@@ -1,0 +1,2 @@
+--require test/api/test_helper
+--recursive

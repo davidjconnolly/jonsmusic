@@ -1,6 +1,6 @@
 module.exports = function(config) {
   config.set({
-    basePath: '../',
+    basePath: '../../',
     frameworks: ['mocha', 'chai'],
     reporters: ['progress'],
     browsers: ['PhantomJS'],
@@ -8,8 +8,6 @@ module.exports = function(config) {
 
     // these are default values anyway
     singleRun: false,
-    colors: true,
-
-    exclude: ['test/api/**/*.js']
+    colors: true
   });
 };

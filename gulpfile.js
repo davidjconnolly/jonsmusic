@@ -10,7 +10,6 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var mocha = require('gulp-spawn-mocha');
 var karma = require('gulp-karma');
-var runSequence = require('run-sequence');
 
 var paths = {
   api_scripts: ['api/**/*.js'],
@@ -129,7 +128,7 @@ gulp.task('html-views', function () {
 // Server
 gulp.task('run-api-tests', function () {
   gulp.src(paths.api_tests, {read: false}).pipe(mocha({
-    r: 'test/test_helper.js',
+    r: 'test/api/test_helper.js',
     R: 'spec',
     c: true,
     debug: false
@@ -140,7 +139,7 @@ gulp.task('run-api-tests', function () {
 gulp.task('run-app-tests', function () {
   gulp.src(paths.vendor_scripts.concat(paths.app_scripts, paths.vendor_scripts_test, paths.app_tests))
     .pipe(karma({
-      configFile: 'test/karma.conf.js'
+      configFile: 'test/app/karma.conf.js'
     })).on('error', console.warn.bind(console));
 });
 
