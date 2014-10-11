@@ -77,7 +77,7 @@ angular.module('jonsmusicApp')
               .success(function(data) {
                 $scope.loading = false;
                 $scope.formData = {};
-                $scope.albums = data;
+                $scope.album = data;
                 $location.path('/albums');
               });
           }
