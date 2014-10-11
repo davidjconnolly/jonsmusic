@@ -14,7 +14,7 @@ var songFixtures = [
     "date": "2004-02-24T13:44:29.853Z",
     "lyrics": "<p><u>Lorem ipsum dolor</u> sit amet, <b>eu usu prompta ponderum dissentiet</b>, est agam putant eripuit ne, id aliquip discere delicatissimi cum.</p>"
   }
-]
+];
 
 fixtures.value('songFixtures', songFixtures);
 
@@ -23,6 +23,6 @@ fixtures.factory('mockSongService', function() {
     httpBackend.whenGET('/api/songs').respond(songFixtures);
     httpBackend.whenGET('/api/songs/1').respond(songFixtures[0]);
     httpBackend.whenDELETE('/api/songs/1').respond(200, '');
-    null
+    return null;
   };
 });

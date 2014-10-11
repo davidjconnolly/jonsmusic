@@ -1,43 +1,44 @@
+'use strict';
+
 describe('songsController Test', function() {
-  var httpBackend
-  var controller
-  var scope
-  var routeParams
-  var songFixtures
+  var httpBackend;
+  var controller;
+  var scope;
+  var routeParams;
+  var songFixtures;
 
   beforeEach(module('jonsmusicApp', 'fixtures'));
 
   beforeEach(inject(function($httpBackend, $controller, $rootScope, $routeParams, mockSongService, _songFixtures_) {
-    mockSongService($httpBackend)
-    httpBackend = $httpBackend
-    controller = $controller
-    rootScope = $rootScope
-    rootParams = $routeParams
-    scope = $rootScope.$new()
+    mockSongService($httpBackend);
+    httpBackend = $httpBackend;
+    controller = $controller;
+    routeParams = $routeParams;
+    scope = $rootScope.$new();
 
-    songFixtures = _songFixtures_
+    songFixtures = _songFixtures_;
   }));
 
   describe('Controller: songsListController', function () {
     beforeEach(function() {
-      controller('songsListController', { $scope: scope })
+      controller('songsListController', { $scope: scope });
       httpBackend.flush();
-    })
+    });
     
     it('should return songs index', function() {
       assert.deepEqual(scope.songs, songFixtures);
     });
 
     it('should crete a song', function() {
-      song = {
+      var song = {
         "id": 3,
         "title": "Foo Create Song",
         "date": "1995-02-24T13:44:29.853Z",
         "lyrics": ""
-      }
-      scope.formData = song
+      };
+      scope.formData = song;
       httpBackend.expectPOST('/api/songs').respond(200, song);
-      httpBackend.expectGET('/api/songs').respond(songFixtures.concat(song))
+      httpBackend.expectGET('/api/songs').respond(songFixtures.concat(song));
 
       scope.createSong();
 
@@ -47,7 +48,7 @@ describe('songsController Test', function() {
     });
 
     it('should delete a song', function() {
-      httpBackend.expectGET('/api/songs').respond(songFixtures[1])
+      httpBackend.expectGET('/api/songs').respond(songFixtures[1]);
 
       scope.deleteSong(1);
 
@@ -59,26 +60,26 @@ describe('songsController Test', function() {
 
   describe('Controller: songsDetailController', function () {
     beforeEach(function() {
-      routeParams = { songId: 1 }
-      controller('songsDetailController', { $scope: scope, $routeParams: routeParams })
+      routeParams = { songId: 1 };
+      controller('songsDetailController', { $scope: scope, $routeParams: routeParams });
       httpBackend.flush();
-    })
+    });
     
     it('should return song', function() {
       assert.deepEqual(scope.song, songFixtures[0]);
     });
 
     it('should update a song', function() {
-      updated_song = {
+      var updated_song = {
         "_id": 1,
         "title": "Foo Updated Song",
         "date": "2005-03-12T01:32:32.853Z",
         "lyrics": "Now has Lyrics"
-      }
-      scope.formData = updated_song
+      };
+      scope.formData = updated_song;
       httpBackend.expectPUT('/api/songs/1').respond(updated_song);
 
-      scope.updateSong()
+      scope.updateSong();
 
       httpBackend.flush();
       assert.deepEqual(scope.song, updated_song);

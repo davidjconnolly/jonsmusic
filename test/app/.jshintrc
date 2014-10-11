@@ -1,0 +1,4 @@
+{
+  "globalstrict": true,
+  "predef": ["angular", "module", "rootScope", "rootParams", "describe", "it", "beforeEach", "assert", "inject"]
+}

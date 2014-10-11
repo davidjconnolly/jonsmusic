@@ -9,17 +9,16 @@ var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var mocha = require('gulp-spawn-mocha');
+var karma = require('gulp-karma');
+var runSequence = require('run-sequence');
 
 var paths = {
-  api: [
-    'api/**/*.js'
-  ],
-  scripts: [
-    'app/app.js',
-    'app/scripts/services/*.js',
-    'app/scripts/directives/*.js',
-    'app/scripts/controllers/*.js'
-  ],
+  api_scripts: ['api/**/*.js'],
+  app_scripts: ['app/**/*.js'],
+  styles: ['app/styles/**/*.scss'],
+  views: ['app/views/**/*'],
+  public: ['app/public/**/*'],
+
   vendor_scripts: [
     'bower_components/angular/angular.js',
     'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
@@ -32,9 +31,6 @@ var paths = {
     'bower_components/moment/moment.js',
     'bower_components/angular-moment/angular-moment.js'
   ],
-  styles: [
-    'app/styles/**/*.scss'
-  ],
   vendor_styles: [
     'bower_components/bootstrap/dist/css/bootstrap.css',
     'bower_components/font-awesome/scss/font-awesome.scss'
@@ -42,38 +38,41 @@ var paths = {
   vendor_fonts: [
     'bower_components/font-awesome/fonts/**/*'
   ],
-  views: [
-    'app/views/**/*'
+  vendor_scripts_test: [
+    'bower_components/angular-mocks/angular-mocks.js'
   ],
-  public: [
-    'app/public/**/*'
-  ]
+  api_tests: ['test/api/**/*.js'],
+  app_tests: ['test/app/**/*.js']
 }
 
 // -- JSHint -----------------------------------------------------------------
 
 // Server
 gulp.task('jshint-api', function() {
-  return gulp.src(paths.api)
+  return gulp.src(paths.api_scripts)
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
+gulp.task('jshint-test-api', function() {
+  return gulp.src(paths.api_tests)
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
 
 // Client
 gulp.task('jshint-app', function() {
-  return gulp.src(paths.scripts)
+  return gulp.src(paths.app_scripts)
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'));
+});
+gulp.task('jshint-test-app', function() {
+  return gulp.src(paths.app_tests)
     .pipe(jshint())
     .pipe(jshint.reporter('default'));
 });
 
-// Tests
-gulp.task('jshint-test', function() {
-  return gulp.src('test/**/*.js')
-    .pipe(jshint())
-    .pipe(jshint.reporter('default'));
-});
 
-// -- Assets ----------------------------------------------------------------
+// -- Compile Assets ---------------------------------------------------------
 
 // Scripts
 gulp.task('vendor-scripts', function() {
@@ -84,8 +83,8 @@ gulp.task('vendor-scripts', function() {
     .pipe(uglify())
     .pipe(gulp.dest('./deploy/public/js'));
 });
-gulp.task('scripts', function() {
-  return gulp.src(paths.scripts)
+gulp.task('app_scripts', function() {
+  return gulp.src(paths.app_scripts)
     .pipe(concat('application.js'))
     .pipe(gulp.dest('./deploy/public/js'))
     .pipe(rename('application.min.js'))
@@ -125,17 +124,38 @@ gulp.task('html-views', function () {
     .pipe(gulp.dest('./deploy/public/views'))
 })
 
+// -- Test ------------------------------------------------------------------
+
+// Server
+gulp.task('run-api-tests', function () {
+  gulp.src(paths.api_tests, {read: false}).pipe(mocha({
+    r: 'test/test_helper.js',
+    R: 'spec',
+    c: true,
+    debug: false
+  })).on('error', console.warn.bind(console));
+});
+
+// Client
+gulp.task('run-app-tests', function () {
+  gulp.src(paths.vendor_scripts.concat(paths.app_scripts, paths.vendor_scripts_test, paths.app_tests))
+    .pipe(karma({
+      configFile: 'test/karma.conf.js'
+    })).on('error', console.warn.bind(console));
+});
+
 // -- Watch -----------------------------------------------------------------
 
 // Watch Files For Changes
 gulp.task('watch', function() {
-  gulp.watch(paths.scripts, ['jshint-api', 'jshint-app', 'scripts']);
+  gulp.watch(paths.app_scripts, ['jshint-app', 'app_scripts']);
+  gulp.watch(paths.api_scripts, ['jshint-api', 'api_scripts']);
   gulp.watch(paths.styles, ['styles']);
   gulp.watch(paths.public, ['html-public']);
   gulp.watch(paths.views, ['html-views']);
 });
 
-// -- Sub-Tasks -----------------------------------------------------------------
+// -- Sub-Tasks --------------------------------------------------------------
 
 // Nodemon
 gulp.task('nodemon', function () {
@@ -147,44 +167,33 @@ gulp.task('nodemon', function () {
   })
 })
 
-// Run tests
-gulp.task('runTests', function () {
-  return runTests().on('error', function (e) {
-    throw e;
-  });
-});
-
 // -- Tasks -----------------------------------------------------------------
 
-// Default
+// Default - Start Server
 gulp.task('default', [
-  'jshint-api', 'jshint-app', 'watch', 'nodemon',
-  'vendor-scripts', 'scripts',
+  'jshint-api', 'jshint-app',
+  'vendor-scripts', 'app_scripts',
   'vendor-styles', 'styles',
   'vendor-fonts',
-  'html-public', 'html-views'
+  'html-public', 'html-views',
+  'watch', 'nodemon'
 ]);
 
 // Build
 gulp.task('build', [
-  'vendor-scripts', 'scripts',
+  'vendor-scripts', 'app_scripts',
   'vendor-styles', 'styles',
   'vendor-fonts',
   'html-public', 'html-views'
 ]);
 
 // Test
-gulp.task('test', [
-  'jshint-test', 'runTests'
+gulp.task('test-api', [
+  'jshint-test-api',
+  'run-api-tests'
+]);
+gulp.task('test-app', [
+  'jshint-test-app',
+  'run-app-tests'
 ]);
 
-// -- Helper functions -------------------------------------------------------
-
-function runTests() {
-  return gulp.src(['test/api/**/*.js'], {read: false}).pipe(mocha({
-    r: 'test/test_helper.js',
-    R: 'spec',
-    c: true,
-    debug: true
-  })).on('error', console.warn.bind(console));
-}

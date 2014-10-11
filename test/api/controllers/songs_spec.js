@@ -94,8 +94,8 @@ describe('Songs Controller', function () {
   it('should destroy a song', function (done) {
     agent
       .delete('/api/songs/' + song.id)
-      .expect(204)
-      .expect('')
+      .expect(200)
+      .expect('OK')
       .end(done);
   });
 

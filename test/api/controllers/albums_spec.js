@@ -94,8 +94,8 @@ describe('Albums Controller', function () {
   it('should destroy a album', function (done) {
     agent
       .delete('/api/albums/' + album.id)
-      .expect(204)
-      .expect('')
+      .expect(200)
+      .expect('OK')
       .end(done);
   });
 
