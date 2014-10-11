@@ -29,14 +29,18 @@ describe('Albums Controller', function () {
       .get('/api/albums')
       .expect(200)
       .expect('Content-Type', /json/)
-      .expect([{
-        "_id": album.id,
-        "title": "foo title",
-        "description": "foo description",
-        "date": now,
-        "__v": 0
-      }])
-      .end(done);
+      .end(function (err, res) {
+        if (err) {
+          done(err);
+        }
+        var albums = res.body;
+        assert.equal(albums.length, 1);
+        assert.equal(albums[0]._id, album.id);
+        assert.equal(albums[0].title, album.title);
+        assert.equal(albums[0].description, album.description);
+        assert.equal(albums[0].date, now);
+        done();
+      });
   });
 
   it('should show one album', function (done) {
@@ -44,14 +48,16 @@ describe('Albums Controller', function () {
       .get('/api/albums/' + album.id)
       .expect(200)
       .expect('Content-Type', /json/)
-      .expect({
-        "_id": album.id,
-        "title": "foo title",
-        "description": "foo description",
-        "date": now,
-        "__v": 0
-      })
-      .end(done);
+      .end(function (err, res) {
+        if (err) {
+          done(err);
+        }
+        assert.equal(res.body._id, album.id);
+        assert.equal(res.body.title, album.title);
+        assert.equal(res.body.description, album.description);
+        assert.equal(res.body.date, now);
+        done();
+      });
   });
 
   it('should create a album', function (done) {
@@ -64,11 +70,16 @@ describe('Albums Controller', function () {
       })
       .expect(201)
       .expect('Content-Type', /json/)
-      .expect(/"title":"foo title 2"/)
-      .expect(/"description":"foo description 2"/)
-      .expect(new RegExp("\"date\":\"" + now + "\""))
-      .expect(/"_id":/)
-      .end(done);
+      .end(function (err, res) {
+        if (err) {
+          done(err);
+        }
+        assert.isDefined(res.body._id);
+        assert.equal(res.body.title, "foo title 2");
+        assert.equal(res.body.description, "foo description 2");
+        assert.equal(res.body.date, now);
+        done();
+      });
   });
 
   it('should update a album', function (done) {
@@ -81,14 +92,16 @@ describe('Albums Controller', function () {
       })
       .expect(200)
       .expect('Content-Type', /json/)
-      .expect({
-        "_id": album.id,
-        "title": "foo title 3",
-        "description": "foo description 3",
-        "date": now,
-        "__v": 0
-      })
-      .end(done);
+      .end(function (err, res) {
+        if (err) {
+          done(err);
+        }
+        assert.equal(res.body._id, album.id);
+        assert.equal(res.body.title, "foo title 3");
+        assert.equal(res.body.description, "foo description 3");
+        assert.equal(res.body.date, now);
+        done();
+      });
   });
 
   it('should destroy a album', function (done) {

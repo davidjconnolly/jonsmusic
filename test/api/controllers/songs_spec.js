@@ -29,14 +29,18 @@ describe('Songs Controller', function () {
       .get('/api/songs')
       .expect(200)
       .expect('Content-Type', /json/)
-      .expect([{
-        "_id": song.id,
-        "title": "foo title",
-        "lyrics": "foo lyrics",
-        "date": now,
-        "__v": 0
-      }])
-      .end(done);
+      .end(function (err, res) {
+        if (err) {
+          done(err);
+        }
+        var songs = res.body;
+        assert.equal(songs.length, 1);
+        assert.equal(songs[0]._id, song.id);
+        assert.equal(songs[0].title, song.title);
+        assert.equal(songs[0].lyrics, song.lyrics);
+        assert.equal(songs[0].date, now);
+        done();
+      });
   });
 
   it('should show one song', function (done) {
@@ -44,14 +48,16 @@ describe('Songs Controller', function () {
       .get('/api/songs/' + song.id)
       .expect(200)
       .expect('Content-Type', /json/)
-      .expect({
-        "_id": song.id,
-        "title": "foo title",
-        "lyrics": "foo lyrics",
-        "date": now,
-        "__v": 0
-      })
-      .end(done);
+      .end(function (err, res) {
+        if (err) {
+          done(err);
+        }
+        assert.equal(res.body._id, song.id);
+        assert.equal(res.body.title, song.title);
+        assert.equal(res.body.lyrics, song.lyrics);
+        assert.equal(res.body.date, now);
+        done();
+      });
   });
 
   it('should create a song', function (done) {
@@ -62,13 +68,16 @@ describe('Songs Controller', function () {
         lyrics : "foo lyrics 2",
         date : now
       })
-      .expect(201)
-      .expect('Content-Type', /json/)
-      .expect(/"title":"foo title 2"/)
-      .expect(/"lyrics":"foo lyrics 2"/)
-      .expect(new RegExp("\"date\":\"" + now + "\""))
-      .expect(/"_id":/)
-      .end(done);
+      .end(function (err, res) {
+        if (err) {
+          done(err);
+        }
+        assert.isDefined(res.body._id);
+        assert.equal(res.body.title, "foo title 2");
+        assert.equal(res.body.lyrics, "foo lyrics 2");
+        assert.equal(res.body.date, now);
+        done();
+      });
   });
 
   it('should update a song', function (done) {
@@ -81,14 +90,16 @@ describe('Songs Controller', function () {
       })
       .expect(200)
       .expect('Content-Type', /json/)
-      .expect({
-        "_id": song.id,
-        "title": "foo title 3",
-        "lyrics": "foo lyrics 3",
-        "date": now,
-        "__v": 0
-      })
-      .end(done);
+      .end(function (err, res) {
+        if (err) {
+          done(err);
+        }
+        assert.isDefined(res.body._id);
+        assert.equal(res.body.title, "foo title 3");
+        assert.equal(res.body.lyrics, "foo lyrics 3");
+        assert.equal(res.body.date, now);
+        done();
+      });
   });
 
   it('should destroy a song', function (done) {
