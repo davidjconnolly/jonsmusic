@@ -31,6 +31,7 @@
     "gulp-concat": "^2.3.5",
     "gulp-jshint": "^1.8.4",
     "gulp-mocha": "^1.1.0",
+    "gulp-karma": "0.0.4",
     "gulp-nodemon": "^1.0.3",
     "gulp-rename": "^1.2.0",
     "gulp-sass": "^0.7.3",
@@ -44,7 +45,6 @@
   "devDependencies": {
     "chai": "^1.9.1",
     "database-cleaner": "^0.7.0",
-    "gulp-karma": "0.0.4",
     "karma": "^0.12.24",
     "karma-chai": "^0.1.0",
     "karma-mocha": "^0.1.9",
