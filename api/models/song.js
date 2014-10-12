@@ -1,6 +1,6 @@
 'use strict';
 
-var AlbumSchema = require('../models/album.js');
+var AlbumSchema = require('./album.js');
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 

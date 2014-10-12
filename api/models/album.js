@@ -1,6 +1,6 @@
 'use strict';
 
-var SongScheme = require('../models/song.js');
+var SongSchema = require('./song.js');
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
@@ -9,7 +9,7 @@ var AlbumSchema = new Schema({
   description : String,
   date : Date,
   published: Boolean,
-  songs : [ SongScheme ]
+  songs : [ SongSchema ]
 });
 
 module.exports = mongoose.model('Album', AlbumSchema);

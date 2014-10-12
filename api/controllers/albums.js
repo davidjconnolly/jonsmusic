@@ -31,6 +31,7 @@ exports.update = function(req, res) {
     album.title = req.body.title;
     album.date = req.body.date || null;
     album.description = req.body.description || null;
+    album.songs = req.body.songs || null;
     album.save(function (err) {
       if (err) { return handleError(res, err); }
       return res.json(200, album);
