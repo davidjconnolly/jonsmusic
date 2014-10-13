@@ -12,7 +12,8 @@ jonsmusicApp = angular.module('jonsmusicApp', [
   'ui.bootstrap',
   'angularMoment',
   'angular-flash.service',
-  'angular-flash.flash-alert-directive'
+  'angular-flash.flash-alert-directive',
+  'angular-underscore'
 ])
 .config(function ($routeProvider, $locationProvider, $httpProvider, flashProvider) {
   $routeProvider

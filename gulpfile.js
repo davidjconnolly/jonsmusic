@@ -29,7 +29,9 @@ var paths = {
     'bower_components/angular-route/angular-route.js',
     'bower_components/moment/moment.js',
     'bower_components/angular-moment/angular-moment.js',
-    'bower_components/angular-flash/dist/angular-flash.js'
+    'bower_components/angular-flash/dist/angular-flash.js',
+    'bower_components/underscore/underscore.js',
+    'bower_components/angular-underscore/angular-underscore.js'
   ],
   vendor_styles: [
     'bower_components/bootstrap/dist/css/bootstrap.css',

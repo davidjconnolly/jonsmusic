@@ -82,7 +82,7 @@ angular.module('jonsmusicApp')
                 $location.path('/albums');
               }).error(function (error) {
                 $scope.loading = false;
-                $scope.flash.error = error;
+                $scope.flash.error = _.map(error.errors, function(error){ return error.message; }).join(', ');
               });
           }
         };
