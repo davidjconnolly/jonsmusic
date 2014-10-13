@@ -133,6 +133,7 @@ describe('Albums Controller', function () {
       agent
         .put('/api/albums/' + album.id)
         .send({
+          title : "foo title",
           songs : [ song ]
         })
         .expect(200)
@@ -142,7 +143,7 @@ describe('Albums Controller', function () {
             done(err);
           }
           assert.equal(res.body._id, album.id);
-          assert.equal(res.body.songs, [ song ]);
+          assert.deepEqual(res.body.songs, [ song.id ]);
           done();
         });
     });

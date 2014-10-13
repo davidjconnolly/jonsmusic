@@ -45,11 +45,12 @@ angular.module('jonsmusicApp')
       }]);
 
 angular.module('jonsmusicApp')
-  .controller('albumsDetailController', ['$scope', '$routeParams', '$location', '$filter', 'albumsService',
-    function($scope, $routeParams, $location, $filter, albumsService)
+  .controller('albumsDetailController', ['$scope', '$routeParams', '$location', '$filter', 'albumsService', 'flash',
+    function($scope, $routeParams, $location, $filter, albumsService, flash)
       {
         $scope.formData = {};
         $scope.loading = true;
+        $scope.flash = flash;
 
         albumsService.show($routeParams.albumId)
           .success(function(data) {
@@ -79,6 +80,9 @@ angular.module('jonsmusicApp')
                 $scope.formData = {};
                 $scope.album = data;
                 $location.path('/albums');
+              }).error(function (error) {
+                $scope.loading = false;
+                $scope.flash.error = error;
               });
           }
         };

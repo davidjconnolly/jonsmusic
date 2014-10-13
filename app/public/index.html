@@ -19,6 +19,9 @@
   <body ng-app="jonsmusicApp">
 
     <div ng-include="'views/partials/navbar.html'"></div>
+    <div ng-show="flash.message" flash-alert="error" active-class="in" class="alert fade">
+      <span class="alert-message">{{flash.message}}</span>
+    </div>
     <div ng-view=""></div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->

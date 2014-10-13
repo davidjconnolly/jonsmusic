@@ -1,15 +1,14 @@
 'use strict';
 
-var SongSchema = require('./song.js');
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 var AlbumSchema = new Schema({
-  title : String,
+  title : { type: String, required: true },
   description : String,
   date : Date,
   published: Boolean,
-  songs : [ SongSchema ]
+  songs : [ {type : mongoose.Schema.ObjectId, ref: 'Song'} ]
 });
 
 module.exports = mongoose.model('Album', AlbumSchema);

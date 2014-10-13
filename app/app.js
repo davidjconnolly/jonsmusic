@@ -10,9 +10,11 @@ jonsmusicApp = angular.module('jonsmusicApp', [
   'ngSanitize',
   'http-auth-interceptor',
   'ui.bootstrap',
-  'angularMoment'
+  'angularMoment',
+  'angular-flash.service',
+  'angular-flash.flash-alert-directive'
 ])
-.config(function ($routeProvider, $locationProvider, $httpProvider) {
+.config(function ($routeProvider, $locationProvider, $httpProvider, flashProvider) {
   $routeProvider
       .when('/songs', {
         controller: 'songsListController',
@@ -44,6 +46,8 @@ jonsmusicApp = angular.module('jonsmusicApp', [
       });
 
     $locationProvider.html5Mode(true);
+
+    flashProvider.errorClassnames.push('alert-danger');
   })
 .run(function ($rootScope, $location, authService) {
     //watching the value of the currentUser variable.

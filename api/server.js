@@ -18,6 +18,8 @@ var app        = express();
 var favicon    = require('serve-favicon');
 var port       = process.env.PORT || 3000;
 
+global._ = require('underscore');
+
 // Connect to database
 app.connection = mongoose.connect(process.env.DATABASE_URI, {});
 

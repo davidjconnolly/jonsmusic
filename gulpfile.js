@@ -28,7 +28,8 @@ var paths = {
     'bower_components/angular-sanitize/angular-sanitize.js',
     'bower_components/angular-route/angular-route.js',
     'bower_components/moment/moment.js',
-    'bower_components/angular-moment/angular-moment.js'
+    'bower_components/angular-moment/angular-moment.js',
+    'bower_components/angular-flash/dist/angular-flash.js'
   ],
   vendor_styles: [
     'bower_components/bootstrap/dist/css/bootstrap.css',
