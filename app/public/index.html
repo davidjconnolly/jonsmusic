@@ -19,7 +19,7 @@
   <body ng-app="jonsmusicApp">
 
     <div ng-include="'views/partials/navbar.html'"></div>
-    <div ng-show="flash.message" flash-alert active-class="in" class="alert fade">
+    <div ng-show="flash.message" flash-alert active-class="in alert" class="alert fade">
       <button type="button" class="close" ng-click="hide()">&times;</button>
       <span class="alert-message">{{flash.message}}</span>
     </div>

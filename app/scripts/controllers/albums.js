@@ -80,7 +80,8 @@ angular.module('jonsmusicApp')
                 $scope.formData = {};
                 $scope.album = data;
                 $location.path('/albums');
-              }).error(function (error) {
+              })
+              .error(function (error) {
                 $scope.loading = false;
                 $scope.flash.error = _.map(error.errors, function(error){ return error.message; }).join(', ');
               });
