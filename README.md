@@ -9,7 +9,7 @@ A personal website for my brother to share his musical gift with the internets!
 3. `npm install`
 4. `brew install mongodb`
 5. Copy local.env.example.js to local.env.js and make any required changes
-6. `gulp test` to run unit tests
+6. `gulp test-api` to run server Node unit tests, `gulp test-app` to run client Angular unit tests
 7. `gulp` to run a local server
 
 ## Stack
