@@ -31,11 +31,13 @@ var paths = {
     'bower_components/angular-moment/angular-moment.js',
     'bower_components/angular-flash/dist/angular-flash.js',
     'bower_components/underscore/underscore.js',
-    'bower_components/angular-underscore/angular-underscore.js'
+    'bower_components/angular-underscore/angular-underscore.js',
+    'bower_components/angular-ui-select/dist/select.min.js'
   ],
   vendor_styles: [
     'bower_components/bootstrap/dist/css/bootstrap.css',
-    'bower_components/font-awesome/scss/font-awesome.scss'
+    'bower_components/font-awesome/scss/font-awesome.scss',
+    'bower_components/angular-ui-select/dist/select.min.css'
   ],
   vendor_fonts: [
     'bower_components/font-awesome/fonts/**/*'

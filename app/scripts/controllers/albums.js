@@ -44,14 +44,27 @@ angular.module('jonsmusicApp')
         };
       }]);
 
+function updateAlbum(albumsService, scope, id, data) {
+  albumsService.update(id, data)
+    .success(function(data) {
+      scope.album = data;
+      scope.flash.success = "Album updated successfully";
+    })
+    .error(function (error) {
+      scope.flash.error = _.map(error.errors, function(error){ return error.message; }).join(', ');
+    });
+}
+
 angular.module('jonsmusicApp')
-  .controller('albumsDetailController', ['$scope', '$routeParams', '$location', '$filter', 'albumsService', 'flash',
-    function($scope, $routeParams, $location, $filter, albumsService, flash)
+  .controller('albumsDetailController', ['$scope', '$routeParams', '$location', '$filter', 'albumsService', 'songsService', 'flash',
+    function($scope, $routeParams, $location, $filter, albumsService, songsService, flash)
       {
         $scope.formData = {};
         $scope.loading = true;
         $scope.flash = flash;
+        $scope.song = {};
 
+        // Load Album and setup input form
         albumsService.show($routeParams.albumId)
           .success(function(data) {
             $scope.album = data;
@@ -66,25 +79,35 @@ angular.module('jonsmusicApp')
             $scope.loading = false;
           });
 
-        $scope.updateAlbum = function() {
-          if ($scope.formData.title !== undefined) {
-            $scope.loading = true;
+        // Listeners for Song selector
+        $scope.refreshSongs = function(value) {
+          songsService.index( { title: value } )
+            .success(function(data) {
+              $scope.songs = data;
+            });
+        };
+        $scope.$watch('song.selected', function(value) {
+          if (value) {
+            var songs = $scope.album.songs.concat(value);
 
-            if ($scope.formData.date) {
-              $scope.formData.date = moment.utc($scope.formData.date).format("YYYY/MM/DD");
-            }
-
-            albumsService.update($scope.album._id, $scope.formData)
-              .success(function(data) {
-                $scope.loading = false;
-                $scope.formData = {};
-                $scope.album = data;
-                $location.path('/albums');
-              })
-              .error(function (error) {
-                $scope.loading = false;
-                $scope.flash.error = _.map(error.errors, function(error){ return error.message; }).join(', ');
-              });
+            updateAlbum(albumsService, $scope, $scope.album._id, {songs: songs});
           }
+          $scope.song.selected = undefined;
+        });
+
+        $scope.removeSong = function(song) {
+          var songs = _.filter($scope.album.songs, function(item) {
+            return item._id !== song._id;
+          });
+
+          updateAlbum(albumsService, $scope, $scope.album._id, {songs: songs});
+        };
+
+        $scope.updateAlbum = function() {
+          if ($scope.formData.date) {
+            $scope.formData.date = moment.utc($scope.formData.date).format("YYYY/MM/DD");
+          }
+
+          updateAlbum(albumsService, $scope, $scope.album._id, $scope.formData);
         };
       }]);

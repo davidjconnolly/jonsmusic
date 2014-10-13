@@ -3,7 +3,12 @@
 var Song = require('../models/song.js');
 
 exports.index = function(req, res) {
-  Song.find({}, function (err, songs) {
+  var query = {};
+  if (req.query && req.query.title) {
+    query.title = new RegExp(req.query.title, 'i');
+  }
+
+  Song.find(query, function (err, songs) {
     if(err) { return handleError(res, err); }
     return res.json(200, songs);
   });

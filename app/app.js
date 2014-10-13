@@ -13,9 +13,10 @@ jonsmusicApp = angular.module('jonsmusicApp', [
   'angularMoment',
   'angular-flash.service',
   'angular-flash.flash-alert-directive',
-  'angular-underscore'
+  'angular-underscore',
+  'ui.select'
 ])
-.config(function ($routeProvider, $locationProvider, $httpProvider, flashProvider) {
+.config(function ($routeProvider, $locationProvider, $httpProvider, flashProvider, uiSelectConfig) {
   $routeProvider
       .when('/songs', {
         controller: 'songsListController',
@@ -49,6 +50,7 @@ jonsmusicApp = angular.module('jonsmusicApp', [
     $locationProvider.html5Mode(true);
 
     flashProvider.errorClassnames.push('alert-danger');
+    uiSelectConfig.theme = 'bootstrap';
   })
 .run(function ($rootScope, $location, authService) {
     //watching the value of the currentUser variable.

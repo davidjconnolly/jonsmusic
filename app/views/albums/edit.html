@@ -1,17 +1,30 @@
-<div id="album-form" class="row">
-  <div class="col-sm-8 col-sm-offset-2 text-center">
+<div id="album-form" class="row" ng-show="!loading">
+  <div class="col-sm-8 col-sm-offset-2 text-center jumbotron">
     <form>
-
-      <div class="input-group">
+      <div class="col-sm-10">
         <input type="text" class="form-control input-lg text-center" placeholder="Enter album title..." ng-model="formData.title">
-        <date-picker bind="formData.date"></date-picker>
-        <input type="text" class="form-control input-lg text-center" placeholder="Enter album description..." ng-model="formData.description">
-        <span class="input-group-btn">
-          <button type="submit" class="btn btn-primary btn-lg" ng-click="updateAlbum()">Update</button>
-        </span>
-      </div>
 
+        <date-picker bind="formData.date"></date-picker>
+
+        <input type="text" class="form-control input-lg text-center" placeholder="Enter album description..." ng-model="formData.description">
+      </div>
+      <div class="col-sm-2">
+        <button type="submit" class="btn btn-primary btn-lg" ng-click="updateAlbum()">Update</button>
+      </div>
     </form>
+  </div>
+
+  <div class="col-sm-8 col-sm-offset-2 text-center">
+      <p>Songs</p>
+      <ui-select ng-model="song.selected" theme="bootstrap" ng-disabled="disabled" reset-search-input="false">
+        <ui-select-match placeholder="Enter a song..."></ui-select-match>
+        <ui-select-choices repeat="song in songs track by $index" refresh="refreshSongs($select.search)" refresh-delay="0">
+          <div ng-bind-html="song.title | highlight: $select.search"></div>
+        </ui-select-choices>
+      </ui-select>
+      <div class="checkbox" ng-repeat="song in album.songs">
+        <button class="btn btn-danger btn-xs" ng-click="removeSong(song)">x</button> {{song.title}}
+      </div>
   </div>
 </div>
 

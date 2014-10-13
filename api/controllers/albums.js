@@ -10,7 +10,7 @@ exports.index = function(req, res) {
 };
 
 exports.show = function(req, res) {
-  Album.findById(req.params.id, function (err, album) {
+  Album.findById(req.params.id).populate('songs').exec(function (err, album) {
     if(err) { return handleError(res, err); }
     if(!album) { return res.send(404); }
     return res.json(album);
@@ -25,18 +25,20 @@ exports.create = function(req, res) {
 };
 
 exports.update = function(req, res) {
-  Album.findById(req.params.id, function (err, album) {
+  Album.findById(req.params.id).exec(function (err, album) {
     if (err) { return handleError(res, err); }
     if(!album) { return res.send(404); }
 
-    album.title = req.body.title;
-    album.date = req.body.date || null;
-    album.description = req.body.description || null;
-    album.songs = _.map(req.body.songs, function(song){ return song._id; }) || [];
+    if (req.body.title !== undefined) album.title = req.body.title;
+    if (req.body.date !== undefined) album.date = req.body.date || null;
+    if (req.body.description !== undefined) album.description = req.body.description || null;
+    if (req.body.songs !== undefined) album.songs = _.uniq(_.map(req.body.songs, function(song){ return song._id; })) || [];
 
     album.save(function (err) {
       if (err) { return handleError(res, err); }
-      return res.json(200, album);
+      album.populate('songs', function (err, album){
+        return res.json(200, album);
+      });
     });
   });
 };
