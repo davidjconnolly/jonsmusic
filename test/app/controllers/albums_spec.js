@@ -61,6 +61,8 @@ describe('albumsController Test', function() {
   describe('Controller: albumsDetailController', function () {
     beforeEach(function() {
       routeParams = { albumId: 1 };
+      httpBackend.expectGET('/api/songs').respond();
+
       controller('albumsDetailController', { $scope: scope, $routeParams: routeParams });
       httpBackend.flush();
     });
@@ -78,6 +80,7 @@ describe('albumsController Test', function() {
       };
       scope.formData = updated_album;
       httpBackend.expectPUT('/api/albums/1').respond(updated_album);
+      httpBackend.expectGET('/api/songs').respond();
 
       scope.updateAlbum();
 

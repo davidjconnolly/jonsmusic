@@ -34,10 +34,10 @@ exports.update = function(req, res) {
     if (err) { return handleError(res, err); }
     if(!song) { return res.send(404); }
 
-    song.title = req.body.title;
-    song.date = req.body.date || null;
-    song.lyrics = req.body.lyrics || null;
-    song.albums = _.map(req.body.albums, function(album){ return album._id; }) || [];
+    if (req.body.title !== undefined) song.title = req.body.title;
+    if (req.body.date !== undefined) song.date = req.body.date || null;
+    if (req.body.lyrics !== undefined) song.lyrics = req.body.lyrics || null;
+    if (req.body.albums !== undefined) song.albums = _.pluck(req.body.albums, '_id') || [];
 
     song.save(function (err) {
       if (err) { return handleError(res, err); }

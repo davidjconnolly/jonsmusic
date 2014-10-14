@@ -48,6 +48,8 @@ function updateAlbum(albumsService, scope, id, data) {
   albumsService.update(id, data)
     .success(function(data) {
       scope.album = data;
+      scope.refreshSongs();
+      scope.select.selected = undefined;
       scope.flash.success = "Album updated successfully";
     })
     .error(function (error) {
@@ -78,25 +80,37 @@ angular.module('jonsmusicApp')
               $scope.formData.date = moment.utc($scope.album.date).format("YYYY/MM/DD");
             }
 
+            $scope.refreshSongs();
+
             $scope.loading = false;
           });
+        $scope.updateAlbum = function() {
+          if ($scope.formData.date) {
+            $scope.formData.date = moment.utc($scope.formData.date).format("YYYY/MM/DD");
+          }
+
+          updateAlbum(albumsService, $scope, $scope.album._id, $scope.formData);
+        };
 
         // Listeners for Song selector
-        $scope.refreshSongs = function(value) {
-          songsService.index( { title: value } )
-            .success(function(data) {
-              $scope.query_songs = data;
+        $scope.refreshSongs = function(title) {
+          songsService.index( { title: title } )
+            .success(function(songs) {
+              $scope.query_songs =  _.filter(songs, function(song) {
+                return !_.contains(_.pluck($scope.album.songs, '_id'), song._id);
+              });
             });
         };
-        $scope.$watch('select.selected', function(value) {
-          if (value) {
-            var songs = $scope.album.songs.concat(value);
+        $scope.$watch('select.selected', function(song) {
+          if (song) {
+            var songs = $scope.album.songs.concat(song);
 
             updateAlbum(albumsService, $scope, $scope.album._id, {songs: songs});
           }
           $scope.select.selected = undefined;
         });
 
+        // Listeners for Song list
         $scope.removeSong = function(song) {
           var songs = _.filter($scope.album.songs, function(item) {
             return item._id !== song._id;
@@ -104,18 +118,9 @@ angular.module('jonsmusicApp')
 
           updateAlbum(albumsService, $scope, $scope.album._id, {songs: songs});
         };
-
         $scope.dragControlListeners = {
           orderChanged: function(event) {
             updateAlbum(albumsService, $scope, $scope.album._id, {songs: $scope.album.songs});
           }
-        };
-
-        $scope.updateAlbum = function() {
-          if ($scope.formData.date) {
-            $scope.formData.date = moment.utc($scope.formData.date).format("YYYY/MM/DD");
-          }
-
-          updateAlbum(albumsService, $scope, $scope.album._id, $scope.formData);
         };
       }]);

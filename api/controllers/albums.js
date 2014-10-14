@@ -32,7 +32,7 @@ exports.update = function(req, res) {
     if (req.body.title !== undefined) album.title = req.body.title;
     if (req.body.date !== undefined) album.date = req.body.date || null;
     if (req.body.description !== undefined) album.description = req.body.description || null;
-    if (req.body.songs !== undefined) album.songs = _.uniq(_.map(req.body.songs, function(song){ return song._id; })) || [];
+    if (req.body.songs !== undefined) album.songs = _.pluck(req.body.songs, '_id') || [];
 
     album.save(function (err) {
       if (err) { return handleError(res, err); }
