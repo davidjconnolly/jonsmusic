@@ -14,7 +14,8 @@ jonsmusicApp = angular.module('jonsmusicApp', [
   'angular-flash.service',
   'angular-flash.flash-alert-directive',
   'angular-underscore',
-  'ui.select'
+  'ui.select',
+  'ui.sortable'
 ])
 .config(function ($routeProvider, $locationProvider, $httpProvider, flashProvider, uiSelectConfig) {
   $routeProvider

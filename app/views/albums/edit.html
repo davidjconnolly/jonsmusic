@@ -18,14 +18,23 @@
       <p>Songs</p>
       <ui-select ng-model="song.selected" theme="bootstrap" ng-disabled="disabled" reset-search-input="false">
         <ui-select-match placeholder="Enter a song..."></ui-select-match>
-        <ui-select-choices repeat="song in songs track by $index" refresh="refreshSongs($select.search)" refresh-delay="0">
+        <ui-select-choices repeat="song in query_songs track by $index" refresh="refreshSongs($select.search)" refresh-delay="0">
           <div ng-bind-html="song.title | highlight: $select.search"></div>
         </ui-select-choices>
       </ui-select>
-      <div class="checkbox" ng-repeat="song in album.songs">
-        <button class="btn btn-danger btn-xs" ng-click="removeSong(song)">x</button> {{song.title}}
-      </div>
+
+    <ul data-as-sortable="dragControlListeners" ng-model="songs">
+       <li ng-repeat="song in songs" data-as-sortable-item>
+          <div data-as-sortable-item-handle>
+            {{song.title}}
+            <a data-no-drag class="pull-right btn btn-xs" ng-click="removeSong(song)">
+              <span class="glyphicon glyphicon-remove"></span>
+            </a>
+          </div>
+       </li>
+    </ul>
   </div>
+
 </div>
 
 <p class="text-center" ng-show="loading">

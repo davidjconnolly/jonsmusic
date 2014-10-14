@@ -48,6 +48,8 @@ function updateAlbum(albumsService, scope, id, data) {
   albumsService.update(id, data)
     .success(function(data) {
       scope.album = data;
+      scope.songs = data.songs;
+
       scope.flash.success = "Album updated successfully";
     })
     .error(function (error) {
@@ -62,7 +64,10 @@ angular.module('jonsmusicApp')
         $scope.formData = {};
         $scope.loading = true;
         $scope.flash = flash;
+
         $scope.song = {};
+        $scope.songs = [];
+        $scope.query_songs = [];
 
         // Load Album and setup input form
         albumsService.show($routeParams.albumId)
@@ -76,6 +81,7 @@ angular.module('jonsmusicApp')
               $scope.formData.date = moment.utc($scope.album.date).format("YYYY/MM/DD");
             }
 
+            $scope.songs = data.songs;
             $scope.loading = false;
           });
 
@@ -83,7 +89,7 @@ angular.module('jonsmusicApp')
         $scope.refreshSongs = function(value) {
           songsService.index( { title: value } )
             .success(function(data) {
-              $scope.songs = data;
+              $scope.query_songs = data;
             });
         };
         $scope.$watch('song.selected', function(value) {
@@ -101,6 +107,12 @@ angular.module('jonsmusicApp')
           });
 
           updateAlbum(albumsService, $scope, $scope.album._id, {songs: songs});
+        };
+
+        $scope.dragControlListeners = {
+          orderChanged: function(event) {
+            updateAlbum(albumsService, $scope, $scope.album._id, {songs: $scope.album.songs});
+          }
         };
 
         $scope.updateAlbum = function() {
