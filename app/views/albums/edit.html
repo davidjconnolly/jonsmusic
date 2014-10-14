@@ -23,9 +23,10 @@
         </ui-select-choices>
       </ui-select>
 
-    <ul data-as-sortable="dragControlListeners" ng-model="songs">
-       <li ng-repeat="song in songs" data-as-sortable-item>
+    <ul data-as-sortable="dragControlListeners" ng-model="album.songs">
+       <li ng-repeat="song in album.songs" data-as-sortable-item>
           <div data-as-sortable-item-handle>
+            <span class="pull-left">&nbsp&nbsp{{$index + 1}}</span>
             {{song.title}}
             <a data-no-drag class="pull-right btn btn-xs" ng-click="removeSong(song)">
               <span class="glyphicon glyphicon-remove"></span>

@@ -48,8 +48,6 @@ function updateAlbum(albumsService, scope, id, data) {
   albumsService.update(id, data)
     .success(function(data) {
       scope.album = data;
-      scope.songs = data.songs;
-
       scope.flash.success = "Album updated successfully";
     })
     .error(function (error) {
@@ -64,9 +62,8 @@ angular.module('jonsmusicApp')
         $scope.formData = {};
         $scope.loading = true;
         $scope.flash = flash;
-
+        $scope.album = {};
         $scope.song = {};
-        $scope.songs = [];
         $scope.query_songs = [];
 
         // Load Album and setup input form
@@ -81,7 +78,6 @@ angular.module('jonsmusicApp')
               $scope.formData.date = moment.utc($scope.album.date).format("YYYY/MM/DD");
             }
 
-            $scope.songs = data.songs;
             $scope.loading = false;
           });
 
