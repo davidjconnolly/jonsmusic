@@ -12,7 +12,6 @@ module.exports = function(app){
 };
 
 function ensureAuthenticated(req, res, next) {
-  // if (req.isAuthenticated()) { return next(); }
-  return next();
+  if (req.isAuthenticated()) { return next(); }
   res.send(401);
 }

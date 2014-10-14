@@ -63,7 +63,7 @@ angular.module('jonsmusicApp')
         $scope.loading = true;
         $scope.flash = flash;
         $scope.album = {};
-        $scope.song = {};
+        $scope.select = {};
         $scope.query_songs = [];
 
         // Load Album and setup input form
@@ -88,13 +88,13 @@ angular.module('jonsmusicApp')
               $scope.query_songs = data;
             });
         };
-        $scope.$watch('song.selected', function(value) {
+        $scope.$watch('select.selected', function(value) {
           if (value) {
             var songs = $scope.album.songs.concat(value);
 
             updateAlbum(albumsService, $scope, $scope.album._id, {songs: songs});
           }
-          $scope.song.selected = undefined;
+          $scope.select.selected = undefined;
         });
 
         $scope.removeSong = function(song) {

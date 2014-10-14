@@ -16,7 +16,7 @@
 
   <div class="col-sm-8 col-sm-offset-2 text-center">
       <p>Songs</p>
-      <ui-select ng-model="song.selected" theme="bootstrap" ng-disabled="disabled" reset-search-input="false">
+      <ui-select ng-model="select.selected" theme="bootstrap" ng-disabled="disabled" reset-search-input="false">
         <ui-select-match placeholder="Enter a song..."></ui-select-match>
         <ui-select-choices repeat="song in query_songs track by $index" refresh="refreshSongs($select.search)" refresh-delay="0">
           <div ng-bind-html="song.title | highlight: $select.search"></div>
@@ -26,7 +26,7 @@
     <ul data-as-sortable="dragControlListeners" ng-model="album.songs">
        <li ng-repeat="song in album.songs" data-as-sortable-item>
           <div data-as-sortable-item-handle>
-            <span class="pull-left">&nbsp&nbsp{{$index + 1}}</span>
+            <span class="pull-left">&nbsp&nbsp{{$index + 1}}&nbsp&nbsp</span>
             {{song.title}}
             <a data-no-drag class="pull-right btn btn-xs" ng-click="removeSong(song)">
               <span class="glyphicon glyphicon-remove"></span>
