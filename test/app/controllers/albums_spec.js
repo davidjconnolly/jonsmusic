@@ -6,10 +6,11 @@ describe('albumsController Test', function() {
   var scope;
   var routeParams;
   var albumFixtures;
+  var songFixtures;
 
   beforeEach(module('jonsmusicApp', 'fixtures'));
 
-  beforeEach(inject(function($httpBackend, $controller, $rootScope, $routeParams, mockAlbumService, _albumFixtures_) {
+  beforeEach(inject(function($httpBackend, $controller, $rootScope, $routeParams, mockAlbumService, _albumFixtures_, _songFixtures_) {
     mockAlbumService($httpBackend);
     httpBackend = $httpBackend;
     controller = $controller;
@@ -17,6 +18,7 @@ describe('albumsController Test', function() {
     scope = $rootScope.$new();
 
     albumFixtures = _albumFixtures_;
+    songFixtures = _songFixtures_;
   }));
 
   describe('Controller: albumsListController', function () {
@@ -87,6 +89,55 @@ describe('albumsController Test', function() {
       httpBackend.flush();
       assert.deepEqual(scope.album, updated_album);
     });
+
+    it('should search for a song', function() {
+      scope.album.songs = [ songFixtures[0] ];
+      httpBackend.expectGET('/api/songs?title=test').respond(songFixtures);
+
+      scope.refreshSongs('test');
+      httpBackend.flush();
+
+      assert.deepEqual(scope.query_songs, [ songFixtures[1] ]);
+    });
+
+    it('should select a song', function() {
+      var updated_album = {
+        "_id": 1,
+        "title": "Foo Updated Album",
+        "date": "2005-03-12T01:32:32.853Z",
+        "description": "Foo Lyrics",
+        "songs": [ songFixtures[0] ]
+      };
+      httpBackend.expectPUT('/api/albums/1').respond(updated_album);
+      httpBackend.expectGET('/api/songs').respond();
+
+      scope.select.selected = songFixtures[0]
+
+      httpBackend.flush();
+      assert.deepEqual(scope.album.songs, [ songFixtures[0] ]);
+    });
+
+    it('should remove a song', function() {
+      var updated_album = {
+        "_id": 1,
+        "title": "Foo Album",
+        "date": "2014-08-30T01:44:29.849Z",
+        "description": "Lorem ipsum dolor sit amet, eu usu prompta ponderum dissentiet.",
+        "songs": songFixtures[1]
+      };
+      scope.album.songs = songFixtures;
+      httpBackend.expectPUT('/api/albums/1', {
+        "songs":[songFixtures[1]]
+
+      }).respond(updated_album);
+      httpBackend.expectGET('/api/songs').respond();
+
+      scope.removeSong(songFixtures[0]);
+
+      httpBackend.flush();
+      assert.deepEqual(scope.album.songs, updated_album.songs);
+    });
+
   });
 
 });
