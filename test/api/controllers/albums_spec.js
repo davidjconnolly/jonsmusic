@@ -93,7 +93,7 @@ describe('Albums Controller', function () {
         .end(done);
     });
 
-    context('with songs', function (done) {
+    describe('with songs', function (done) {
       before(function (done) {
         Song.create({
           title : "foo title",

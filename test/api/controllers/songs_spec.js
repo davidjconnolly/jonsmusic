@@ -115,8 +115,8 @@ describe('Songs Controller', function () {
     });
 
 
-    context('Search Songs', function () {
-      var searchSong = null
+    describe('Search Songs', function () {
+      var searchSong = null;
 
       before(function (done) {
         Song.create({

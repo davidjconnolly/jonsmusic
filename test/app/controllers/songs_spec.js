@@ -84,6 +84,24 @@ describe('songsController Test', function() {
       httpBackend.flush();
       assert.deepEqual(scope.song, updated_song);
     });
+
+    it('should fail to update an invalid song', function() {
+      var updated_song = {
+        "_id": 1,
+        "title": "",
+        "date": "2005-03-12T01:32:32.853Z",
+        "lyrics": "Now has Lyrics"
+      };
+      scope.formData = updated_song;
+      httpBackend.expectPUT('/api/songs/1').respond(500, {"message":"Validation failed","name":"ValidationError","errors":{"title":{"message":"Path `title` is required.","name":"ValidatorError","path":"title","type":"required","value":""}}});
+
+      scope.updateSong();
+
+      httpBackend.flush();
+      assert.deepEqual(scope.song, songFixtures[0]);
+      assert.equal(scope.flash.error, "Path `title` is required.");
+    });
+
   });
 
 });

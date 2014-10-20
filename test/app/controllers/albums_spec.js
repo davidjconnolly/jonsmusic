@@ -88,6 +88,24 @@ describe('albumsController Test', function() {
 
       httpBackend.flush();
       assert.deepEqual(scope.album, updated_album);
+      assert.equal(scope.flash.success, "Album updated successfully");
+    });
+
+    it('should fail to update an invalid album', function() {
+      var updated_album = {
+        "_id": 1,
+        "title": "Foo Updated Album",
+        "date": "2005-03-12T01:32:32.853Z",
+        "description": "Now has Lyrics"
+      };
+      scope.formData = updated_album;
+      httpBackend.expectPUT('/api/albums/1').respond(500, {"message":"Validation failed","name":"ValidationError","errors":{"title":{"message":"Path `title` is required.","name":"ValidatorError","path":"title","type":"required","value":""}}});
+
+      scope.updateAlbum();
+
+      httpBackend.flush();
+      assert.deepEqual(scope.album, albumFixtures[0]);
+      assert.equal(scope.flash.error, "Path `title` is required.");
     });
 
     it('should search for a song', function() {
@@ -111,7 +129,7 @@ describe('albumsController Test', function() {
       httpBackend.expectPUT('/api/albums/1').respond(updated_album);
       httpBackend.expectGET('/api/songs').respond();
 
-      scope.select.selected = songFixtures[0]
+      scope.select.selected = songFixtures[0];
 
       httpBackend.flush();
       assert.deepEqual(scope.album.songs, [ songFixtures[0] ]);
@@ -136,6 +154,7 @@ describe('albumsController Test', function() {
 
       httpBackend.flush();
       assert.deepEqual(scope.album.songs, updated_album.songs);
+      assert.equal(scope.flash.success, "Album updated successfully");
     });
 
   });
