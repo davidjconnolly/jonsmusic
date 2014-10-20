@@ -4,6 +4,7 @@ describe('Albums Controller', function () {
   var Album = require('../../../api/models/album');
   var Song = require('../../../api/models/song');
   var album;
+  var song;
   var now = new Date(Date()).toISOString();
 
   before(function(done) {
@@ -84,28 +85,6 @@ describe('Albums Controller', function () {
         });
     });
 
-    it('should update a album', function (done) {
-      agent
-        .put('/api/albums/' + album.id)
-        .send({
-          title : "foo title 3",
-          description : "foo description 3",
-          date : now
-        })
-        .expect(200)
-        .expect('Content-Type', /json/)
-        .end(function (err, res) {
-          if (err) {
-            done(err);
-          }
-          assert.equal(res.body._id, album.id);
-          assert.equal(res.body.title, "foo title 3");
-          assert.equal(res.body.description, "foo description 3");
-          assert.equal(res.body.date, now);
-          done();
-        });
-    });
-
     it('should destroy a album', function (done) {
       agent
         .delete('/api/albums/' + album.id)
@@ -113,6 +92,68 @@ describe('Albums Controller', function () {
         .expect('OK')
         .end(done);
     });
+
+    context('with songs', function (done) {
+      before(function (done) {
+        Song.create({
+          title : "foo title",
+          lyrics : "foo lyrics",
+          date : now
+        }).then(function (s) {
+          song = s;
+          done();
+        });
+      });
+
+      it('should update and show an album', function (done) {
+        agent
+          .put('/api/albums/' + album.id)
+          .send({
+            title : "foo title 3",
+            description : "foo description 3",
+            date : now,
+            songs : [ song ]
+          })
+          .expect(200)
+          .expect('Content-Type', /json/)
+          .end(function (err, res) {
+            if (err) {
+              done(err);
+            }
+            assert.equal(res.body._id, album.id);
+            assert.equal(res.body.title, "foo title 3");
+            assert.equal(res.body.description, "foo description 3");
+            assert.equal(res.body.date, now);
+            assert.equal(res.body.songs.length, 1);
+            assert.equal(res.body.songs[0]._id, song._id);
+            assert.equal(res.body.songs[0].title, song.title);
+            assert.equal(res.body.songs[0].description, song.description);
+            assert.equal(res.body.songs[0].date, now);
+
+            agent
+              .get('/api/albums/' + album.id)
+              .expect(200)
+              .expect('Content-Type', /json/)
+              .end(function (err, res) {
+                if (err) {
+                  done(err);
+                }
+                assert.equal(res.body._id, album.id);
+                assert.equal(res.body.title, "foo title 3");
+                assert.equal(res.body.description, "foo description 3");
+                assert.equal(res.body.date, now);
+                assert.equal(res.body.songs.length, 1);
+                assert.equal(res.body.songs[0]._id, song._id);
+                assert.equal(res.body.songs[0].title, song.title);
+                assert.equal(res.body.songs[0].description, song.description);
+                assert.equal(res.body.songs[0].date, now);
+                done();
+              });
+          });
+      });
+
+    });
+
   });
 
   describe('Song association', function (){
@@ -151,6 +192,7 @@ describe('Albums Controller', function () {
           done();
         });
     });
+
   });
 
 });

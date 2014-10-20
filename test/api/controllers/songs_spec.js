@@ -19,8 +19,8 @@ describe('Songs Controller', function () {
       title : "foo title",
       lyrics : "foo lyrics",
       date : now
-    }).then(function (a) {
-      song = a;
+    }).then(function (s) {
+      song = s;
       done();
     });
   });
@@ -113,6 +113,42 @@ describe('Songs Controller', function () {
         .expect('OK')
         .end(done);
     });
+
+
+    context('Search Songs', function () {
+      var searchSong = null
+
+      before(function (done) {
+        Song.create({
+          title : "foo search title",
+          lyrics : "foo lyrics",
+          date : now
+        }).then(function (s) {
+          searchSong = s;
+          done();
+        });
+      });
+
+      it('should query a list of songs', function (done) {
+        agent
+          .get('/api/songs?title=search')
+          .expect(200)
+          .expect('Content-Type', /json/)
+          .end(function (err, res) {
+            if (err) {
+              done(err);
+            }
+            var songs = res.body;
+            assert.equal(songs.length, 1);
+            assert.equal(songs[0]._id, searchSong.id);
+            assert.equal(songs[0].title, searchSong.title);
+            assert.equal(songs[0].lyrics, searchSong.lyrics);
+            assert.equal(songs[0].date, now);
+            done();
+          });
+      });
+    });
+
   });
 
   describe('Album association', function (){
