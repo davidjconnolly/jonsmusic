@@ -17,5 +17,8 @@ module.exports = function(ensureAuthenticated){
   router.put('/admin/albums/:id', ensureAuthenticated, albums.update);
   router.delete('/admin/albums/:id', ensureAuthenticated, albums.destroy);
 
+  router.get('/albums', albums.publicIndex);
+  router.get('/albums/:id', albums.publicShow);
+
   return router;
 };

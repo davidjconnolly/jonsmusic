@@ -4,14 +4,13 @@ describe('Albums Controller', function () {
   var Album = require('../../../api/models/album');
   var Song = require('../../../api/models/song');
   var album;
-  var song;
   var now = new Date(Date()).toISOString();
 
-  before(function(done) {
+  beforeEach(function(done) {
     resetDB(done);
   });
 
-  before(function(done) {
+  beforeEach(function(done) {
     loginUser(done);
   });
 
@@ -100,12 +99,11 @@ describe('Albums Controller', function () {
   describe('Song association', function (){
     var song;
 
-    before(function (done) {
+    beforeEach(function (done) {
       Song.create({
         title : "foo title",
         lyrics : "foo lyrics",
-        date : now,
-        published : false
+        date : now
       }).then(function (s) {
         song = s;
         done();
@@ -151,15 +149,74 @@ describe('Albums Controller', function () {
             assert.equal(res.body.date, now);
             assert.equal(res.body.published, true);
             assert.equal(res.body.songs.length, 1);
-            assert.equal(res.body.songs[0]._id, song._id);
+            assert.equal(res.body.songs[0]._id, song.id);
             assert.equal(res.body.songs[0].title, song.title);
             assert.equal(res.body.songs[0].description, song.description);
             assert.equal(res.body.songs[0].date, now);
             done();
           });
+        });
+    });
+  });
 
+  describe('Public Methods', function () {
+    var publishedAlbum;
+
+    beforeEach(function (done) {
+      Album.create({
+        title : "foo public title",
+        description : "foo public description",
+        date : now,
+        published : true
+      }).then(function (a) {
+        publishedAlbum = a;
+        done();
+      });
+    });
+
+    it('should get a list of published albums', function (done) {
+      agent
+        .get('/api/albums')
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function (err, res) {
+          if (err) {
+            done(err);
+          }
+          var albums = res.body;
+          assert.equal(albums.length, 1);
+          assert.equal(albums[0]._id, publishedAlbum.id);
+          assert.equal(albums[0].title, publishedAlbum.title);
+          assert.equal(albums[0].description, publishedAlbum.description);
+          assert.equal(albums[0].date, now);
+          done();
+        });
+    });
+
+    it('should only show published albums', function (done) {
+      agent
+        .get('/api/albums/' + publishedAlbum.id)
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function (err, res) {
+          if (err) {
+            done(err);
+          }
+          assert.equal(res.body._id, publishedAlbum.id);
+          assert.equal(res.body.title, publishedAlbum.title);
+          assert.equal(res.body.description, publishedAlbum.description);
+          assert.equal(res.body.date, now);
         });
 
+      agent
+        .get('/api/albums/' + album.id)
+        .expect(401)
+        .end(function (err, res) {
+          if (err) {
+            done(err);
+          }
+          done();
+        });
     });
 
   });

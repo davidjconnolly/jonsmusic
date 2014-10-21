@@ -7,7 +7,7 @@ var AlbumSchema = new Schema({
   title : { type: String, required: true },
   description : String,
   date : Date,
-  published : { type: Boolean, default: false },
+  published : { type: Boolean, required: true, default: false },
   songs : [ {type : mongoose.Schema.ObjectId, ref: 'Song'} ]
 });
 

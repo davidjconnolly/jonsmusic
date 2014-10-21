@@ -9,10 +9,27 @@ exports.index = function(req, res) {
   });
 };
 
+exports.publicIndex = function(req, res) {
+  Album.find( {"published": true}, function (err, albums) {
+    if(err) { return handleError(res, err); }
+    return res.json(200, albums);
+  });
+};
+
+
 exports.show = function(req, res) {
   Album.findById(req.params.id).populate('songs').exec(function (err, album) {
     if(err) { return handleError(res, err); }
     if(!album) { return res.send(404); }
+    return res.json(album);
+  });
+};
+
+exports.publicShow = function(req, res) {
+  Album.findById(req.params.id).populate('songs').exec(function (err, album) {
+    if(err) { return handleError(res, err); }
+    if(!album) { return res.send(404); }
+    if(album.published != true) { return res.send(401); }
     return res.json(album);
   });
 };
@@ -33,7 +50,7 @@ exports.update = function(req, res) {
     if (req.body.date !== undefined) album.date = req.body.date || null;
     if (req.body.description !== undefined) album.description = req.body.description || null;
     if (req.body.songs !== undefined) album.songs = _.pluck(req.body.songs, '_id') || [];
-    if (req.body.published !== undefined) album.published = req.body.published;
+    if (req.body.published !== undefined) album.published = req.body.published || false;
 
     album.save(function (err) {
       if (err) { return handleError(res, err); }
