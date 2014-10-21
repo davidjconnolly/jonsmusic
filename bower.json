@@ -13,9 +13,14 @@
     "angular-ui-router": "~0.2.10",
     "angular-route": ">=1.2.*",
     "angular-moment": "~0.8.1",
-    "momentjs": "~2.8.3"
+    "momentjs": "~2.8.3",
+    "angular-flash": "~0.1.13",
+    "angular-underscore": "*",
+    "underscore": "~1.7.0",
+    "angular-ui-select": "~0.8.2",
+    "ng-sortable": "~1.1.2"
   },
-   "devDependencies": {
+  "devDependencies": {
     "angular-mocks": "~1.2.26"
   }
 }

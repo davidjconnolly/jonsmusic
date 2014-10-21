@@ -6,8 +6,8 @@ angular.module('jonsmusicApp')
       create : function(songData) {
         return $http.post('/api/songs', songData);
       },
-      index : function() {
-        return $http.get('/api/songs');
+      index : function(query) {
+        return $http({ url: '/api/songs', method: 'GET', params: query });
       },
       show : function(id) {
         return $http.get('/api/songs/' + id);

@@ -96,3 +96,14 @@ body {
 .dropdown-toggle {
   cursor: pointer;
 }
+
+.overlay-alert{
+  position: absolute;
+  left: 30px;
+  top: 40px;
+  right: 30px;
+  z-index: 10;
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+}

@@ -1,14 +1,14 @@
 <div id="song-form" class="row">
   <div class="col-sm-8 col-sm-offset-2 text-center">
     <form>
-
-      <div class="input-group">
+      <div class="col-sm-10">
         <input type="text" class="form-control input-lg text-center" placeholder="Enter song title..." ng-model="formData.title">
         <date-picker bind="formData.date"></date-picker>
         <input type="text" class="form-control input-lg text-center" placeholder="Enter song lyrics..." ng-model="formData.lyrics">
-        <span class="input-group-btn">
-          <button type="submit" class="btn btn-primary btn-lg" ng-click="updateSong()">Update</button>
-        </span>
+      </div>
+
+      <div class="col-sm-2">
+        <button type="submit" class="btn btn-primary btn-lg" ng-click="updateSong()">Update</button>
       </div>
 
     </form>

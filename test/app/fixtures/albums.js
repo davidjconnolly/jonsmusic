@@ -6,13 +6,15 @@ var albumFixtures = [
     "_id": 1,
     "title": "Foo Album",
     "date": "2014-08-30T01:44:29.849Z",
-    "description": "Lorem ipsum dolor sit amet, eu usu prompta ponderum dissentiet."
+    "description": "Lorem ipsum dolor sit amet, eu usu prompta ponderum dissentiet.",
+    "songs": []
   },
   {
     "_id": 2,
     "title": "Foo Other Album",
     "date": "2004-02-24T13:44:29.853Z",
-    "description": "<p><u>Lorem ipsum dolor</u> sit amet, <b>eu usu prompta ponderum dissentiet</b>, est agam putant eripuit ne, id aliquip discere delicatissimi cum.</p>"
+    "description": "<p><u>Lorem ipsum dolor</u> sit amet, <b>eu usu prompta ponderum dissentiet</b>, est agam putant eripuit ne, id aliquip discere delicatissimi cum.</p>",
+    "songs": []
   }
 ];
 

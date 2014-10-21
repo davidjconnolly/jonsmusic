@@ -28,11 +28,18 @@ var paths = {
     'bower_components/angular-sanitize/angular-sanitize.js',
     'bower_components/angular-route/angular-route.js',
     'bower_components/moment/moment.js',
-    'bower_components/angular-moment/angular-moment.js'
+    'bower_components/angular-moment/angular-moment.js',
+    'bower_components/angular-flash/dist/angular-flash.js',
+    'bower_components/underscore/underscore.js',
+    'bower_components/angular-underscore/angular-underscore.js',
+    'bower_components/angular-ui-select/dist/select.min.js',
+    'bower_components/ng-sortable/dist/ng-sortable.js'
   ],
   vendor_styles: [
     'bower_components/bootstrap/dist/css/bootstrap.css',
-    'bower_components/font-awesome/scss/font-awesome.scss'
+    'bower_components/font-awesome/scss/font-awesome.scss',
+    'bower_components/angular-ui-select/dist/select.min.css',
+    'bower_components/ng-sortable/dist/ng-sortable.css'
   ],
   vendor_fonts: [
     'bower_components/font-awesome/fonts/**/*'
