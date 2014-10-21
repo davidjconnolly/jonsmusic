@@ -99,7 +99,7 @@ describe('albumsController Test', function() {
         "description": "Now has Lyrics"
       };
       scope.formData = updated_album;
-      httpBackend.expectPUT('/api/albums/1').respond(500, {"message":"Validation failed","name":"ValidationError","errors":{"title":{"message":"Path `title` is required.","name":"ValidatorError","path":"title","type":"required","value":""}}});
+      httpBackend.expectPUT('/api/albums/1').respond(500, {"errors":{"title":{"message":"Path `title` is required."}}});
 
       scope.updateAlbum();
 
