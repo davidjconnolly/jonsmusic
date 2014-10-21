@@ -39,7 +39,7 @@ var paths = {
     'bower_components/bootstrap/dist/css/bootstrap.css',
     'bower_components/font-awesome/scss/font-awesome.scss',
     'bower_components/angular-ui-select/dist/select.min.css',
-    'bower_components/ng-sortable/dist/ng-sortable.css'
+    'bower_components/ng-sortable/dist/ng-sortable.min.css'
   ],
   vendor_fonts: [
     'bower_components/font-awesome/fonts/**/*'
@@ -178,18 +178,18 @@ gulp.task('nodemon', function () {
 // Default - Start Server
 gulp.task('default', [
   'jshint-api', 'jshint-app',
-  'vendor-scripts', 'app_scripts',
   'vendor-styles', 'styles',
   'vendor-fonts',
+  'vendor-scripts', 'app_scripts',
   'html-public', 'html-views',
   'watch', 'nodemon'
 ]);
 
 // Build
 gulp.task('build', [
-  'vendor-scripts', 'app_scripts',
   'vendor-styles', 'styles',
   'vendor-fonts',
+  'vendor-scripts', 'app_scripts',
   'html-public', 'html-views'
 ]);
 
