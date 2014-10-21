@@ -39,7 +39,8 @@ var paths = {
     'bower_components/bootstrap/dist/css/bootstrap.css',
     'bower_components/font-awesome/scss/font-awesome.scss',
     'bower_components/angular-ui-select/dist/select.min.css',
-    'bower_components/ng-sortable/dist/ng-sortable.min.css'
+    'bower_components/ng-sortable/dist/ng-sortable.min.css',
+    'bower_components/ng-sortable/dist/ng-sortable.style.min.css'
   ],
   vendor_fonts: [
     'bower_components/font-awesome/fonts/**/*'
