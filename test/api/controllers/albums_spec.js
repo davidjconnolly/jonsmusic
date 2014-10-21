@@ -109,7 +109,7 @@ describe('Albums Controller', function () {
       });
     });
 
-    it('should add a song to an album and show album with songs', function (done) {
+    it('should update and show an album with songs', function (done) {
       agent
         .put('/api/albums/' + album.id)
         .send({
@@ -123,6 +123,9 @@ describe('Albums Controller', function () {
             done(err);
           }
           assert.equal(res.body._id, album.id);
+          assert.equal(res.body.title, album.title);
+          assert.equal(res.body.description, album.description);
+          assert.equal(res.body.date, now);
           assert.equal(res.body.songs.length, 1);
           assert.equal(res.body.songs[0]._id, song.id);
           assert.equal(res.body.songs[0].title, song.title);
