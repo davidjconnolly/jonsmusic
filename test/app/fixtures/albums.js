@@ -24,9 +24,9 @@ fixtures.value('albumFixtures', albumFixtures);
 
 fixtures.factory('mockAlbumService', function() {
   return function(httpBackend){
-    httpBackend.whenGET('/api/albums').respond(albumFixtures);
-    httpBackend.whenGET('/api/albums/1').respond(albumFixtures[0]);
-    httpBackend.whenDELETE('/api/albums/1').respond(200, '');
+    httpBackend.whenGET('/api/admin/albums').respond(albumFixtures);
+    httpBackend.whenGET('/api/admin/albums/1').respond(albumFixtures[0]);
+    httpBackend.whenDELETE('/api/admin/albums/1').respond(200, '');
     return null;
   };
 });

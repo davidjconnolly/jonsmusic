@@ -28,7 +28,7 @@ describe('Songs Controller', function () {
   describe('Basic Methods', function () {
     it('should get a list of songs', function (done) {
       agent
-        .get('/api/songs')
+        .get('/api/admin/songs')
         .expect(200)
         .expect('Content-Type', /json/)
         .end(function (err, res) {
@@ -47,7 +47,7 @@ describe('Songs Controller', function () {
 
     it('should show one song', function (done) {
       agent
-        .get('/api/songs/' + song.id)
+        .get('/api/admin/songs/' + song.id)
         .expect(200)
         .expect('Content-Type', /json/)
         .end(function (err, res) {
@@ -64,7 +64,7 @@ describe('Songs Controller', function () {
 
     it('should create a song', function (done) {
       agent
-        .post('/api/songs')
+        .post('/api/admin/songs')
         .send({
           title : "foo title 2",
           lyrics : "foo lyrics 2",
@@ -86,7 +86,7 @@ describe('Songs Controller', function () {
 
     it('should update a song', function (done) {
       agent
-        .put('/api/songs/' + song.id)
+        .put('/api/admin/songs/' + song.id)
         .send({
           title : "foo title 3",
           lyrics : "foo lyrics 3",
@@ -108,7 +108,7 @@ describe('Songs Controller', function () {
 
     it('should destroy a song', function (done) {
       agent
-        .delete('/api/songs/' + song.id)
+        .delete('/api/admin/songs/' + song.id)
         .expect(200)
         .expect('OK')
         .end(done);
@@ -131,7 +131,7 @@ describe('Songs Controller', function () {
 
       it('should query a list of songs', function (done) {
         agent
-          .get('/api/songs?title=search')
+          .get('/api/admin/songs?title=search')
           .expect(200)
           .expect('Content-Type', /json/)
           .end(function (err, res) {
@@ -167,7 +167,7 @@ describe('Songs Controller', function () {
 
     it('should add an album to a song', function (done) {
       agent
-        .put('/api/songs/' + song.id)
+        .put('/api/admin/songs/' + song.id)
         .send({
           title : "foo title",
           albums : [ album ]

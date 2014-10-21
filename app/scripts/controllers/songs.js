@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('jonsmusicApp')
-  .controller('songsListController', ['$scope', '$filter', 'songsService',
-    function($scope, $filter, songsService)
+  .controller('songsListController', ['$scope', '$filter', 'songsAdminService',
+    function($scope, $filter, songsAdminService)
       {
         $scope.formData = {};
         $scope.loading = true;
 
-        songsService.index()
+        songsAdminService.index()
           .success(function(data) {
             $scope.songs = data;
             $scope.loading = false;
@@ -17,9 +17,9 @@ angular.module('jonsmusicApp')
           if ($scope.formData.title && $scope.formData.title.trim() !== '') {
             $scope.loading = true;
 
-            songsService.create($scope.formData)
+            songsAdminService.create($scope.formData)
               .success(function() {
-                songsService.index()
+                songsAdminService.index()
                   .success(function(data) {
                     $scope.formData = {};
                     $scope.songs = data;
@@ -32,9 +32,9 @@ angular.module('jonsmusicApp')
         $scope.deleteSong = function(id) {
           $scope.loading = true;
 
-          songsService.delete(id)
+          songsAdminService.delete(id)
             .success(function() {
-              songsService.index()
+              songsAdminService.index()
                 .success(function(data) {
                   $scope.formData = {};
                   $scope.songs = data;
@@ -45,14 +45,14 @@ angular.module('jonsmusicApp')
       }]);
 
 angular.module('jonsmusicApp')
-  .controller('songsDetailController', ['$scope', '$routeParams', '$location', '$filter', 'songsService', 'flash',
-    function($scope, $routeParams, $location, $filter, songsService, flash)
+  .controller('songsDetailController', ['$scope', '$routeParams', '$location', '$filter', 'songsAdminService', 'flash',
+    function($scope, $routeParams, $location, $filter, songsAdminService, flash)
       {
         $scope.formData = {};
         $scope.loading = true;
         $scope.flash = flash;
 
-        songsService.show($routeParams.songId)
+        songsAdminService.show($routeParams.songId)
           .success(function(data) {
             $scope.song = data;
 
@@ -74,12 +74,12 @@ angular.module('jonsmusicApp')
               $scope.formData.date = moment.utc($scope.formData.date).format("YYYY/MM/DD");
             }
 
-            songsService.update($scope.song._id, $scope.formData)
+            songsAdminService.update($scope.song._id, $scope.formData)
               .success(function(data) {
                 $scope.loading = false;
                 $scope.formData = {};
                 $scope.song = data;
-                $location.path('/songs');
+                $location.path('/admin/songs');
               })
               .error(function (error) {
                 $scope.loading = false;

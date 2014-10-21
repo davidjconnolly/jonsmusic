@@ -19,21 +19,21 @@ jonsmusicApp = angular.module('jonsmusicApp', [
 ])
 .config(function ($routeProvider, $locationProvider, $httpProvider, flashProvider, uiSelectConfig) {
   $routeProvider
-      .when('/songs', {
+      .when('/admin/songs', {
         controller: 'songsListController',
-        templateUrl: '/views/songs/index.html'
+        templateUrl: '/views/admin/songs/index.html'
       })
-      .when('/songs/:songId', {
+      .when('/admin/songs/:songId', {
         controller: 'songsDetailController',
-        templateUrl: '/views/songs/edit.html'
+        templateUrl: '/views/admin/songs/edit.html'
       })
-      .when('/albums', {
+      .when('/admin/albums', {
         controller: 'albumsListController',
-        templateUrl: '/views/albums/index.html'
+        templateUrl: '/views/admin/albums/index.html'
       })
-      .when('/albums/:albumId', {
+      .when('/admin/albums/:albumId', {
         controller: 'albumsDetailController',
-        templateUrl: '/views/albums/edit.html'
+        templateUrl: '/views/admin/albums/edit.html'
       })
       .when('/login', {
         templateUrl: 'views/auth/login.html',
@@ -46,6 +46,10 @@ jonsmusicApp = angular.module('jonsmusicApp', [
       .otherwise({
         redirectTo: '/index',
         templateUrl: '/views/main/index.html'
+      })
+      .when('/albums', {
+        controller: 'albumsPublicController',
+        templateUrl: '/views/main/albums/index.html'
       });
 
     $locationProvider.html5Mode(true);

@@ -37,8 +37,8 @@ describe('songsController Test', function() {
         "lyrics": ""
       };
       scope.formData = song;
-      httpBackend.expectPOST('/api/songs').respond(200, song);
-      httpBackend.expectGET('/api/songs').respond(songFixtures.concat(song));
+      httpBackend.expectPOST('/api/admin/songs').respond(200, song);
+      httpBackend.expectGET('/api/admin/songs').respond(songFixtures.concat(song));
 
       scope.createSong();
 
@@ -48,7 +48,7 @@ describe('songsController Test', function() {
     });
 
     it('should delete a song', function() {
-      httpBackend.expectGET('/api/songs').respond(songFixtures[1]);
+      httpBackend.expectGET('/api/admin/songs').respond(songFixtures[1]);
 
       scope.deleteSong(1);
 
@@ -77,7 +77,7 @@ describe('songsController Test', function() {
         "lyrics": "Now has Lyrics"
       };
       scope.formData = updated_song;
-      httpBackend.expectPUT('/api/songs/1').respond(updated_song);
+      httpBackend.expectPUT('/api/admin/songs/1').respond(updated_song);
 
       scope.updateSong();
 
@@ -93,7 +93,7 @@ describe('songsController Test', function() {
         "lyrics": "Now has Lyrics"
       };
       scope.formData = updated_song;
-      httpBackend.expectPUT('/api/songs/1').respond(500, {"errors":{"title":{"message":"Path `title` is required."}}});
+      httpBackend.expectPUT('/api/admin/songs/1').respond(500, {"errors":{"title":{"message":"Path `title` is required."}}});
 
       scope.updateSong();
 

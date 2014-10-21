@@ -40,8 +40,8 @@ describe('albumsController Test', function() {
         "published": false
       };
       scope.formData = album;
-      httpBackend.expectPOST('/api/albums').respond(200, album);
-      httpBackend.expectGET('/api/albums').respond(albumFixtures.concat(album));
+      httpBackend.expectPOST('/api/admin/albums').respond(200, album);
+      httpBackend.expectGET('/api/admin/albums').respond(albumFixtures.concat(album));
 
       scope.createAlbum();
 
@@ -51,7 +51,7 @@ describe('albumsController Test', function() {
     });
 
     it('should delete a album', function() {
-      httpBackend.expectGET('/api/albums').respond(albumFixtures[1]);
+      httpBackend.expectGET('/api/admin/albums').respond(albumFixtures[1]);
 
       scope.deleteAlbum(1);
 
@@ -64,7 +64,7 @@ describe('albumsController Test', function() {
   describe('Controller: albumsDetailController', function () {
     beforeEach(function() {
       routeParams = { albumId: 1 };
-      httpBackend.expectGET('/api/songs').respond();
+      httpBackend.expectGET('/api/admin/songs').respond();
 
       controller('albumsDetailController', { $scope: scope, $routeParams: routeParams });
       httpBackend.flush();
@@ -83,8 +83,8 @@ describe('albumsController Test', function() {
         "published": true
       };
       scope.formData = updated_album;
-      httpBackend.expectPUT('/api/albums/1').respond(updated_album);
-      httpBackend.expectGET('/api/songs').respond();
+      httpBackend.expectPUT('/api/admin/albums/1').respond(updated_album);
+      httpBackend.expectGET('/api/admin/songs').respond();
 
       scope.updateAlbum();
 
@@ -101,7 +101,7 @@ describe('albumsController Test', function() {
         "description": "Now has Lyrics"
       };
       scope.formData = updated_album;
-      httpBackend.expectPUT('/api/albums/1').respond(500, {"errors":{"title":{"message":"Path `title` is required."}}});
+      httpBackend.expectPUT('/api/admin/albums/1').respond(500, {"errors":{"title":{"message":"Path `title` is required."}}});
 
       scope.updateAlbum();
 
@@ -112,7 +112,7 @@ describe('albumsController Test', function() {
 
     it('should search for a song', function() {
       scope.album.songs = [ songFixtures[0] ];
-      httpBackend.expectGET('/api/songs?title=test').respond(songFixtures);
+      httpBackend.expectGET('/api/admin/songs?title=test').respond(songFixtures);
 
       scope.refreshSongs('test');
       httpBackend.flush();
@@ -128,8 +128,8 @@ describe('albumsController Test', function() {
         "description": "Foo Lyrics",
         "songs": [ songFixtures[0] ]
       };
-      httpBackend.expectPUT('/api/albums/1').respond(updated_album);
-      httpBackend.expectGET('/api/songs').respond();
+      httpBackend.expectPUT('/api/admin/albums/1').respond(updated_album);
+      httpBackend.expectGET('/api/admin/songs').respond();
 
       scope.select.selected = songFixtures[0];
 
@@ -146,11 +146,11 @@ describe('albumsController Test', function() {
         "songs": songFixtures[1]
       };
       scope.album.songs = songFixtures;
-      httpBackend.expectPUT('/api/albums/1', {
+      httpBackend.expectPUT('/api/admin/albums/1', {
         "songs":[songFixtures[1]]
 
       }).respond(updated_album);
-      httpBackend.expectGET('/api/songs').respond();
+      httpBackend.expectGET('/api/admin/songs').respond();
 
       scope.removeSong(songFixtures[0]);
 

@@ -18,7 +18,7 @@
 
     <div class="checkbox" ng-repeat="song in songs">
       <button class="btn btn-danger btn-xs" ng-click="deleteSong(song._id)">x</button>
-      <a href="/songs/{{song._id}}">{{song.title}}</a>
+      <a href="/admin/songs/{{song._id}}">{{song.title}}</a>
     </div>
 
     <p class="text-center" ng-show="loading">

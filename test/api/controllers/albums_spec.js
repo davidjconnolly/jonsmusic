@@ -30,7 +30,7 @@ describe('Albums Controller', function () {
   describe('Basic Methods', function () {
     it('should get a list of albums', function (done) {
       agent
-        .get('/api/albums')
+        .get('/api/admin/albums')
         .expect(200)
         .expect('Content-Type', /json/)
         .end(function (err, res) {
@@ -49,7 +49,7 @@ describe('Albums Controller', function () {
 
     it('should show one album', function (done) {
       agent
-        .get('/api/albums/' + album.id)
+        .get('/api/admin/albums/' + album.id)
         .expect(200)
         .expect('Content-Type', /json/)
         .end(function (err, res) {
@@ -66,7 +66,7 @@ describe('Albums Controller', function () {
 
     it('should create an album', function (done) {
       agent
-        .post('/api/albums')
+        .post('/api/admin/albums')
         .send({
           title : "foo title 2",
           description : "foo description 2",
@@ -89,7 +89,7 @@ describe('Albums Controller', function () {
 
     it('should destroy an album', function (done) {
       agent
-        .delete('/api/albums/' + album.id)
+        .delete('/api/admin/albums/' + album.id)
         .expect(200)
         .expect('OK')
         .end(done);
@@ -114,7 +114,7 @@ describe('Albums Controller', function () {
 
     it('should update and show an album with songs', function (done) {
       agent
-        .put('/api/albums/' + album.id)
+        .put('/api/admin/albums/' + album.id)
         .send({
           title : "foo title updated",
           songs : [ song ],
@@ -138,7 +138,7 @@ describe('Albums Controller', function () {
           assert.equal(res.body.songs[0].date, now);
 
           agent
-          .get('/api/albums/' + album.id)
+          .get('/api/admin/albums/' + album.id)
           .expect(200)
           .expect('Content-Type', /json/)
           .end(function (err, res) {
