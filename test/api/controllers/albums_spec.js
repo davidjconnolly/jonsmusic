@@ -19,7 +19,8 @@ describe('Albums Controller', function () {
     Album.create({
       title : "foo title",
       description : "foo description",
-      date : now
+      date : now,
+      published : false
     }).then(function (a) {
       album = a;
       done();
@@ -81,6 +82,7 @@ describe('Albums Controller', function () {
           assert.equal(res.body.title, "foo title 2");
           assert.equal(res.body.description, "foo description 2");
           assert.equal(res.body.date, now);
+          assert.equal(res.body.published, false);
           done();
         });
     });
@@ -102,7 +104,8 @@ describe('Albums Controller', function () {
       Song.create({
         title : "foo title",
         lyrics : "foo lyrics",
-        date : now
+        date : now,
+        published : false
       }).then(function (s) {
         song = s;
         done();
@@ -113,8 +116,9 @@ describe('Albums Controller', function () {
       agent
         .put('/api/albums/' + album.id)
         .send({
-          title : "foo title",
-          songs : [ song ]
+          title : "foo title updated",
+          songs : [ song ],
+          published : true
         })
         .expect(200)
         .expect('Content-Type', /json/)
@@ -123,9 +127,10 @@ describe('Albums Controller', function () {
             done(err);
           }
           assert.equal(res.body._id, album.id);
-          assert.equal(res.body.title, album.title);
+          assert.equal(res.body.title, "foo title updated");
           assert.equal(res.body.description, album.description);
           assert.equal(res.body.date, now);
+          assert.equal(res.body.published, true);
           assert.equal(res.body.songs.length, 1);
           assert.equal(res.body.songs[0]._id, song.id);
           assert.equal(res.body.songs[0].title, song.title);
@@ -141,9 +146,10 @@ describe('Albums Controller', function () {
               done(err);
             }
             assert.equal(res.body._id, album.id);
-            assert.equal(res.body.title, album.title);
+            assert.equal(res.body.title, "foo title updated");
             assert.equal(res.body.description, album.description);
             assert.equal(res.body.date, now);
+            assert.equal(res.body.published, true);
             assert.equal(res.body.songs.length, 1);
             assert.equal(res.body.songs[0]._id, song._id);
             assert.equal(res.body.songs[0].title, song.title);

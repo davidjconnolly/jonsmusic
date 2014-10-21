@@ -33,6 +33,7 @@ exports.update = function(req, res) {
     if (req.body.date !== undefined) album.date = req.body.date || null;
     if (req.body.description !== undefined) album.description = req.body.description || null;
     if (req.body.songs !== undefined) album.songs = _.pluck(req.body.songs, '_id') || [];
+    if (req.body.published !== undefined) album.published = req.body.published;
 
     album.save(function (err) {
       if (err) { return handleError(res, err); }
