@@ -75,6 +75,8 @@ angular.module('jonsmusicApp')
 
             $scope.formData.title = $scope.album.title;
             $scope.formData.description = $scope.album.description;
+            $scope.formData.published = $scope.album.published;
+
 
             if ($scope.album.date) {
               $scope.formData.date = moment.utc($scope.album.date).format("YYYY/MM/DD");

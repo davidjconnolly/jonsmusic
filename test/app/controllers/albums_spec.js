@@ -36,7 +36,8 @@ describe('albumsController Test', function() {
         "id": 3,
         "title": "Foo Create Album",
         "date": "1995-02-24T13:44:29.853Z",
-        "description": ""
+        "description": "",
+        "published": false
       };
       scope.formData = album;
       httpBackend.expectPOST('/api/albums').respond(200, album);
@@ -78,7 +79,8 @@ describe('albumsController Test', function() {
         "_id": 1,
         "title": "Foo Updated Album",
         "date": "2005-03-12T01:32:32.853Z",
-        "description": "Now has Lyrics"
+        "description": "Now has Lyrics",
+        "published": true
       };
       scope.formData = updated_album;
       httpBackend.expectPUT('/api/albums/1').respond(updated_album);
