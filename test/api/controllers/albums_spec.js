@@ -63,7 +63,7 @@ describe('Albums Controller', function () {
         });
     });
 
-    it('should create a album', function (done) {
+    it('should create an album', function (done) {
       agent
         .post('/api/albums')
         .send({
@@ -85,7 +85,7 @@ describe('Albums Controller', function () {
         });
     });
 
-    it('should destroy a album', function (done) {
+    it('should destroy an album', function (done) {
       agent
         .delete('/api/albums/' + album.id)
         .expect(200)
