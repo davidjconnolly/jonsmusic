@@ -7,11 +7,11 @@ angular.module('jonsmusicApp')
     $scope.authMenu = [
       {
         "title": "Songs",
-        "link": "songs"
+        "link": "admin/songs"
       },
       {
         "title": "Albums",
-        "link": "albums"
+        "link": "admin/albums"
       }
     ];
 

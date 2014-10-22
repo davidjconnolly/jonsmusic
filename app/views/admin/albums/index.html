@@ -18,7 +18,7 @@
 
     <div class="checkbox" ng-repeat="album in albums">
       <button class="btn btn-danger btn-xs" ng-click="deleteAlbum(album._id)">x</button>
-      <a href="/albums/{{album._id}}">{{album.title}}</a>
+      <a href="/admin/albums/{{album._id}}">{{album.title}}</a>
     </div>
     <p class="text-center" ng-show="loading">
       <span class="fa fa-spinner fa-spin fa-3x"></span>

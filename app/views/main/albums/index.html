@@ -1,0 +1,12 @@
+<div id="album-list" class="row">
+  <div class="col-sm-8 col-sm-offset-2 text-left">
+
+    <div class="checkbox" ng-repeat="album in albums">
+      <a href="/albums/{{album._id}}">{{album.title}}</a>
+    </div>
+    <p class="text-center" ng-show="loading">
+      <span class="fa fa-spinner fa-spin fa-3x"></span>
+    </p>
+
+  </div>
+</div>

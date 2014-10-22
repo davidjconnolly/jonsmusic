@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('jonsmusicApp')
-  .controller('albumsListController', ['$scope', 'albumsService',
+  .controller('albumsAdminListController', ['$scope', 'albumsService',
     function($scope, albumsService)
       {
         $scope.formData = {};
@@ -42,23 +42,8 @@ angular.module('jonsmusicApp')
                 });
             });
         };
-      }]);
-
-function updateAlbum(albumsService, scope, id, data) {
-  albumsService.update(id, data)
-    .success(function(data) {
-      scope.album = data;
-      scope.refreshSongs();
-      scope.select.selected = undefined;
-      scope.flash.success = "Album updated successfully";
-    })
-    .error(function (error) {
-      scope.flash.error = _.map(error.errors, function(error){ return error.message; }).join(', ');
-    });
-}
-
-angular.module('jonsmusicApp')
-  .controller('albumsDetailController', ['$scope', '$routeParams', '$location', '$filter', 'albumsService', 'songsService', 'flash',
+  }])
+  .controller('albumsAdminDetailController', ['$scope', '$routeParams', '$location', '$filter', 'albumsService', 'songsService', 'flash',
     function($scope, $routeParams, $location, $filter, albumsService, songsService, flash)
       {
         $scope.formData = {};
@@ -75,6 +60,8 @@ angular.module('jonsmusicApp')
 
             $scope.formData.title = $scope.album.title;
             $scope.formData.description = $scope.album.description;
+            $scope.formData.published = $scope.album.published;
+
 
             if ($scope.album.date) {
               $scope.formData.date = moment.utc($scope.album.date).format("YYYY/MM/DD");
@@ -123,4 +110,39 @@ angular.module('jonsmusicApp')
             updateAlbum(albumsService, $scope, $scope.album._id, {songs: $scope.album.songs});
           }
         };
-      }]);
+  }])
+  .controller('albumsPublicListController', ['$scope', 'albumsService',
+    function($scope, albumsService)
+      {
+        $scope.loading = true;
+
+        albumsService.publicIndex()
+          .success(function(data) {
+            $scope.albums = data;
+            $scope.loading = false;
+          });
+  }])
+  .controller('albumsPublicDetailController', ['$scope', '$routeParams', 'albumsService',
+    function($scope, $routeParams, albumsService)
+      {
+        $scope.loading = true;
+
+        albumsService.publicShow($routeParams.albumId)
+          .success(function(data) {
+            $scope.album = data;
+            $scope.loading = false;
+          });
+  }]);
+
+function updateAlbum(albumsService, scope, id, data) {
+  albumsService.update(id, data)
+    .success(function(data) {
+      scope.album = data;
+      scope.refreshSongs();
+      scope.select.selected = undefined;
+      scope.flash.success = "Album updated successfully";
+    })
+    .error(function (error) {
+      scope.flash.error = _.map(error.errors, function(error){ return error.message; }).join(', ');
+    });
+}

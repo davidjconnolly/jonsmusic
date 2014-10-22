@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('jonsmusicApp')
-  .controller('songsListController', ['$scope', '$filter', 'songsService',
+  .controller('songsAdminListController', ['$scope', '$filter', 'songsService',
     function($scope, $filter, songsService)
       {
         $scope.formData = {};
@@ -42,10 +42,8 @@ angular.module('jonsmusicApp')
                 });
             });
         };
-      }]);
-
-angular.module('jonsmusicApp')
-  .controller('songsDetailController', ['$scope', '$routeParams', '$location', '$filter', 'songsService', 'flash',
+      }])
+  .controller('songsAdminDetailController', ['$scope', '$routeParams', '$location', '$filter', 'songsService', 'flash',
     function($scope, $routeParams, $location, $filter, songsService, flash)
       {
         $scope.formData = {};
@@ -79,7 +77,7 @@ angular.module('jonsmusicApp')
                 $scope.loading = false;
                 $scope.formData = {};
                 $scope.song = data;
-                $location.path('/songs');
+                $location.path('/admin/songs');
               })
               .error(function (error) {
                 $scope.loading = false;

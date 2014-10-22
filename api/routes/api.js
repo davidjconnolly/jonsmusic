@@ -4,18 +4,21 @@ var router = require('express').Router();
 
 module.exports = function(ensureAuthenticated){
   var songs = require('../controllers/songs');
-  router.get('/songs', ensureAuthenticated, songs.index);
-  router.get('/songs/:id', ensureAuthenticated, songs.show);
-  router.post('/songs', ensureAuthenticated, songs.create);
-  router.put('/songs/:id', ensureAuthenticated, songs.update);
-  router.delete('/songs/:id', ensureAuthenticated, songs.destroy);
+  router.get('/admin/songs', ensureAuthenticated, songs.index);
+  router.get('/admin/songs/:id', ensureAuthenticated, songs.show);
+  router.post('/admin/songs', ensureAuthenticated, songs.create);
+  router.put('/admin/songs/:id', ensureAuthenticated, songs.update);
+  router.delete('/admin/songs/:id', ensureAuthenticated, songs.destroy);
 
   var albums = require('../controllers/albums');
-  router.get('/albums', ensureAuthenticated, albums.index);
-  router.get('/albums/:id', ensureAuthenticated, albums.show);
-  router.post('/albums', ensureAuthenticated, albums.create);
-  router.put('/albums/:id', ensureAuthenticated, albums.update);
-  router.delete('/albums/:id', ensureAuthenticated, albums.destroy);
+  router.get('/admin/albums', ensureAuthenticated, albums.index);
+  router.get('/admin/albums/:id', ensureAuthenticated, albums.show);
+  router.post('/admin/albums', ensureAuthenticated, albums.create);
+  router.put('/admin/albums/:id', ensureAuthenticated, albums.update);
+  router.delete('/admin/albums/:id', ensureAuthenticated, albums.destroy);
+
+  router.get('/albums', albums.publicIndex);
+  router.get('/albums/:id', albums.publicShow);
 
   return router;
 };

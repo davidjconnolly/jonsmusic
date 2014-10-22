@@ -1,0 +1,19 @@
+<div id="album-form" class="row" ng-show="!loading">
+  <div class="col-sm-8 col-sm-offset-2 text-center jumbotron">
+    <span>Title: {{album.title}}</span><br>
+    <span>Date: {{album.date}}</span><br>
+    <span>Description: {{album.description}}</span>
+  </div>
+
+  <div class="col-sm-8 col-sm-offset-2 text-center">
+    <h4>Songs</h4>
+    <div class="checkbox" ng-repeat="song in album.songs">
+      <span>{{song.title}}</span>
+    </div>
+  </div>
+
+</div>
+
+<p class="text-center" ng-show="loading">
+  <span class="fa fa-spinner fa-spin fa-3x"></span>
+</p>
