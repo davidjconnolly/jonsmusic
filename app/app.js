@@ -63,6 +63,7 @@ jonsmusicApp = angular.module('jonsmusicApp', [
       // if no currentUser and on a page that requires authorization then try to update it
       // will trigger 401s if user does not have a valid session
       if (!currentUser && _.some(['/', '/login', '/logout', '/signup', '/albums'], function(item) {
+          /* jshint expr: true */
           $location.path().search(item) != -1;
         })) {
           authService.currentUser();

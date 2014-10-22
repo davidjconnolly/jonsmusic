@@ -161,16 +161,25 @@ describe('Albums Controller', function () {
 
   describe('Public Methods', function () {
     var publishedAlbum;
+    var song;
 
     beforeEach(function (done) {
-      Album.create({
-        title : "foo public title",
-        description : "foo public description",
-        date : now,
-        published : true
-      }).then(function (a) {
-        publishedAlbum = a;
-        done();
+      Song.create({
+        title : "foo title",
+        lyrics : "foo lyrics",
+        date : now
+      }).then(function (s) {
+        song = s;
+        Album.create({
+          title : "foo public title",
+          description : "foo public description",
+          date : now,
+          songs : [ s ],
+          published : true
+        }).then(function (a) {
+          publishedAlbum = a;
+          done();
+        });
       });
     });
 
@@ -206,6 +215,11 @@ describe('Albums Controller', function () {
           assert.equal(res.body.title, publishedAlbum.title);
           assert.equal(res.body.description, publishedAlbum.description);
           assert.equal(res.body.date, now);
+          assert.equal(res.body.songs.length, 1);
+          assert.equal(res.body.songs[0]._id, song.id);
+          assert.equal(res.body.songs[0].title, song.title);
+          assert.equal(res.body.songs[0].description, song.description);
+          assert.equal(res.body.songs[0].date, now);
         });
 
       agent

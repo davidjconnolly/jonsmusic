@@ -42,9 +42,7 @@ angular.module('jonsmusicApp')
                 });
             });
         };
-      }]);
-
-angular.module('jonsmusicApp')
+      }])
   .controller('songsAdminDetailController', ['$scope', '$routeParams', '$location', '$filter', 'songsService', 'flash',
     function($scope, $routeParams, $location, $filter, songsService, flash)
       {

@@ -42,22 +42,7 @@ angular.module('jonsmusicApp')
                 });
             });
         };
-  }]);
-
-function updateAlbum(albumsService, scope, id, data) {
-  albumsService.update(id, data)
-    .success(function(data) {
-      scope.album = data;
-      scope.refreshSongs();
-      scope.select.selected = undefined;
-      scope.flash.success = "Album updated successfully";
-    })
-    .error(function (error) {
-      scope.flash.error = _.map(error.errors, function(error){ return error.message; }).join(', ');
-    });
-}
-
-angular.module('jonsmusicApp')
+  }])
   .controller('albumsAdminDetailController', ['$scope', '$routeParams', '$location', '$filter', 'albumsService', 'songsService', 'flash',
     function($scope, $routeParams, $location, $filter, albumsService, songsService, flash)
       {
@@ -125,9 +110,7 @@ angular.module('jonsmusicApp')
             updateAlbum(albumsService, $scope, $scope.album._id, {songs: $scope.album.songs});
           }
         };
-  }]);
-
-angular.module('jonsmusicApp')
+  }])
   .controller('albumsPublicListController', ['$scope', 'albumsService',
     function($scope, albumsService)
       {
@@ -138,9 +121,7 @@ angular.module('jonsmusicApp')
             $scope.albums = data;
             $scope.loading = false;
           });
-  }]);
-
-angular.module('jonsmusicApp')
+  }])
   .controller('albumsPublicDetailController', ['$scope', '$routeParams', 'albumsService',
     function($scope, $routeParams, albumsService)
       {
@@ -152,3 +133,16 @@ angular.module('jonsmusicApp')
             $scope.loading = false;
           });
   }]);
+
+function updateAlbum(albumsService, scope, id, data) {
+  albumsService.update(id, data)
+    .success(function(data) {
+      scope.album = data;
+      scope.refreshSongs();
+      scope.select.selected = undefined;
+      scope.flash.success = "Album updated successfully";
+    })
+    .error(function (error) {
+      scope.flash.error = _.map(error.errors, function(error){ return error.message; }).join(', ');
+    });
+}
