@@ -20,19 +20,19 @@ jonsmusicApp = angular.module('jonsmusicApp', [
 .config(function ($routeProvider, $locationProvider, $httpProvider, flashProvider, uiSelectConfig) {
   $routeProvider
       .when('/admin/songs', {
-        controller: 'songsListController',
+        controller: 'songsAdminListController',
         templateUrl: '/views/admin/songs/index.html'
       })
       .when('/admin/songs/:songId', {
-        controller: 'songsDetailController',
+        controller: 'songsAdminDetailController',
         templateUrl: '/views/admin/songs/edit.html'
       })
       .when('/admin/albums', {
-        controller: 'albumsListController',
+        controller: 'albumsAdminListController',
         templateUrl: '/views/admin/albums/index.html'
       })
       .when('/admin/albums/:albumId', {
-        controller: 'albumsDetailController',
+        controller: 'albumsAdminDetailController',
         templateUrl: '/views/admin/albums/edit.html'
       })
       .when('/login', {
@@ -43,12 +43,12 @@ jonsmusicApp = angular.module('jonsmusicApp', [
         templateUrl: '/views/auth/signup.html',
         controller: 'signupController'
       })
-      .otherwise({
-        redirectTo: '/index',
-        templateUrl: '/views/main/index.html'
+      .when('/albums/:albumId', {
+        controller: 'albumsPublicDetailController',
+        templateUrl: '/views/main/albums/show.html'
       })
-      .when('/albums', {
-        controller: 'albumsPublicController',
+      .otherwise({
+        controller: 'albumsPublicListController',
         templateUrl: '/views/main/albums/index.html'
       });
 
@@ -62,10 +62,12 @@ jonsmusicApp = angular.module('jonsmusicApp', [
     $rootScope.$watch('currentUser', function(currentUser) {
       // if no currentUser and on a page that requires authorization then try to update it
       // will trigger 401s if user does not have a valid session
-      if (!currentUser && (['/', '/login', '/logout', '/signup'].indexOf($location.path()) == -1 )) {
-        authService.currentUser();
-      }
-    });
+      if (!currentUser && _.some(['/', '/login', '/logout', '/signup', '/albums'], function(item) {
+          $location.path().search(item) != -1;
+        })) {
+          authService.currentUser();
+        }
+      });
 
     // On catching 401 errors, redirect to the login page.
     $rootScope.$on('event:auth-loginRequired', function() {

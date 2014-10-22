@@ -29,7 +29,7 @@ exports.publicShow = function(req, res) {
   Album.findById(req.params.id).populate('songs').exec(function (err, album) {
     if(err) { return handleError(res, err); }
     if(!album) { return res.send(404); }
-    if(album.published != true) { return res.send(401); }
+    if(album.published !== true) { return res.send(401); }
     return res.json(album);
   });
 };

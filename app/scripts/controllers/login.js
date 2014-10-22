@@ -14,7 +14,7 @@ angular.module('jonsmusicApp')
           $scope.errors = {};
 
           if (!err) {
-            $location.path('/');
+            $location.path('/admin/albums');
           } else {
             angular.forEach(err.errors, function(error, field) {
               form[field].$setValidity('mongoose', false);

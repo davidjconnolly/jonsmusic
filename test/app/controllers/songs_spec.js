@@ -19,9 +19,9 @@ describe('songsController Test', function() {
     songFixtures = _songFixtures_;
   }));
 
-  describe('Controller: songsListController', function () {
+  describe('Controller: songsAdminListController', function () {
     beforeEach(function() {
-      controller('songsListController', { $scope: scope });
+      controller('songsAdminListController', { $scope: scope });
       httpBackend.flush();
     });
     
@@ -58,10 +58,10 @@ describe('songsController Test', function() {
     });
   });
 
-  describe('Controller: songsDetailController', function () {
+  describe('Controller: songsAdminDetailController', function () {
     beforeEach(function() {
       routeParams = { songId: 1 };
-      controller('songsDetailController', { $scope: scope, $routeParams: routeParams });
+      controller('songsAdminDetailController', { $scope: scope, $routeParams: routeParams });
       httpBackend.flush();
     });
     

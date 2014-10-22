@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('jonsmusicApp')
-  .controller('albumsListController', ['$scope', 'albumsAdminService',
-    function($scope, albumsAdminService)
+  .controller('albumsAdminListController', ['$scope', 'albumsService',
+    function($scope, albumsService)
       {
         $scope.formData = {};
         $scope.loading = true;
 
-        albumsAdminService.index()
+        albumsService.index()
           .success(function(data) {
             $scope.albums = data;
             $scope.loading = false;
@@ -17,9 +17,9 @@ angular.module('jonsmusicApp')
           if ($scope.formData.title && $scope.formData.title.trim() !== '') {
             $scope.loading = true;
 
-            albumsAdminService.create($scope.formData)
+            albumsService.create($scope.formData)
               .success(function() {
-                albumsAdminService.index()
+                albumsService.index()
                   .success(function(data) {
                     $scope.formData = {};
                     $scope.albums = data;
@@ -32,9 +32,9 @@ angular.module('jonsmusicApp')
         $scope.deleteAlbum = function(id) {
           $scope.loading = true;
 
-          albumsAdminService.delete(id)
+          albumsService.delete(id)
             .success(function() {
-              albumsAdminService.index()
+              albumsService.index()
                 .success(function(data) {
                   $scope.formData = {};
                   $scope.albums = data;
@@ -42,10 +42,10 @@ angular.module('jonsmusicApp')
                 });
             });
         };
-      }]);
+  }]);
 
-function updateAlbum(albumsAdminService, scope, id, data) {
-  albumsAdminService.update(id, data)
+function updateAlbum(albumsService, scope, id, data) {
+  albumsService.update(id, data)
     .success(function(data) {
       scope.album = data;
       scope.refreshSongs();
@@ -58,8 +58,8 @@ function updateAlbum(albumsAdminService, scope, id, data) {
 }
 
 angular.module('jonsmusicApp')
-  .controller('albumsDetailController', ['$scope', '$routeParams', '$location', '$filter', 'albumsAdminService', 'songsAdminService', 'flash',
-    function($scope, $routeParams, $location, $filter, albumsAdminService, songsAdminService, flash)
+  .controller('albumsAdminDetailController', ['$scope', '$routeParams', '$location', '$filter', 'albumsService', 'songsService', 'flash',
+    function($scope, $routeParams, $location, $filter, albumsService, songsService, flash)
       {
         $scope.formData = {};
         $scope.loading = true;
@@ -69,7 +69,7 @@ angular.module('jonsmusicApp')
         $scope.query_songs = [];
 
         // Load Album and setup input form
-        albumsAdminService.show($routeParams.albumId)
+        albumsService.show($routeParams.albumId)
           .success(function(data) {
             $scope.album = data;
 
@@ -91,12 +91,12 @@ angular.module('jonsmusicApp')
             $scope.formData.date = moment.utc($scope.formData.date).format("YYYY/MM/DD");
           }
 
-          updateAlbum(albumsAdminService, $scope, $scope.album._id, $scope.formData);
+          updateAlbum(albumsService, $scope, $scope.album._id, $scope.formData);
         };
 
         // Listeners for Song selector
         $scope.refreshSongs = function(title) {
-          songsAdminService.index( { title: title } )
+          songsService.index( { title: title } )
             .success(function(songs) {
               $scope.query_songs =  _.filter(songs, function(song) {
                 return !_.contains(_.pluck($scope.album.songs, '_id'), song._id);
@@ -107,7 +107,7 @@ angular.module('jonsmusicApp')
           if (song) {
             var songs = $scope.album.songs.concat(song);
 
-            updateAlbum(albumsAdminService, $scope, $scope.album._id, {songs: songs});
+            updateAlbum(albumsService, $scope, $scope.album._id, {songs: songs});
           }
           $scope.select.selected = undefined;
         });
@@ -118,11 +118,37 @@ angular.module('jonsmusicApp')
             return item._id !== song._id;
           });
 
-          updateAlbum(albumsAdminService, $scope, $scope.album._id, {songs: songs});
+          updateAlbum(albumsService, $scope, $scope.album._id, {songs: songs});
         };
         $scope.dragControlListeners = {
           orderChanged: function(event) {
-            updateAlbum(albumsAdminService, $scope, $scope.album._id, {songs: $scope.album.songs});
+            updateAlbum(albumsService, $scope, $scope.album._id, {songs: $scope.album.songs});
           }
         };
-      }]);
+  }]);
+
+angular.module('jonsmusicApp')
+  .controller('albumsPublicListController', ['$scope', 'albumsService',
+    function($scope, albumsService)
+      {
+        $scope.loading = true;
+
+        albumsService.publicIndex()
+          .success(function(data) {
+            $scope.albums = data;
+            $scope.loading = false;
+          });
+  }]);
+
+angular.module('jonsmusicApp')
+  .controller('albumsPublicDetailController', ['$scope', '$routeParams', 'albumsService',
+    function($scope, $routeParams, albumsService)
+      {
+        $scope.loading = true;
+
+        albumsService.publicShow($routeParams.albumId)
+          .success(function(data) {
+            $scope.album = data;
+            $scope.loading = false;
+          });
+  }]);

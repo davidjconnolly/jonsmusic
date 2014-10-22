@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('jonsmusicApp')
-  .service('songsAdminService', ['$http', function ($http) {
+  .service('songsService', ['$http', function ($http) {
     return {
       create : function(songData) {
         return $http.post('/api/admin/songs', songData);

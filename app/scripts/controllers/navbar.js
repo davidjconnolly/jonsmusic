@@ -2,12 +2,7 @@
 
 angular.module('jonsmusicApp')
   .controller('navbarController', function ($scope, authService, $location) {
-    $scope.menu = [
-      {
-        "title": "Public Albums",
-        "link": "/albums"
-      }
-    ];
+    $scope.menu = [];
 
     $scope.authMenu = [
       {

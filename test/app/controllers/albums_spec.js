@@ -21,9 +21,9 @@ describe('albumsController Test', function() {
     songFixtures = _songFixtures_;
   }));
 
-  describe('Controller: albumsListController', function () {
+  describe('Controller: albumsAdminListController', function () {
     beforeEach(function() {
-      controller('albumsListController', { $scope: scope });
+      controller('albumsAdminListController', { $scope: scope });
       httpBackend.flush();
     });
     
@@ -61,12 +61,12 @@ describe('albumsController Test', function() {
     });
   });
 
-  describe('Controller: albumsDetailController', function () {
+  describe('Controller: albumsAdminDetailController', function () {
     beforeEach(function() {
       routeParams = { albumId: 1 };
       httpBackend.expectGET('/api/admin/songs').respond();
 
-      controller('albumsDetailController', { $scope: scope, $routeParams: routeParams });
+      controller('albumsAdminDetailController', { $scope: scope, $routeParams: routeParams });
       httpBackend.flush();
     });
     
@@ -158,7 +158,33 @@ describe('albumsController Test', function() {
       assert.deepEqual(scope.album.songs, updated_album.songs);
       assert.equal(scope.flash.success, "Album updated successfully");
     });
+  });
 
+  describe('Controller: albumsPublicListController', function () {
+    beforeEach(function() {
+      httpBackend.expectGET('/api/albums').respond(albumFixtures);
+
+      controller('albumsPublicListController', { $scope: scope });
+      httpBackend.flush();
+    });
+    
+    it('should return album', function() {
+      assert.deepEqual(scope.albums, albumFixtures);
+    });
+  });
+
+  describe('Controller: albumsPublicDetailController', function () {
+    beforeEach(function() {
+      routeParams = { albumId: 1 };
+      httpBackend.expectGET('/api/albums/1').respond(albumFixtures[0]);
+
+      controller('albumsPublicDetailController', { $scope: scope, $routeParams: routeParams });
+      httpBackend.flush();
+    });
+    
+    it('should return album', function() {
+      assert.deepEqual(scope.album, albumFixtures[0]);
+    });
   });
 
 });
