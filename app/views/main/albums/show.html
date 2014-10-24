@@ -9,9 +9,9 @@
     <h4>Songs</h4>
     <div class="checkbox" ng-repeat="song in album.songs">
       <span>{{song.title}}</span>
+      <a href="{{song.url}}" ng-show="song.url">Download</a>
     </div>
   </div>
-
 </div>
 
 <p class="text-center" ng-show="loading">

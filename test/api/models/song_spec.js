@@ -13,7 +13,8 @@ describe('Song Model', function() {
     Song.create({
       title : "foo title",
       lyrics : "foo lyrics",
-      date : now
+      date : now,
+      url : "foo url"
     }).then(function (a) {
       song = a;
       done();
@@ -24,6 +25,7 @@ describe('Song Model', function() {
     assert.equal('foo title', song.title);
     assert.equal('foo lyrics', song.lyrics);
     assert.equal(now, song.date);
+    assert.equal('foo url', song.url);
   });
 
 });

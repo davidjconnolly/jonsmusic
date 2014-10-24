@@ -5,6 +5,23 @@
         <input type="text" class="form-control input-lg text-center" placeholder="Enter song title..." ng-model="formData.title">
         <date-picker bind="formData.date"></date-picker>
         <input type="text" class="form-control input-lg text-center" placeholder="Enter song lyrics..." ng-model="formData.lyrics">
+
+        <a href="{{song.url}}">Download Song</a>
+
+        <div class="row marketing">
+          <div class="form-group">
+            <label for="photos">Upload Song</label>
+            <input type="file" ng-file-select="onFileSelect($files)">
+            <div class="button" ng-file-select="onFileSelect($files)" data-multiple="false"></div>
+            <br>
+            <div class="progress" ng-show="progress > 0 && progress < 100">
+              <div class="progress-bar" role="progressbar" style="width:{{progress}}%;">
+                {{progress}}
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
 
       <div class="col-sm-2">

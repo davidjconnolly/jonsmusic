@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/davidjconnolly/jonsmusic",
   "dependencies": {
+    "aws-sdk": "^2.0.21",
     "body-parser": "~1.5.0",
     "bower": "^1.3.9",
     "connect-mongo": "^0.4.1",
