@@ -90,8 +90,7 @@ angular.module('jonsmusicApp')
         };
 
         $scope.onFileSelect = function (files) {
-          var file = files[0]
-          debugger
+          var file = files[0];
 
           $http.get('/api/admin/s3Policy?mimeType='+ file.type).success(function(response) {
             var s3Params = response;
@@ -112,9 +111,9 @@ angular.module('jonsmusicApp')
             $scope.upload
             .then(function(response, x2js) {
               $scope.progress = parseInt(99);
-              $timeout(function() { hideProgress($scope) }, 1000);
+              $timeout(function() { hideProgress($scope); }, 1000);
               if (response.status === 201) {
-                var awsUrl = $scope.x2js.xml_str2json(response.data).PostResponse.Location
+                var awsUrl = $scope.x2js.xml_str2json(response.data).PostResponse.Location;
                 songsService.update($scope.song._id, {url: awsUrl})
                   .success(function(data) {
                     $scope.song = data;
@@ -123,7 +122,7 @@ angular.module('jonsmusicApp')
                     $scope.flash.error = _.map(error.errors, function(error){ return error.message; }).join(', ');
                   });
               } else {
-                alert('Upload Failed');
+                $scope.flash.error = 'Upload Failed';
               }
             }, null, function(evt) {
               $scope.progress =  parseInt(100.0 * evt.loaded / evt.total / 1.25);
