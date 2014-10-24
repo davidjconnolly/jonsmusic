@@ -80,7 +80,7 @@ angular.module('jonsmusicApp')
                 $scope.loading = false;
                 $scope.formData = {};
                 $scope.song = data;
-                $location.path('/admin/songs');
+                $scope.flash.success = "Song updated successfully";
               })
               .error(function (error) {
                 $scope.loading = false;
@@ -134,4 +134,5 @@ angular.module('jonsmusicApp')
 
 function hideProgress(scope) {
   scope.progress = parseInt(100);
+  scope.flash.success = "Song uploaded successfully";
 }

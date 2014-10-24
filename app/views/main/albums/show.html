@@ -5,11 +5,13 @@
     <span>Description: {{album.description}}</span>
   </div>
 
-  <div class="col-sm-8 col-sm-offset-2 text-center">
+  <div class="col-sm-8 col-sm-offset-2">
     <h4>Songs</h4>
-    <div class="checkbox" ng-repeat="song in album.songs">
-      <span>{{song.title}}</span>
-      <a href="{{song.url}}" ng-show="song.url">Download</a>
+
+    <div class="list-group" ng-repeat="song in album.songs" style="margin:0px;">
+      <a href="{{song.url}}" class="list-group-item">
+        {{$index + 1}} {{song.title}}
+      </a>
     </div>
   </div>
 </div>
