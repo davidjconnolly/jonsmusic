@@ -21,7 +21,8 @@
     "angular-ui-select": "~0.8.2",
     "ng-sortable": "~1.1.2",
     "ng-file-upload": "~1.6.12",
-    "angular-x2js": "~0.1.1"
+    "angular-x2js": "~0.1.1",
+    "angular-media-player": "~0.5.8"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.26"

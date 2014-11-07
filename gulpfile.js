@@ -37,7 +37,8 @@ var paths = {
     'bower_components/ng-sortable/dist/ng-sortable.js',
     'bower_components/ng-file-upload/angular-file-upload.min.js',
     'bower_components/x2js/xml2json.js',
-    'bower_components/angular-x2js/src/x2js.js'
+    'bower_components/angular-x2js/src/x2js.js',
+    'bower_components/angular-media-player/dist/angular-media-player.js'
   ],
   vendor_styles: [
     'bower_components/bootstrap/dist/css/bootstrap.css',

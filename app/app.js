@@ -17,7 +17,8 @@ jonsmusicApp = angular.module('jonsmusicApp', [
   'ui.select',
   'ui.sortable',
   'angularFileUpload',
-  'cb.x2js'
+  'cb.x2js',
+  'mediaPlayer'
 ])
 .config(function ($routeProvider, $locationProvider, $httpProvider, flashProvider, uiSelectConfig) {
   $routeProvider

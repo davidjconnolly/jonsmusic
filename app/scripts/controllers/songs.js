@@ -114,7 +114,12 @@ angular.module('jonsmusicApp')
               $timeout(function() { hideProgress($scope); }, 1000);
               if (response.status === 201) {
                 var awsUrl = $scope.x2js.xml_str2json(response.data).PostResponse.Location;
-                songsService.update($scope.song._id, {url: awsUrl})
+
+                songsService.update($scope.song._id, {file: {
+                  fileUrl: awsUrl,
+                  fileType: file.type,
+                  fileName: file.name
+                }})
                   .success(function(data) {
                     $scope.song = data;
                   })

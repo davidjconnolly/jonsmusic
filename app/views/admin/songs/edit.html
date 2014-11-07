@@ -14,8 +14,8 @@
   </div>
 
   <div class="col-sm-8 col-sm-offset-2">
-    <div class="col-sm-2" ng-show="song.url">
-      <a class="btn btn-primary btn-lg" href="{{song.url}}">Download</a>
+    <div class="col-sm-2" ng-show="song.file.fileUrl">
+      <a class="btn btn-primary btn-lg" href="{{song.file.fileUrl}}">Download</a>
     </div>
     <button type="file" class="btn btn-default btn-lg" ng-file-select="onFileSelect($files)">Browse</button>
     <div class="progress" style="margin-top:10px;" ng-show="progress > 0 && progress < 100">
