@@ -19,6 +19,7 @@ var paths = {
   public: ['app/public/**/*'],
 
   vendor_scripts: [
+    'bower_components/ng-file-upload-shim/angular-file-upload-html5-shim.min.js',
     'bower_components/angular/angular.js',
     'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
     'bower_components/angular-ui-router/release/angular-ui-router.js',
@@ -33,7 +34,11 @@ var paths = {
     'bower_components/underscore/underscore.js',
     'bower_components/angular-underscore/angular-underscore.js',
     'bower_components/angular-ui-select/dist/select.min.js',
-    'bower_components/ng-sortable/dist/ng-sortable.js'
+    'bower_components/ng-sortable/dist/ng-sortable.js',
+    'bower_components/ng-file-upload/angular-file-upload.min.js',
+    'bower_components/x2js/xml2json.js',
+    'bower_components/angular-x2js/src/x2js.js',
+    'bower_components/angular-media-player/dist/angular-media-player.js'
   ],
   vendor_styles: [
     'bower_components/bootstrap/dist/css/bootstrap.css',

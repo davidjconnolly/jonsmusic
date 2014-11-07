@@ -102,6 +102,25 @@ describe('songsController Test', function() {
       assert.equal(scope.flash.error, "Path `title` is required.");
     });
 
+    it('should upload a file', function() {
+      var files = [{
+        name: 'Test Song.mp3',
+        type: 'audio/mp3'
+      }];
+      var url = "https://test.s3.amazonaws.com/song_name.mp3";
+      var updated_song = songFixtures[0];
+      updated_song.url = url;
+
+      httpBackend.expectGET('/api/admin/s3Policy?mimeType=audio/mp3').respond({"s3Policy":"somePolicy","s3Signature":"someSignature","AWSAccessKeyId":"someAccessKey"});
+      httpBackend.expectPOST('https://jonsmusic.s3.amazonaws.com/').respond(201, "<PostResponse><Location>" + url + "</Location>");
+      httpBackend.expectPUT('/api/admin/songs/1').respond(updated_song);
+
+      scope.onFileSelect(files);
+
+      httpBackend.flush();
+      assert.equal(scope.song.url, url);
+    });
+
   });
 
 });

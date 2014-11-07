@@ -17,6 +17,9 @@ module.exports = function(ensureAuthenticated){
   router.put('/admin/albums/:id', ensureAuthenticated, albums.update);
   router.delete('/admin/albums/:id', ensureAuthenticated, albums.destroy);
 
+  var aws = require('../controllers/aws');
+  router.get('/admin/s3Policy', ensureAuthenticated, aws.getS3Policy);
+
   router.get('/albums', albums.publicIndex);
   router.get('/albums/:id', albums.publicShow);
 

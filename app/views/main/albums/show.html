@@ -6,10 +6,28 @@
   </div>
 
   <div class="col-sm-8 col-sm-offset-2 text-center">
+    <audio media-player="audioPlayer" data-playlist="playlist"></audio>
+
+    <button class="pull-left btn" ng-click="playAll()">Play All</button>
+    <span>{{playlist[audioPlayer.currentTrack-1].name}} - {{parseInt(audioPlayer.currentTime)}}/{{parseInt(audioPlayer.duration)}}</span>
+    <span ng-show="audioPlayer.playing">Player status: Playing</span>
+    <span ng-show="!audioPlayer.playing">Player status: Paused</span>
+    <button class="pull-left btn" ng-click="pauseSong()" ng-show="audioPlayer.playing">Pause</button>
+    <button class="pull-left btn" ng-click="playSong()" ng-show="!audioPlayer.playing">Play</button>
+
     <h4>Songs</h4>
-    <div class="checkbox" ng-repeat="song in album.songs">
-      <span>{{song.title}}</span>
-    </div>
+
+      <div class="list-group" ng-repeat="song in album.songs" style="margin:0px;">
+        <div class="col-sm-1">
+          <button class="pull-left btn" ng-click="playSelected($index)">Play</button>
+        </div>
+
+        <div class="col-sm-11">
+          <a href="{{song.file.fileUrl}}" class="list-group-item" ng-class="{active:audioPlayer.currentTrack == $index+1}">
+            {{$index + 1}} {{song.title}}
+          </a>
+        </div>
+      </div>
   </div>
 
 </div>

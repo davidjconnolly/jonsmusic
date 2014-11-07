@@ -122,13 +122,41 @@ angular.module('jonsmusicApp')
             $scope.loading = false;
           });
   }])
-  .controller('albumsPublicDetailController', ['$scope', '$routeParams', 'albumsService',
-    function($scope, $routeParams, albumsService)
+  .controller('albumsPublicDetailController', ['$scope', '$sce', '$routeParams', 'albumsService',
+    function($scope, $sce, $routeParams, albumsService)
       {
         $scope.loading = true;
+        $scope.audioPlayer = {};
+        $scope.playlist = {};
+
+        $scope.trustSrc = function(src) {
+          return $sce.trustAsResourceUrl(src);
+        };
+
+        $scope.parseInt = function(num) {
+          return parseInt(num) || 0;
+        };
+
+        $scope.playAll = function () {
+          $scope.audioPlayer.$selective = false;
+          $scope.audioPlayer.play(0, false);
+        };
+
+        $scope.playSelected = function (index) {
+          $scope.audioPlayer.play(index, true);
+        };
+
+        $scope.pauseSong = function () {
+          $scope.audioPlayer.pause();
+        };
+
+        $scope.playSong = function () {
+          $scope.audioPlayer.play();
+        };
 
         albumsService.publicShow($routeParams.albumId)
           .success(function(data) {
+            $scope.playlist = _.map(data.songs, function(song){ return { src: song.file.fileUrl, type: song.file.fileType, name: song.title }; });
             $scope.album = data;
             $scope.loading = false;
           });

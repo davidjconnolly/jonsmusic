@@ -43,12 +43,15 @@ angular.module('jonsmusicApp')
             });
         };
       }])
-  .controller('songsAdminDetailController', ['$scope', '$routeParams', '$location', '$filter', 'songsService', 'flash',
-    function($scope, $routeParams, $location, $filter, songsService, flash)
+  .controller('songsAdminDetailController', ['$scope', '$routeParams', '$location', '$filter', '$http', '$upload', '$timeout', 'songsService', 'flash', 'x2js',
+    function($scope, $routeParams, $location, $filter, $http, $upload, $timeout, songsService, flash, x2js)
       {
         $scope.formData = {};
         $scope.loading = true;
         $scope.flash = flash;
+        $scope.x2js = x2js;
+        $scope.progress = parseInt(0);
+        $scope.upload = null;
 
         songsService.show($routeParams.songId)
           .success(function(data) {
@@ -77,7 +80,7 @@ angular.module('jonsmusicApp')
                 $scope.loading = false;
                 $scope.formData = {};
                 $scope.song = data;
-                $location.path('/admin/songs');
+                $scope.flash.success = "Song updated successfully";
               })
               .error(function (error) {
                 $scope.loading = false;
@@ -85,4 +88,56 @@ angular.module('jonsmusicApp')
               });
           }
         };
+
+        $scope.onFileSelect = function (files) {
+          var file = files[0];
+
+          $http.get('/api/admin/s3Policy?mimeType='+ file.type).success(function(response) {
+            var s3Params = response;
+            $scope.upload = $upload.upload({
+              url: 'https://jonsmusic.s3.amazonaws.com/',
+              method: 'POST',
+              data: {
+                'key' : Math.round(Math.random()*10000) + '$$' + file.name,
+                'acl' : 'public-read',
+                'Content-Type' : file.type,
+                'AWSAccessKeyId': s3Params.AWSAccessKeyId,
+                'success_action_status' : '201',
+                'Policy' : s3Params.s3Policy,
+                'Signature' : s3Params.s3Signature
+              },
+              file: file,
+            });
+            $scope.upload
+            .then(function(response, x2js) {
+              $scope.progress = parseInt(99);
+              $timeout(function() { hideProgress($scope); }, 1000);
+              if (response.status === 201) {
+                var awsUrl = $scope.x2js.xml_str2json(response.data).PostResponse.Location;
+
+                songsService.update($scope.song._id, {file: {
+                  fileUrl: awsUrl,
+                  fileType: file.type,
+                  fileName: file.name
+                }})
+                  .success(function(data) {
+                    $scope.song = data;
+                  })
+                  .error(function (error) {
+                    $scope.flash.error = _.map(error.errors, function(error){ return error.message; }).join(', ');
+                  });
+              } else {
+                $scope.flash.error = 'Upload Failed';
+              }
+            }, null, function(evt) {
+              $scope.progress =  parseInt(100.0 * evt.loaded / evt.total / 1.25);
+            });
+          });
+        };
+
       }]);
+
+function hideProgress(scope) {
+  scope.progress = parseInt(100);
+  scope.flash.success = "Song uploaded successfully";
+}
