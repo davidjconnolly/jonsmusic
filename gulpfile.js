@@ -190,7 +190,7 @@ gulp.task('default', [
   'vendor-styles', 'styles',
   'vendor-fonts',
   'vendor-scripts', 'app_scripts',
-  'haml-views',
+  'icon-public',
   'watch', 'nodemon'
 ]);
 
@@ -199,7 +199,7 @@ gulp.task('build', [
   'vendor-styles', 'styles',
   'vendor-fonts',
   'vendor-scripts', 'app_scripts',
-  'haml-views'
+  'icon-public',
 ]);
 
 // Test
