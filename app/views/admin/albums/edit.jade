@@ -1,0 +1,39 @@
+#album-form.row(ng-show='!loading')
+    .col-sm-8.col-sm-offset-2.text-center.jumbotron
+        form
+          .col-sm-10
+            input.form-control.input-lg.text-center(type='text', placeholder='Enter album title...', ng-model='formData.title')
+
+            date-picker(bind='formData.date')
+
+            input.form-control.input-lg.text-center(type='text', placeholder='Enter album description...', ng-model='formData.description')
+
+          .col-sm-2
+            button.btn.btn-primary.btn-lg(type='submit', ng-click='updateAlbum()') Update
+
+            br
+            br
+
+            input(type='checkbox', ng-model='formData.published')
+            |  Published?
+
+      .col-sm-8.col-sm-offset-2.text-center
+        h4 Songs
+
+        ui-select(ng-model='select.selected', theme='bootstrap', ng-disabled='disabled', reset-search-input='true')
+          ui-select-match(placeholder='Enter a song...')
+
+          ui-select-choices(repeat='song in query_songs track by $index', refresh='refreshSongs($select.search)', refresh-delay='0')
+            div(ng-bind-html='song.title | highlight: $select.search')
+
+        ul(data-as-sortable='dragControlListeners', ng-model='album.songs')
+          li(ng-repeat='song in album.songs', data-as-sortable-item='')
+            div(data-as-sortable-item-handle='')
+              span.pull-left &nbsp;&nbsp; {{$index + 1}}
+              | {{song.title}}
+
+              a.pull-right.btn.btn-xs(data-no-drag='', ng-click='removeSong(song)')
+                span.glyphicon.glyphicon-remove
+
+    p.text-center(ng-show='loading')
+      span.fa.fa-spinner.fa-spin.fa-3x

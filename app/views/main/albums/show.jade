@@ -1,0 +1,37 @@
+#album-form.row(ng-show='!loading')
+    .col-sm-8.col-sm-offset-2.text-center.jumbotron
+        span Title: {{album.title}}
+        br
+
+        span Date: {{album.date}}
+        br
+
+        span Description: {{album.description}}
+
+      .col-sm-8.col-sm-offset-2.text-center
+        audio(media-player='audioPlayer', data-playlist='playlist')
+
+        button.pull-left.btn(ng-click='playAll()') Play All
+
+        span
+          | {{playlist[audioPlayer.currentTrack-1].name}} - {{parseInt(audioPlayer.currentTime)}}/{{parseInt(audioPlayer.duration)}}
+
+        span(ng-show='audioPlayer.playing') Player status: Playing
+
+        span(ng-show='!audioPlayer.playing') Player status: Paused
+
+        button.pull-left.btn(ng-click='pauseSong()', ng-show='audioPlayer.playing') Pause
+
+        button.pull-left.btn(ng-click='playSong()', ng-show='!audioPlayer.playing') Play
+
+        h4 Songs
+
+        .list-group(ng-repeat='song in album.songs', style='margin:0px;')
+          .col-sm-1
+            button.pull-left.btn(ng-click='playSelected($index)') Play
+
+          .col-sm-11
+            a.list-group-item(href='{{song.file.fileUrl}}', ng-class='{active:audioPlayer.currentTrack == $index+1}')
+              | {{$index + 1}} {{song.title}}
+    p.text-center(ng-show='loading')
+      span.fa.fa-spinner.fa-spin.fa-3x

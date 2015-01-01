@@ -1,0 +1,11 @@
+#album-list.row
+    .col-sm-8.col-sm-offset-2.text-left
+        h1 Albums
+
+        .list-group(ng-repeat='album in albums')
+          a.list-group-item(href='/albums/{{album._id}}')
+            | {{album.title}}
+            span.badge {{album.songs.length}}
+
+        p.text-center(ng-show='loading')
+          span.fa.fa-spinner.fa-spin.fa-3x

@@ -10,13 +10,13 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var mocha = require('gulp-spawn-mocha');
 var karma = require('gulp-karma');
-var haml = require('gulp-haml');
+var jade = require('gulp-jade');
 
 var paths = {
   api_scripts: ['api/**/*.js'],
   app_scripts: ['app/**/*.js'],
   styles: ['app/styles/**/*.scss'],
-  views: ['app/views/**/*.haml'],
+  views: ['app/views/**/*.jade'],
   favicon: ['app/public/**/*.ico'],
 
   vendor_scripts: [
@@ -132,9 +132,9 @@ gulp.task('icon-public', function () {
 })
 
 // Views
-gulp.task('haml-views', function () {
+gulp.task('jade-views', function () {
   gulp.src(paths.views)
-    .pipe(haml())
+    .pipe(jade())
     .pipe(gulp.dest('./deploy/public/views'))
 })
 
@@ -165,7 +165,7 @@ gulp.task('watch', function() {
   gulp.watch(paths.app_scripts, ['jshint-app', 'app_scripts']);
   gulp.watch(paths.api_scripts, ['jshint-api']);
   gulp.watch(paths.styles, ['styles']);
-  gulp.watch(paths.views, ['haml-views']);
+  gulp.watch(paths.views, ['jade-views']);
 });
 
 // -- Sub-Tasks --------------------------------------------------------------
@@ -188,7 +188,7 @@ gulp.task('default', [
   'vendor-styles', 'styles',
   'vendor-fonts',
   'vendor-scripts', 'app_scripts',
-  'icon-public', 'haml-views',
+  'icon-public', 'jade-views',
   'watch', 'nodemon'
 ]);
 
@@ -197,7 +197,7 @@ gulp.task('build', [
   'vendor-styles', 'styles',
   'vendor-fonts',
   'vendor-scripts', 'app_scripts',
-  'icon-public', 'haml-views'
+  'icon-public', 'jade-views'
 ]);
 
 // Test
