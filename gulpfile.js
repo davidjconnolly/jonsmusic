@@ -17,7 +17,6 @@ var paths = {
   app_scripts: ['app/**/*.js'],
   styles: ['app/styles/**/*.scss'],
   views: ['app/views/**/*.haml'],
-  public: ['app/public/**/*.haml'],
   favicon: ['app/public/**/*.ico'],
 
   vendor_scripts: [
@@ -127,11 +126,6 @@ gulp.task('vendor-fonts', function () {
 });
 
 // Public
-gulp.task('haml-public',  function () {
-  return gulp.src(paths.public)
-    .pipe(haml())
-    .pipe(gulp.dest('./deploy/public'))
-})
 gulp.task('icon-public', function () {
   return gulp.src(paths.favicon)
     .pipe(gulp.dest('./deploy/public'))
@@ -196,7 +190,7 @@ gulp.task('default', [
   'vendor-styles', 'styles',
   'vendor-fonts',
   'vendor-scripts', 'app_scripts',
-  'haml-public', 'icon-public', 'haml-views',
+  'haml-views',
   'watch', 'nodemon'
 ]);
 
@@ -205,7 +199,7 @@ gulp.task('build', [
   'vendor-styles', 'styles',
   'vendor-fonts',
   'vendor-scripts', 'app_scripts',
-  'haml-public', 'icon-public', 'haml-views'
+  'haml-views'
 ]);
 
 // Test
