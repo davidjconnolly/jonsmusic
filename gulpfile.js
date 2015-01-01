@@ -133,9 +133,10 @@ gulp.task('icon-public', function () {
 
 // Views
 gulp.task('haml-views', function () {
-  return gulp.src(paths.views)
+  gulp.src(paths.views)
     .pipe(haml())
     .pipe(gulp.dest('./deploy/public/views'))
+    .on('error', console.warn.bind(console));
 })
 
 // -- Test ------------------------------------------------------------------
@@ -165,8 +166,6 @@ gulp.task('watch', function() {
   gulp.watch(paths.app_scripts, ['jshint-app', 'app_scripts']);
   gulp.watch(paths.api_scripts, ['jshint-api']);
   gulp.watch(paths.styles, ['styles']);
-  gulp.watch(paths.public, ['haml-public']);
-  gulp.watch(paths.public, ['icon-public']);
   gulp.watch(paths.views, ['haml-views']);
 });
 
@@ -190,7 +189,7 @@ gulp.task('default', [
   'vendor-styles', 'styles',
   'vendor-fonts',
   'vendor-scripts', 'app_scripts',
-  'icon-public',
+  'icon-public', 'haml-views',
   'watch', 'nodemon'
 ]);
 
@@ -199,7 +198,7 @@ gulp.task('build', [
   'vendor-styles', 'styles',
   'vendor-fonts',
   'vendor-scripts', 'app_scripts',
-  'icon-public',
+  'icon-public', 'haml-views'
 ]);
 
 // Test
