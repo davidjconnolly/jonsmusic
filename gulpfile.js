@@ -1,7 +1,7 @@
 // Include gulp
 var gulp = require('gulp');
 
-// Include Our Plugins
+// Include Plugins
 var nodemon = require('gulp-nodemon')
 var jshint = require('gulp-jshint');
 var sass = require('gulp-sass');
@@ -10,13 +10,15 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var mocha = require('gulp-spawn-mocha');
 var karma = require('gulp-karma');
+var haml = require('gulp-ruby-haml');
 
 var paths = {
   api_scripts: ['api/**/*.js'],
   app_scripts: ['app/**/*.js'],
   styles: ['app/styles/**/*.scss'],
-  views: ['app/views/**/*'],
-  public: ['app/public/**/*'],
+  views: ['app/views/**/*.haml'],
+  public: ['app/public/**/*.haml'],
+  favicon: ['app/public/**/*.ico'],
 
   vendor_scripts: [
     'bower_components/ng-file-upload-shim/angular-file-upload-html5-shim.min.js',
@@ -125,14 +127,20 @@ gulp.task('vendor-fonts', function () {
 });
 
 // Public
-gulp.task('html-public', function () {
+gulp.task('haml-public',  function () {
   return gulp.src(paths.public)
+    .pipe(haml())
+    .pipe(gulp.dest('./deploy/public'))
+})
+gulp.task('icon-public', function () {
+  return gulp.src(paths.favicon)
     .pipe(gulp.dest('./deploy/public'))
 })
 
 // Views
-gulp.task('html-views', function () {
+gulp.task('haml-views', function () {
   return gulp.src(paths.views)
+    .pipe(haml())
     .pipe(gulp.dest('./deploy/public/views'))
 })
 
@@ -163,8 +171,9 @@ gulp.task('watch', function() {
   gulp.watch(paths.app_scripts, ['jshint-app', 'app_scripts']);
   gulp.watch(paths.api_scripts, ['jshint-api']);
   gulp.watch(paths.styles, ['styles']);
-  gulp.watch(paths.public, ['html-public']);
-  gulp.watch(paths.views, ['html-views']);
+  gulp.watch(paths.public, ['haml-public']);
+  gulp.watch(paths.public, ['icon-public']);
+  gulp.watch(paths.views, ['haml-views']);
 });
 
 // -- Sub-Tasks --------------------------------------------------------------
@@ -187,7 +196,7 @@ gulp.task('default', [
   'vendor-styles', 'styles',
   'vendor-fonts',
   'vendor-scripts', 'app_scripts',
-  'html-public', 'html-views',
+  'haml-public', 'icon-public', 'haml-views',
   'watch', 'nodemon'
 ]);
 
@@ -196,7 +205,7 @@ gulp.task('build', [
   'vendor-styles', 'styles',
   'vendor-fonts',
   'vendor-scripts', 'app_scripts',
-  'html-public', 'html-views'
+  'haml-public', 'icon-public', 'haml-views'
 ]);
 
 // Test

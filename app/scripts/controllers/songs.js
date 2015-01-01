@@ -78,7 +78,6 @@ angular.module('jonsmusicApp')
             songsService.update($scope.song._id, $scope.formData)
               .success(function(data) {
                 $scope.loading = false;
-                $scope.formData = {};
                 $scope.song = data;
                 $scope.flash.success = "Song updated successfully";
               })

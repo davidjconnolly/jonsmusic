@@ -1,0 +1,20 @@
+#song-form.row
+  .col-sm-8.col-sm-offset-2.text-center.jumbotron
+    %form
+      .col-sm-10
+        %input.form-control.input-lg.text-center{"ng-model" => "formData.title", :placeholder => "Enter song title...", :type => "text"}
+          %date-picker{:bind => "formData.date"}
+          %input.form-control.input-lg.text-center{"ng-model" => "formData.lyrics", :placeholder => "Enter song lyrics...", :type => "text"}
+          .col-sm-2
+            %button.btn.btn-primary.btn-lg{"ng-click" => "updateSong()", :type => "submit"} Update
+
+      .col-sm-8.col-sm-offset-2
+        .col-sm-2{"ng-show" => "song.file.fileUrl"}
+          %a.btn.btn-primary.btn-lg{:href => "{{song.file.fileUrl}}"} Download
+        %button.btn.btn-default.btn-lg{"ng-file-select" => "onFileSelect($files)", :type => "file"} Browse
+        .progress{"ng-show" => "progress > 0 && progress < 100", :style => "margin-top:10px;"}
+        .progress-bar{:role => "progressbar", :style => "width:{{progress}}%;"}
+          {{progress}}
+
+  %p.text-center{"ng-show" => "loading"}
+    %span.fa.fa-spinner.fa-spin.fa-3x

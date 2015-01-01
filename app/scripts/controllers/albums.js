@@ -168,6 +168,7 @@ function updateAlbum(albumsService, scope, id, data) {
       scope.album = data;
       scope.refreshSongs();
       scope.select.selected = undefined;
+      scope.loading = false;
       scope.flash.success = "Album updated successfully";
     })
     .error(function (error) {
