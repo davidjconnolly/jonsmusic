@@ -10,7 +10,7 @@ var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var mocha = require('gulp-spawn-mocha');
 var karma = require('gulp-karma');
-var haml = require('gulp-ruby-haml');
+var haml = require('gulp-haml');
 
 var paths = {
   api_scripts: ['api/**/*.js'],
@@ -136,7 +136,6 @@ gulp.task('haml-views', function () {
   gulp.src(paths.views)
     .pipe(haml())
     .pipe(gulp.dest('./deploy/public/views'))
-    .on('error', console.warn.bind(console));
 })
 
 // -- Test ------------------------------------------------------------------
