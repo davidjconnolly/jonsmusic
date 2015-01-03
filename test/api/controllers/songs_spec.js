@@ -165,22 +165,22 @@ describe('Songs Controller', function () {
       });
     });
 
-    it('should add an album to a song', function (done) {
+    it('should not be able to delete a song with associated albums', function (done) {
       agent
-        .put('/api/admin/songs/' + song.id)
+        .put('/api/admin/albums/' + album.id)
         .send({
-          title : "foo title",
-          albums : [ album ]
+          songs : [ song ]
         })
-        .expect(200)
-        .expect('Content-Type', /json/)
         .end(function (err, res) {
           if (err) {
             done(err);
           }
-          assert.equal(res.body._id, song.id);
-          assert.deepEqual(res.body.albums, [ album.id ]);
-          done();
+
+          agent
+            .delete('/api/admin/songs/' + song.id)
+            .expect(500)
+            .expect('Cannot delete songs with associated albums.')
+            .end(done);
         });
     });
   });

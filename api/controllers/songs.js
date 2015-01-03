@@ -15,7 +15,7 @@ exports.index = function(req, res) {
 };
 
 exports.show = function(req, res) {
-  Song.findById(req.params.id, function (err, song) {
+  Song.findById(req.params.id).populate('albums').exec(function (err, song) {
     if(err) { return handleError(res, err); }
     if(!song) { return res.send(404); }
     return res.json(song);
@@ -38,7 +38,6 @@ exports.update = function(req, res) {
     if (req.body.date !== undefined) song.date = req.body.date || null;
     if (req.body.lyrics !== undefined) song.lyrics = req.body.lyrics || null;
     if (req.body.file !== undefined) song.file = req.body.file || {};
-    if (req.body.albums !== undefined) song.albums = _.pluck(req.body.albums, '_id') || [];
 
     song.save(function (err) {
       if (err) { return handleError(res, err); }
@@ -48,9 +47,12 @@ exports.update = function(req, res) {
 };
 
 exports.destroy = function(req, res) {
-  Song.findById(req.params.id, function (err, song) {
+  Song.findById(req.params.id).populate('albums').exec(function (err, song) {
     if(err) { return handleError(res, err); }
     if(!song) { return res.send(404); }
+    if(song.albums.length > 0){
+      return res.send(500, "Cannot delete songs with associated albums.");
+    }
     song.remove(function(err) {
       if(err) { return handleError(res, err); }
       return res.send(200);

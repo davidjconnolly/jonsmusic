@@ -1,11 +1,12 @@
 'use strict';
 
 angular.module('jonsmusicApp')
-  .controller('songsAdminListController', ['$scope', '$filter', 'songsService',
-    function($scope, $filter, songsService)
+  .controller('songsAdminListController', ['$scope', '$filter', 'songsService', 'flash',
+    function($scope, $filter, songsService, flash)
       {
         $scope.formData = {};
         $scope.loading = true;
+        $scope.flash = flash;
 
         songsService.index()
           .success(function(data) {
@@ -40,6 +41,10 @@ angular.module('jonsmusicApp')
                   $scope.songs = data;
                   $scope.loading = false;
                 });
+            })
+            .error(function (err) {
+              $scope.loading = false;
+              $scope.flash.error = err;
             });
         };
       }])

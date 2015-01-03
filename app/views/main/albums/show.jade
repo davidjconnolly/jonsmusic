@@ -26,7 +26,7 @@
           .col-md-11.col-sm-10.col-xs-9.no-padding
             .list-group-item.play.progress
               .title
-                {{$index + 1}} - {{song.title}}
+                | {{$index + 1}} - {{song.title}}
               .progress(ng-show='audioPlayer.currentTrack == $index+1')
                 .progress-bar(role='progressbar', aria-valuenow='{{getProgress()}}', aria-valuemin='1', aria-valuemax='100', style='width: {{getProgress()}}%;')
 

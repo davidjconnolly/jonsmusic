@@ -157,6 +157,60 @@ describe('Albums Controller', function () {
           });
         });
     });
+
+    it('should set and clear associated song albums', function (done) {
+      agent
+        .put('/api/admin/albums/' + album.id)
+        .send({
+          songs : [ song ]
+        })
+        .expect(200)
+        .expect('Content-Type', /json/)
+        .end(function (err, res) {
+          if (err) {
+            done(err);
+          }
+
+          agent
+            .get('/api/admin/songs/' + song.id)
+            .expect(200)
+            .expect('Content-Type', /json/)
+            .end(function (err, res) {
+              if (err) {
+                done(err);
+              }
+              assert.equal(res.body.albums.length, 1);
+              assert.equal(res.body.albums[0]._id, album.id);
+              assert.equal(res.body.albums[0].title, album.title);
+              assert.equal(res.body.albums[0].description, album.description);
+
+              agent
+                .put('/api/admin/albums/' + album.id)
+                .send({
+                  songs : [ ]
+                })
+                .expect(200)
+                .expect('Content-Type', /json/)
+                .end(function (err, res) {
+                  if (err) {
+                    done(err);
+                  }
+
+                  agent
+                    .get('/api/admin/songs/' + song.id)
+                    .expect(200)
+                    .expect('Content-Type', /json/)
+                    .end(function (err, res) {
+                      if (err) {
+                        done(err);
+                      }
+                      assert.equal(res.body.albums.length, 0);
+                      done();
+                    });
+                });
+            });
+        });
+    });
   });
 
   describe('Public Methods', function () {
