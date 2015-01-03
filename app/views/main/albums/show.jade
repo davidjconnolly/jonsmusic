@@ -1,37 +1,34 @@
-#album-form.row(ng-show='!loading')
-    .col-sm-8.col-sm-offset-2.text-center.jumbotron
-        span Title: {{album.title}}
-        br
+#main-albums-show.row(ng-show='!loading')
+    .col-sm-8.col-sm-offset-2.col-xs-12.text-center.jumbotron
+        h1 {{album.title}}
+        h2 Released {{album.date | date: "M/d/yyyy"}}
 
-        span Date: {{album.date}}
-        br
+        span(ng-show='album.description')
+          br
+          h3 {{album.description}}
 
-        span Description: {{album.description}}
+      .col-sm-8.col-sm-offset-2.col-xs-12.text-center
+        .col-sm-12
+          audio(media-player='audioPlayer', data-playlist='playlist')
 
-      .col-sm-8.col-sm-offset-2.text-center
-        audio(media-player='audioPlayer', data-playlist='playlist')
+          h3 Songs&nbsp;&nbsp;
+            button.btn.btn-primary(ng-click='playAll()') Play All
 
-        button.pull-left.btn(ng-click='playAll()') Play All
+        div(ng-repeat='song in album.songs')
+          .col-md-1.col-sm-2.col-xs-3.no-padding
+            button.btn.btn-primary.pull-right.play(ng-click='playSelected($index)', ng-show='audioPlayer.currentTrack != $index+1 || (audioPlayer.currentTrack != $index+1 && !audioPlayer.playing)')
+              i.fa.fa-play
+            button.btn.btn-primary.pull-right.play(ng-click='playSong()', ng-show='audioPlayer.currentTrack == $index+1 && !audioPlayer.playing')
+              i.fa.fa-play
+            button.btn.btn-primary.pull-right.play(ng-click='pauseSong()', ng-show='audioPlayer.currentTrack == $index+1 && audioPlayer.playing')
+              i.fa.fa-pause
 
-        span
-          | {{playlist[audioPlayer.currentTrack-1].name}} - {{parseInt(audioPlayer.currentTime)}}/{{parseInt(audioPlayer.duration)}}
+          .col-md-11.col-sm-10.col-xs-9.no-padding
+            .list-group-item.play.progress
+              .title
+                {{$index + 1}} - {{song.title}}
+              .progress(ng-show='audioPlayer.currentTrack == $index+1')
+                .progress-bar(role='progressbar', aria-valuenow='{{getProgress()}}', aria-valuemin='1', aria-valuemax='100', style='width: {{getProgress()}}%;')
 
-        span(ng-show='audioPlayer.playing') Player status: Playing
-
-        span(ng-show='!audioPlayer.playing') Player status: Paused
-
-        button.pull-left.btn(ng-click='pauseSong()', ng-show='audioPlayer.playing') Pause
-
-        button.pull-left.btn(ng-click='playSong()', ng-show='!audioPlayer.playing') Play
-
-        h4 Songs
-
-        .list-group(ng-repeat='song in album.songs', style='margin:0px;')
-          .col-sm-1
-            button.pull-left.btn(ng-click='playSelected($index)') Play
-
-          .col-sm-11
-            a.list-group-item(href='{{song.file.fileUrl}}', ng-class='{active:audioPlayer.currentTrack == $index+1}')
-              | {{$index + 1}} {{song.title}}
     p.text-center(ng-show='loading')
       span.fa.fa-spinner.fa-spin.fa-3x

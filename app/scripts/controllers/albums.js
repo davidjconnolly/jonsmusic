@@ -154,6 +154,15 @@ angular.module('jonsmusicApp')
           $scope.audioPlayer.play();
         };
 
+        $scope.getProgress = function () {
+          var duration = parseInt((parseInt($scope.audioPlayer.currentTime)/parseInt($scope.audioPlayer.duration))*100) || 0;
+          if (duration <= 9){
+            return "0" + duration.toString();
+          } else {
+            return duration.toString();
+          }
+        };
+
         albumsService.publicShow($routeParams.albumId)
           .success(function(data) {
             $scope.playlist = _.map(data.songs, function(song){ return { src: song.file.fileUrl, type: song.file.fileType, name: song.title }; });

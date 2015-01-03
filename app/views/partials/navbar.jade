@@ -1,28 +1,26 @@
 .navbar.navbar-default(ng-controller='navbarController')
-    .navbar-header
-        a.navbar-brand(href='/', name='top') Jon&apos;s Music
+  .nav.navbar-nav.pull-left
+    a.navbar-brand(href='/', name='top') Jon&apos;s Music
+    ul.nav.navbar-nav
+      li(ng-repeat='item in menu', ui-route='/{{item.link}}', ng-class='{active: $uiRoute}')
+        a(href='/{{item.link}}') {{item.title}}
 
-      .nav.navbar-nav
-        ul.nav.navbar-nav
-          li(ng-repeat='item in menu', ui-route='/{{item.link}}', ng-class='{active: $uiRoute}')
-            a(href='/{{item.link}}') {{item.title}}
+      li(ng-repeat='item in authMenu', ng-show='currentUser', ui-route='/{{item.link}}', ng-class='{active: $uiRoute}')
+        a(href='/{{item.link}}') {{item.title}}
 
-          li(ng-repeat='item in authMenu', ng-show='currentUser', ui-route='/{{item.link}}', ng-class='{active: $uiRoute}')
-            a(href='/{{item.link}}') {{item.title}}
+  .nav.navbar-nav.pull-right
+    ul.nav.navbar-nav(ng-hide='currentUser')
+      li
+        a(href='/login') Log In
 
-      .nav.navbar-nav.pull-right
-        ul.nav.navbar-nav(ng-hide='currentUser')
+    ul.nav.navbar-nav(ng-show='currentUser')
+      li.dropdown
+        a.dropdown-toggle
+          | Welcome, {{ currentUser.username }}
+          b.caret
+
+        ul.dropdown-menu
           li
-            a(href='/login') Log In
-
-        ul.nav.navbar-nav(ng-show='currentUser')
-          li.dropdown
-            a.dropdown-toggle
-              | Welcome, {{ currentUser.username }}
-              b.caret
-
-            ul.dropdown-menu
-              li
-                a(ng-click='logout()')
-                  i.fa.fa-times-circle
-                  |  Logout
+            a(ng-click='logout()')
+              i.fa.fa-times-circle
+              |  Logout

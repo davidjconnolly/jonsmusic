@@ -107,3 +107,44 @@ body {
   margin-right: auto;
   width: 70%;
 }
+
+// Navbar
+.nav.navbar-nav{
+  margin: 5px;
+}
+
+
+// Main - Albums - Show
+#main-albums-show{
+  .no-padding {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  h3.song{
+    margin: 0px;
+  }
+
+  button.btn.btn-primary.pull-right.play{
+    margin: 5px;
+    height: 100%;
+  }
+
+  .list-group-item.play.progress{
+    padding: 0px;
+    margin: 5px;
+    height: 33px;
+
+    .title{
+      margin-top: 7px;
+      margin-left: 10px;
+      float: left;
+      position: absolute;
+    }
+
+    .progress{
+      margin: 0px;
+      height: 100%
+    }
+  }
+}
