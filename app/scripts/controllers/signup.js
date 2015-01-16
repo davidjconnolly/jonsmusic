@@ -2,7 +2,7 @@
 
 angular.module('jonsmusicApp')
   .controller('signupController', function ($scope, authService, $location) {
-    $scope.register = function(form) {
+    $scope.signup = function(form) {
       authService.createUser({
           email: $scope.user.email,
           username: $scope.user.username,

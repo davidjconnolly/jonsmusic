@@ -14,10 +14,11 @@ exports.create = function (req, res, next) {
       return res.json(400, err);
     }
 
-    req.logIn(newUser, function(err) {
-      if (err) return next(err);
-      return res.json(newUser.user_info);
-    });
+    return res.json(201, newUser);
+    // req.logIn(newUser, function(err) {
+    //   if (err) return next(err);
+    //   return res.json(newUser.user_info);
+    // });
   });
 };
 

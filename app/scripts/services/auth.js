@@ -37,7 +37,7 @@ angular.module('jonsmusicApp')
         var cb = callback || angular.noop;
         userService.save(userinfo,
           function(user) {
-            $rootScope.currentUser = user;
+            // $rootScope.currentUser = user;
             return cb();
           },
           function(err) {

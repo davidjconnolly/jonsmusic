@@ -5,9 +5,9 @@
             | Sign in for Jon&apos;s Music Admin
 
           .account-wall
-            form.form-signin(name='form', ng-submit='login(form)', novalidate='')
+            form.form-signin(name='loginForm', ng-submit='login(form)', novalidate='')
               div(ng-class="{'has-error': form.email.$error.mongoose}")
-                input.form-control(type='text', placeholder='Email', name='email', ng-model='user.email', required='', autofocus='', mongoose-error='')
+                input.form-control(type='email', placeholder='Email', name='email', ng-model='user.email', required='', autofocus='', mongoose-error='')
                 p.help-block(ng-show='form.email.$error.mongoose')
                   | {{ errors.email }}
 
@@ -22,5 +22,3 @@
               button.btn.btn-lg.btn-primary.btn-block(type='submit')  Sign in
 
               span.clearfix
-
-          a.text-center.new-account(href='/signup') Create an account

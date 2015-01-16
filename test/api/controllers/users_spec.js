@@ -5,6 +5,10 @@ describe('Users Controller', function () {
     resetDB(done);
   });
 
+  beforeEach(function(done) {
+    loginUser(done);
+  });
+
   it('should create user', function (done) {
     agent
       .post('/auth/users')
@@ -13,7 +17,7 @@ describe('Users Controller', function () {
         username: 'Foo Create User',
         password: 'password'
       })
-      .expect(200)
+      .expect(201)
       .expect('Content-Type', /json/)
       .expect(/"email":"testCreate@test.com"/)
       .expect(/"username":"Foo Create User"/)
