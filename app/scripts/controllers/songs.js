@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('jonsmusicApp')
-  .controller('songsAdminListController', ['$scope', '$filter', 'songsService', 'flash',
-    function($scope, $filter, songsService, flash)
+  .controller('songsAdminListController', ['$scope', '$filter', '$window', 'songsService', 'flash',
+    function($scope, $filter, $window, songsService, flash)
       {
         $scope.formData = {};
         $scope.loading = true;
@@ -33,19 +33,23 @@ angular.module('jonsmusicApp')
         $scope.deleteSong = function(id) {
           $scope.loading = true;
 
-          songsService.delete(id)
-            .success(function() {
-              songsService.index()
-                .success(function(data) {
-                  $scope.formData = {};
-                  $scope.songs = data;
-                  $scope.loading = false;
-                });
-            })
-            .error(function (err) {
-              $scope.loading = false;
-              $scope.flash.error = err;
-            });
+          var confirm = $window.confirm('Are you sure you want to delete this Song?');
+
+          if (confirm) {
+            songsService.delete(id)
+              .success(function() {
+                songsService.index()
+                  .success(function(data) {
+                    $scope.formData = {};
+                    $scope.songs = data;
+                    $scope.loading = false;
+                  });
+              })
+              .error(function (err) {
+                $scope.loading = false;
+                $scope.flash.error = err;
+              });
+          } else { $scope.loading = false; }
         };
       }])
   .controller('songsAdminDetailController', ['$scope', '$routeParams', '$location', '$filter', '$http', '$upload', '$timeout', 'songsService', 'flash', 'x2js',

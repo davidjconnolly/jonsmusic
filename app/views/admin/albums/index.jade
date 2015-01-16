@@ -9,9 +9,11 @@
     #album-list.row
       .col-sm-8.col-sm-offset-2.text-left
         .checkbox(ng-repeat='album in albums')
-          button.btn.btn-danger.btn-xs(ng-click='deleteAlbum(album._id)') x
-
-          a(href='/admin/albums/{{album._id}}') {{album.title}}
+          button.btn.btn-danger.btn-xs(ng-click='deleteAlbum(album._id)')
+            span.fa.fa-remove
+          | &nbsp
+          a(href='/admin/albums/{{album._id}}')
+            | {{album.title}}
 
         p.text-center(ng-show='loading')
           span.fa.fa-spinner.fa-spin.fa-3x

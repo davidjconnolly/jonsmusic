@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('jonsmusicApp')
-  .controller('albumsAdminListController', ['$scope', 'albumsService',
-    function($scope, albumsService)
+  .controller('albumsAdminListController', ['$scope', '$window', 'albumsService',
+    function($scope, $window, albumsService)
       {
         $scope.formData = {};
         $scope.loading = true;
@@ -32,15 +32,19 @@ angular.module('jonsmusicApp')
         $scope.deleteAlbum = function(id) {
           $scope.loading = true;
 
-          albumsService.delete(id)
-            .success(function() {
-              albumsService.index()
-                .success(function(data) {
-                  $scope.formData = {};
-                  $scope.albums = data;
-                  $scope.loading = false;
-                });
-            });
+          var confirm = $window.confirm('Are you sure you want to delete this Album?');
+
+          if (confirm) {
+            albumsService.delete(id)
+              .success(function() {
+                albumsService.index()
+                  .success(function(data) {
+                    $scope.formData = {};
+                    $scope.albums = data;
+                    $scope.loading = false;
+                  });
+              });
+          } else { $scope.loading = false; }
         };
   }])
   .controller('albumsAdminDetailController', ['$scope', '$routeParams', '$location', '$filter', 'albumsService', 'songsService', 'flash',

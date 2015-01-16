@@ -1,7 +1,7 @@
 #main-albums-show.row(ng-show='!loading')
     .col-sm-8.col-sm-offset-2.col-xs-12.text-center.jumbotron
         h1 {{album.title}}
-        h2 Released {{album.date | date: "M/d/yyyy"}}
+        h2(ng-show='album.date') Released {{album.date | date: "M/d/yyyy"}}
 
         span(ng-show='album.description')
           br

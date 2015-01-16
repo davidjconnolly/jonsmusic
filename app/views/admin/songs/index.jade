@@ -9,9 +9,11 @@
     #song-list.row
       .col-sm-8.col-sm-offset-2.text-left
         .checkbox(ng-repeat='song in songs')
-          button.btn.btn-danger.btn-xs(ng-click='deleteSong(song._id)') x
-
-          a(href='/admin/songs/{{song._id}}') {{song.title}}
+          button.btn.btn-danger.btn-xs(ng-click='deleteSong(song._id)')
+            span.fa.fa-remove
+          | &nbsp
+          a(href='/admin/songs/{{song._id}}')
+            | {{song.title}}
 
         p.text-center(ng-show='loading')
           span.fa.fa-spinner.fa-spin.fa-3x
