@@ -53,7 +53,7 @@ describe('albumsController Test', function() {
     it('should delete a album', function() {
       httpBackend.expectGET('/api/admin/albums').respond(albumFixtures[1]);
 
-      scope.deleteAlbum(1);
+      scope.deleteAlbum(1, true);
 
       httpBackend.flush();
       assert.deepEqual(scope.formData, {});

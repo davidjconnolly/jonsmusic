@@ -29,10 +29,9 @@ angular.module('jonsmusicApp')
           }
         };
 
-        $scope.deleteAlbum = function(id) {
+        $scope.deleteAlbum = function(id, confirm) {
           $scope.loading = true;
-
-          var confirm = $window.confirm('Are you sure you want to delete this Album?');
+          confirm = confirm || $window.confirm('Are you sure you want to delete this Album?');
 
           if (confirm) {
             albumsService.delete(id)

@@ -30,10 +30,9 @@ angular.module('jonsmusicApp')
           }
         };
 
-        $scope.deleteSong = function(id) {
+        $scope.deleteSong = function(id, confirm) {
           $scope.loading = true;
-
-          var confirm = $window.confirm('Are you sure you want to delete this Song?');
+          confirm = confirm || $window.confirm('Are you sure you want to delete this Song?');
 
           if (confirm) {
             songsService.delete(id)

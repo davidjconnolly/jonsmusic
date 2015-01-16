@@ -50,7 +50,7 @@ describe('songsController Test', function() {
     it('should delete a song', function() {
       httpBackend.expectGET('/api/admin/songs').respond(songFixtures[1]);
 
-      scope.deleteSong(1);
+      scope.deleteSong(1, true);
 
       httpBackend.flush();
       assert.deepEqual(scope.formData, {});
